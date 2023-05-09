@@ -1,6 +1,11 @@
-import { useParams } from 'react-router-dom';
 import { Form, Uploader, SelectPicker, DatePicker, Panel } from 'rsuite';
+
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
 import { MainPanel } from '../../components/panel';
+import { api } from '../../services/api';
+
 
 const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item => ({
     label: item,
@@ -9,6 +14,9 @@ const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(
 
 const EditCompra = ({ formValue, setFormValue }) => {
     const params = useParams()
+    const [data, setData] = useState(async () => {
+        await api.get(`solicitacoes-compras/${params.id}/`)
+    })
 
     return (
         <>

@@ -12,7 +12,7 @@ const MainModalForm = ({ send, open, setOpen, title, nameB, children }) => {
                 {children}
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={send} appearance="primary">
+                <Button onClick={() => send()} appearance="primary">
                     {nameB}
                 </Button>
                 <Button onClick={handleClose} appearance="subtle">

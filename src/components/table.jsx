@@ -1,12 +1,13 @@
 import { Table, Pagination, IconButton } from 'rsuite';
-import EditIcon from '@rsuite/icons/Edit';
-import { useState } from 'react';
-
 import { Icon } from '@rsuite/icons';
+import EditIcon from '@rsuite/icons/Edit';
+
+import { useEffect, useState } from 'react';
+
 
 const { Column, HeaderCell, Cell } = Table;
 
-const MainTable = ({ data, form, handleOpen, children }) => {
+const MainTable = ({ data, setData, loadData, form, handleOpen, children }) => {
     const [sortColumn, setSortColumn] = useState();
     const [sortType, setSortType] = useState();
 
@@ -14,31 +15,37 @@ const MainTable = ({ data, form, handleOpen, children }) => {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(30);
 
-    const getData = () => {
-        const dataf = data.filter((v, i) => {
-            const start = limit * (page - 1);
-            const end = start + limit;
-            return i >= start && i < end;
-        });
+    useEffect(() => {
+        setData(loadData(setData))
+    }, [])
 
-        if (sortColumn && sortType) {
-            return dataf.sort((a, b) => {
-                let x = a[sortColumn];
-                let y = b[sortColumn];
-                if (typeof x === 'string') {
-                    x = x.charCodeAt();
-                }
-                if (typeof y === 'string') {
-                    y = y.charCodeAt();
-                }
-                if (sortType === 'asc') {
-                    return x - y;
-                } else {
-                    return y - x;
-                }
+    const getData = () => {
+        if (data.length > 0) {
+            const dataf = data.filter((v, i) => {
+                const start = limit * (page - 1);
+                const end = start + limit;
+                return i >= start && i < end;
             });
+
+            if (sortColumn && sortType) {
+                return dataf.sort((a, b) => {
+                    let x = a[sortColumn];
+                    let y = b[sortColumn];
+                    if (typeof x === 'string') {
+                        x = x.charCodeAt();
+                    }
+                    if (typeof y === 'string') {
+                        y = y.charCodeAt();
+                    }
+                    if (sortType === 'asc') {
+                        return x - y;
+                    } else {
+                        return y - x;
+                    }
+                });
+            }
+            return dataf;
         }
-        return dataf;
     };
 
     const handleChangeLimit = dataKey => {

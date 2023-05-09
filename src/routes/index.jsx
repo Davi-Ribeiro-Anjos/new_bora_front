@@ -20,7 +20,7 @@ const RoutesMain = () => {
             <Route path="/solicitar-transferencia" element={<SolicitarTransferencia />} exact />
             <Route path="/transferencia-andamento" element={<TransferenciaAndamento />} exact />
             <Route path="/compras" element={<Compras />} exact />
-            <Route path="/compras/:nr_solic" element={<EditCompra />} />
+            <Route path="/compras/:id" element={<EditCompra />} />
             <Route path="/justificativa" element={<Justificativa />} />
             <Route path="/configuracoes" element={<Settings />} />
             <Route path="*" element={<NotFound />} />

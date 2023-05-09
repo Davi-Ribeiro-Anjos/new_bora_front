@@ -1,9 +1,6 @@
 import { Form, Uploader, SelectPicker } from 'rsuite';
-
-const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item => ({
-    label: item,
-    value: item
-}));
+import { api } from '../../../services/api';
+import { useEffect, useState } from 'react';
 
 const styles = {
     line: {
@@ -12,31 +9,43 @@ const styles = {
     }
 }
 
-const CreateSolicCompra = ({ formValue, setFormValue }) => {
+const CreateSolicCompra = ({ form, setForm }) => {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        selectData()
+    }, [])
+
+    const selectData = () => {
+        api.get('filiais/').then((response) => {
+            let res = response.data
+
+            setData(res.map((item) => ({
+                label: item.sigla,
+                value: item.id
+            })))
+        })
+    }
+
     return (
         <>
-            <Form fluid onChange={setFormValue} formValue={formValue} layout='inline'>
-                <div style={styles.line}>
-                    <Form.Group controlId="inputPicker" style={{ marginRight: "4vw" }}>
-                        <Form.ControlLabel>Empresa:</Form.ControlLabel>
-                        <Form.Control name="empresa" data={selectData} accepter={SelectPicker} />
-                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                    </Form.Group>
-                    <Form.Group controlId="inputPicker">
-                        <Form.ControlLabel>Filial:</Form.ControlLabel>
-                        <Form.Control name="filial" data={selectData} accepter={SelectPicker} />
-                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                    </Form.Group>
-                </div>
+            <Form fluid onChange={setForm} form={form} layout='inline'>
                 <Form.Group controlId="name-5">
                     <Form.ControlLabel>Código Solicitação:</Form.ControlLabel>
-                    <Form.Control name="cod_solic" />
+                    <Form.Control name="numero_solicitacao" />
                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                 </Form.Group>
-                <Form.Group controlId="uploader">
-                    <Form.ControlLabel>Anexo:</Form.ControlLabel>
-                    <Form.Control name="anexo" accepter={Uploader} action="#" />
-                </Form.Group>
+                <div style={styles.line}>
+                    <Form.Group controlId="inputPicker" style={{ marginRight: "3vw" }}>
+                        <Form.ControlLabel>Filial:</Form.ControlLabel>
+                        <Form.Control name="filial" data={data} accepter={SelectPicker} />
+                        <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                    </Form.Group>
+                    <Form.Group controlId="uploader">
+                        <Form.ControlLabel>Anexo:</Form.ControlLabel>
+                        <Form.Control name="anexo" accepter={Uploader} action="#" />
+                    </Form.Group>
+                </div>
             </Form>
         </>
     );
