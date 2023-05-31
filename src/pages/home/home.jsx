@@ -1,5 +1,5 @@
-import { MainPanel } from "../components/panel";
-import MainTable from "../components/table";
+import { MainPanel } from "../../components/panel";
+import MainTable from "../../components/table";
 
 const Home = () => {
     return (

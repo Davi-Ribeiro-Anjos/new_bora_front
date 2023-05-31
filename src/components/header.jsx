@@ -1,16 +1,17 @@
-import { Navbar, Nav, Dropdown } from 'rsuite';
+import { Navbar, Nav, Dropdown, Toggle, Stack } from 'rsuite';
 import CogIcon from '@rsuite/icons/legacy/Cog';
 import 'rsuite/dist/rsuite.min.css';
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import image from "../static/images/logo.png"
+import { ThemeContext } from '../providers/themeProviders';
 
 
 const CustomNavbar = ({ onSelect, activeKey, ...props }) => {
     const navegate = useNavigate();
-    const [theme, setTheme] = useState();
+    const { theme, changeTheme } = useContext(ThemeContext);
     return (
         <Navbar {...props} >
             <Nav appearance="default" style={{ width: "100%" }}>
@@ -36,17 +37,29 @@ const CustomNavbar = ({ onSelect, activeKey, ...props }) => {
                     </Nav.Menu>
                 </Nav>
                 <Nav pullRight>
-                    <Dropdown noCaret icon={<CogIcon />} placement="bottomEnd">
-                        <Dropdown.Item panel style={{ padding: 10, width: 160, color: 'black' }}>
-                            <p>Logado como</p>
-                            <strong>davi.bezerra</strong>
+                    <Dropdown.Menu noCaret icon={<CogIcon />} placement="bottomEnd">
+                        {theme === 'dark' ? (
+                            <Dropdown.Item panel style={{ padding: 10, width: 160, color: 'white' }}>
+                                <p>Logado como</p>
+                                <strong>davi.bezerra</strong>
+                            </Dropdown.Item>
+                        ) : (
+                            <Dropdown.Item panel style={{ padding: 10, width: 160, color: 'black' }}>
+                                <p>Logado como</p>
+                                <strong>davi.bezerra</strong>
+                            </Dropdown.Item>
+                        )}
+                        <Dropdown.Separator />
+                        <Dropdown.Item >
+                            <Stack spacing={50}>
+                                Tema
+                                <Toggle defaultChecked={theme === 'dark' ? true : false} checkedChildren="Escuro" unCheckedChildren="Claro" onClick={() => changeTheme(theme)} />
+                            </Stack>
                         </Dropdown.Item>
-                        <Dropdown.Item divider />
-                        <Dropdown.Item>Tema</Dropdown.Item>
                         <Dropdown.Item>Ajuda</Dropdown.Item>
                         <Dropdown.Item onClick={() => navegate('/configuracoes')}>Configurações</Dropdown.Item>
                         <Dropdown.Item>Sair</Dropdown.Item>
-                    </Dropdown>
+                    </Dropdown.Menu>
                 </Nav>
             </Nav>
         </Navbar >

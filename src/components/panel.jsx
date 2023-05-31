@@ -2,8 +2,6 @@ import { Panel } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 
 
-
-
 export const MainPanel = ({ title, children }) => {
     return (
         <>
