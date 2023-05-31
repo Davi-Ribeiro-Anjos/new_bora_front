@@ -1,21 +1,19 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-import { CustomProvider, IntlProvider } from 'rsuite';
-import { IntlProvider as RSIntlProvider } from 'rsuite';
-import ptBr from 'rsuite/locales/pt_BR';
-
 import App from './App';
+import { ThemeProvider } from './providers/themeProviders';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <ThemeProvider>
     <BrowserRouter>
-      <CustomProvider theme='light' locale={ptBr}>
-        <App />
-      </CustomProvider>
+      <App />
     </BrowserRouter>
-  </React.StrictMode >
+  </ThemeProvider>
+  // </React.StrictMode >
 );

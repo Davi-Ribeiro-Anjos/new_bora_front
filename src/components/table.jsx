@@ -1,13 +1,12 @@
 import { Table, Pagination, IconButton } from 'rsuite';
 import { Icon } from '@rsuite/icons';
-import EditIcon from '@rsuite/icons/Edit';
 
 import { useEffect, useState } from 'react';
 
 
 const { Column, HeaderCell, Cell } = Table;
 
-const MainTable = ({ data, setData, loadData, form, handleOpen, children }) => {
+const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) => {
     const [sortColumn, setSortColumn] = useState();
     const [sortType, setSortType] = useState();
 
@@ -16,12 +15,19 @@ const MainTable = ({ data, setData, loadData, form, handleOpen, children }) => {
     const [limit, setLimit] = useState(30);
 
     useEffect(() => {
-        setData(loadData(setData))
-    }, [])
+        setLoading(true)
+        setDado(loadData(setDado))
+        setTimeout(() => {
+            setLoading(false);
+            setSortColumn(sortColumn);
+            setSortType(sortType);
+        }, 500);
+        // eslint-disable-next-line
+    }, [update])
 
-    const getData = () => {
-        if (data.length > 0) {
-            const dataf = data.filter((v, i) => {
+    const pegarDado = () => {
+        if (dado.length > 0) {
+            const dataf = dado.filter((v, i) => {
                 const start = limit * (page - 1);
                 const end = start + limit;
                 return i >= start && i < end;
@@ -66,36 +72,53 @@ const MainTable = ({ data, setData, loadData, form, handleOpen, children }) => {
         <>
             <Table
                 height={420}
-                data={getData()}
-                sortColumn={sortColumn}
+                data={pegarDado()}
                 sortType={sortType}
                 onSortColumn={handleSortColumn}
                 loading={loading}
             >
                 {
-                    Object.entries(form).map((key) => {
-                        return (
-                            <Column width={key[1]['width'] || 150} align={key[1]["align"] || "center"} sortable>
-                                <HeaderCell>{key[0]}</HeaderCell>
-                                <Cell dataKey={key[1]['dataKey']} />
+                    Object.entries(tableColumns).map((key, index) => {
+                        const coluna = {
+                            titulo: key[0],
+                            dataKey: key[1]['dataKey'],
+                            width: key[1]['width'],
+                            align: key[1]["align"],
+                            fixed: key[1]["fixed"],
+                            click: key[1]["click"],
+                            icon: key[1]["icon"]
+                        }
+
+                        return coluna.dataKey === "botao" ? (
+                            <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
+                                <HeaderCell>{coluna.titulo}</HeaderCell>
+                                <Cell style={{ padding: '6px' }}>
+                                    {rowData => {
+                                        return <IconButton icon={<Icon as={coluna.icon} />} onClick={() => coluna.click(rowData)} />
+                                    }}
+                                </Cell>
                             </Column>
-                        )
+                        ) :
+                            (
+                                <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
+                                    <HeaderCell>{coluna.titulo}</HeaderCell>
+                                    {
+                                        typeof (coluna.dataKey) == typeof ('') ?
+                                            <Cell dataKey={coluna.dataKey} />
+                                            :
+                                            <Cell style={{ padding: '6px' }}>
+                                                {coluna.dataKey}
+                                            </Cell>
+                                    }
+                                </Column>
+                            )
+
                     })
                 }
-                <Column width={80} fixed="right">
-                    <HeaderCell>Editar</HeaderCell>
-
-                    <Cell style={{ padding: '6px' }}>
-                        {rowData => {
-                            return (
-                                <IconButton icon={<Icon as={EditIcon} />} onClick={() => handleOpen(rowData)} />
-                            )
-                        }}
-                    </Cell>
-                </Column>
             </Table >
             {children}
-            < div style={{ padding: 20 }}>
+            < div style={{ padding: 20 }
+            }>
                 <Pagination
                     prev
                     next
@@ -106,14 +129,14 @@ const MainTable = ({ data, setData, loadData, form, handleOpen, children }) => {
                     maxButtons={5}
                     size="md"
                     layout={['total', '-', 'limit', '|', 'pager', '-', 'skip']}
-                    total={data.length}
+                    total={dado.length}
                     limitOptions={[30, 50, 100]}
                     limit={limit}
                     activePage={page}
                     onChangePage={setPage}
                     onChangeLimit={handleChangeLimit}
                 />
-            </ div>
+            </ div >
         </>
     );
 };
