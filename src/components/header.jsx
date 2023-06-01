@@ -14,28 +14,26 @@ const CustomNavbar = ({ onSelect, activeKey, ...props }) => {
     const { theme, changeTheme } = useContext(ThemeContext);
     return (
         <Navbar {...props} >
-            <Nav appearance="default" style={{ width: "100%" }}>
+            <Nav style={{ width: "100%" }}>
                 <Navbar.Brand onClick={() => navegate('/')} style={{ padding: 5 }}>
                     <img src={image} alt='Logo Bora' style={{ width: 140, height: 45 }} />
                 </Navbar.Brand>
-                <Nav onSelect={onSelect} activeKey={activeKey}>
-                    <Nav.Item onClick={() => navegate('/')} eventKey="10">
-                        Home
-                    </Nav.Item>
-                    <Nav.Item onClick={() => navegate('/login')} eventKey="20">
-                        Login
-                    </Nav.Item>
-                    <Nav.Menu title="Paletes">
-                        <Nav.Item onClick={() => navegate('/solicitar-transferencia')} eventKey="31">Solicitar Tranferência</Nav.Item>
-                        <Nav.Item onClick={() => navegate('/transferencia-andamento')} eventKey="32">Transferências em Andamento</Nav.Item>
-                    </Nav.Menu>
-                    <Nav.Menu title="Ferramentas">
-                        <Nav.Item onClick={() => navegate('/compras')} eventKey="41">Compras</Nav.Item>
-                    </Nav.Menu>
-                    <Nav.Menu title="Comercial">
-                        <Nav.Item onClick={() => navegate('/justificativa')} eventKey="51">Justificativa</Nav.Item>
-                    </Nav.Menu>
-                </Nav>
+                <Nav.Item onClick={() => navegate('/')} eventKey="10">
+                    Home
+                </Nav.Item>
+                <Nav.Item onClick={() => navegate('/login')} eventKey="20">
+                    Login
+                </Nav.Item>
+                <Nav.Menu title="Paletes">
+                    <Nav.Item onClick={() => navegate('/solicitar-transferencia')} eventKey="31">Solicitar Tranferência</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/transferencia-andamento')} eventKey="32">Transferências em Andamento</Nav.Item>
+                </Nav.Menu>
+                <Nav.Menu title="Ferramentas">
+                    <Nav.Item onClick={() => navegate('/compras')} eventKey="41">Compras</Nav.Item>
+                </Nav.Menu>
+                <Nav.Menu title="Comercial">
+                    <Nav.Item onClick={() => navegate('/justificativa')} eventKey="51">Justificativa</Nav.Item>
+                </Nav.Menu>
                 <Nav pullRight>
                     <Dropdown.Menu noCaret icon={<CogIcon />} placement="bottomEnd">
                         {theme === 'dark' ? (

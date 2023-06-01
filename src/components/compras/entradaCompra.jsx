@@ -12,9 +12,9 @@ const style = {
     flexDirection: 'column'
 }
 
-const Entradas = ({ entradas }) => {
+const EntradaCompra = ({ entradas }) => {
     return (
-        <>
+        <> {entradas.length > 0 ?
             <List bordered>
                 {entradas.map((dado) => {
                     return (
@@ -31,8 +31,11 @@ const Entradas = ({ entradas }) => {
                     )
                 })}
             </List>
+            :
+            <label>Nenhuma entrada cadastrada.</label>
+        }
         </>
     )
 }
 
-export default Entradas;
+export default EntradaCompra;

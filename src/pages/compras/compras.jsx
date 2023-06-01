@@ -2,7 +2,6 @@ import { IconButton } from 'rsuite';
 import ListIcon from '@rsuite/icons/List';
 import PlusIcon from '@rsuite/icons/Plus';
 import EditIcon from '@rsuite/icons/Edit';
-import 'rsuite/dist/rsuite.min.css';
 
 import { useContext, useState } from 'react';
 
@@ -14,7 +13,8 @@ import MainTable from '../../components/table';
 import MainModalForm from '../../components/modal';
 import EditarCompraForm from '../../components/compras/editarCompraForm';
 import CriarCompraForm from '../../components/compras/criarCompraForm';
-import Entradas from '../../components/compras/entradas';
+import EntradaCompra from '../../components/compras/entradaCompra';
+import FiltroCompra from '../../components/compras/filtroCompra';
 
 
 const styles = {
@@ -27,9 +27,8 @@ const styles = {
 }
 
 const Compras = () => {
-    const { usuarios } = useContext(UsuarioContext)
+    const { usuarios, auth } = useContext(UsuarioContext)
     const [update, setUpdate] = useState(false)
-    const temPermissao = true
 
     //Data
     const [dado, setDado] = useState([]);
@@ -133,14 +132,14 @@ const Compras = () => {
     //Table
     const tableColumns = {
         'Nº Solicitação': { dataKey: 'numero_solicitacao', width: 150 },
-        'Dt Lançamento': { dataKey: 'data_solicitacao_bo', width: 170 },
+        'Dt Solicitação': { dataKey: 'data_solicitacao_bo', width: 170 },
         'Status': { dataKey: 'status', width: 140 },
         'Filial': { dataKey: 'filial.sigla', width: 120 },
         'Departamento': { dataKey: 'departamento', width: 170 },
         'Solicitante': { dataKey: 'solicitante.username', width: 170 },
         'Responsável': { dataKey: 'responsavel.username', width: 170 },
         'Entradas': { dataKey: "botao", width: 130, fixed: "right", click: dadosEntradas, icon: ListIcon },
-        'Editar': { dataKey: "botao", width: 130, fixed: "right", click: dadosEditar, icon: EditIcon }
+        'Editar': { dataKey: "botao", width: 130, fixed: "right", click: dadosEditar, icon: EditIcon, needAuth: true, auth: auth }
     };
 
     const close = () => {
@@ -161,16 +160,18 @@ const Compras = () => {
                     <CriarCompraForm form={formCriar} setForm={setFormCriar} />
                 </MainModalForm>
 
-                <MainPanelCollapsible title="Filtros"></MainPanelCollapsible>
+                <MainPanelCollapsible title="Filtros">
+                    <FiltroCompra setDado={setDado} />
+                </MainPanelCollapsible>
 
                 <MainTable update={update} dado={dado} setDado={setDado} loadData={loadData} tableColumns={tableColumns} />
                 <MainModalForm title="Entradas" view={true} open={abrirEntradas} setOpen={setAbrirEntradas}
                     size='md'>
-                    <Entradas entradas={entradas} />
+                    <EntradaCompra entradas={entradas} />
                 </MainModalForm>
                 <MainModalForm title={formEdit.numero_solicitacao ? `Editar a Solicitação ${formEdit.numero_solicitacao}` : 'Editar a Solicitação'} nomeBotao="Editar" size='md' open={abrirEdit} setOpen={setAbrirEdit}
                     send={enviarEdit} close={close} >
-                    <EditarCompraForm formEdit={formEdit} setFormEdit={setFormEdit} temPermissao={temPermissao} />
+                    <EditarCompraForm formEdit={formEdit} setFormEdit={setFormEdit} />
                 </MainModalForm>
             </MainPanel >
         </>

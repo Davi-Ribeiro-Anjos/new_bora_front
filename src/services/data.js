@@ -54,3 +54,13 @@ export const somaDia = (data, soma = false) => {
     // console.log(dataModificada)
     return new Date(dataModificada)
 }
+
+export const dataParaString = (data) => {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, '0');
+
+    const dataFormatada = `${ano}-${mes}-${dia}`;
+
+    return dataFormatada
+}

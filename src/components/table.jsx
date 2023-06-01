@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 const { Column, HeaderCell, Cell } = Table;
 
 const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) => {
+
     const [sortColumn, setSortColumn] = useState();
     const [sortType, setSortType] = useState();
 
@@ -86,32 +87,43 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
                             align: key[1]["align"],
                             fixed: key[1]["fixed"],
                             click: key[1]["click"],
-                            icon: key[1]["icon"]
+                            icon: key[1]["icon"],
+                            needAuth: key[1]["needAuth"] || false
                         }
 
-                        return coluna.dataKey === "botao" ? (
-                            <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
-                                <HeaderCell>{coluna.titulo}</HeaderCell>
-                                <Cell style={{ padding: '6px' }}>
-                                    {rowData => {
-                                        return <IconButton icon={<Icon as={coluna.icon} />} onClick={() => coluna.click(rowData)} />
-                                    }}
-                                </Cell>
-                            </Column>
-                        ) :
-                            (
+                        if (coluna.needAuth) {
+                            coluna.auth = key[1]["auth"]
+                        }
+
+                        return coluna.needAuth ? (
+                            coluna.auth ? (
                                 <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
                                     <HeaderCell>{coluna.titulo}</HeaderCell>
-                                    {
-                                        typeof (coluna.dataKey) == typeof ('') ?
-                                            <Cell dataKey={coluna.dataKey} />
-                                            :
-                                            <Cell style={{ padding: '6px' }}>
-                                                {coluna.dataKey}
-                                            </Cell>
-                                    }
+                                    <Cell style={{ padding: '6px' }}>
+                                        {rowData => {
+                                            return <IconButton icon={<Icon as={coluna.icon} />} onClick={() => coluna.click(rowData)} />
+                                        }}
+                                    </Cell>
                                 </Column>
-                            )
+                            ) : <></>
+                        ) : (
+                            coluna.dataKey === "botao" ? (
+                                <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
+                                    <HeaderCell>{coluna.titulo}</HeaderCell>
+                                    <Cell style={{ padding: '6px' }}>
+                                        {rowData => {
+                                            return <IconButton icon={<Icon as={coluna.icon} />} onClick={() => coluna.click(rowData)} />
+                                        }}
+                                    </Cell>
+                                </Column>
+                            ) :
+                                (
+                                    <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
+                                        <HeaderCell>{coluna.titulo}</HeaderCell>
+                                        <Cell dataKey={coluna.dataKey} />
+                                    </Column>
+                                )
+                        )
 
                     })
                 }

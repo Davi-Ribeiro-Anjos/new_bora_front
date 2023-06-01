@@ -15,9 +15,9 @@ const style = {
     }
 }
 
-const EditarCompraForm = ({ formEdit, setFormEdit, temPermissao }) => {
+const EditarCompraForm = ({ formEdit, setFormEdit }) => {
     const { status, categorias, departamentos, formasPgt, choicesFiliais } = useContext(ChoicesContext)
-    const { choiceUser } = useContext(UsuarioContext)
+    const { choiceUser, auth } = useContext(UsuarioContext)
     const [entradaForm, setEntradaForm] = useState({})
 
     const criarEntrada = () => {
@@ -117,7 +117,7 @@ const EditarCompraForm = ({ formEdit, setFormEdit, temPermissao }) => {
                 </Panel>
             </Row>
             <Row>
-                {temPermissao ? (
+                {auth ? (
                     <>
                         <Divider />
                         <Panel header="Cadastrar Entradas">

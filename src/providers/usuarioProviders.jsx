@@ -7,6 +7,7 @@ export const UsuarioContext = createContext({});
 export const UsuarioProvider = ({ children }) => {
     const [usuarios, setUsuarios] = useState([])
     const [choiceUser, setChoiceUser] = useState([])
+    const [auth, setAuth] = useState(false)
 
     useEffect(() => {
         getUsuarios()
@@ -33,7 +34,7 @@ export const UsuarioProvider = ({ children }) => {
     }
 
     return (
-        <UsuarioContext.Provider value={{ usuarios, choiceUser }}>
+        <UsuarioContext.Provider value={{ usuarios, choiceUser, auth }}>
             {children}
         </UsuarioContext.Provider>
     );
