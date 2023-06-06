@@ -16,11 +16,11 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
 
     useEffect(() => {
         setLoading(true)
-        setDado(loadData(setDado))
+        setDado(loadData())
         setTimeout(() => {
             setLoading(false);
-            setSortColumn(sortColumn);
-            setSortType(sortType);
+            // setSortColumn(sortColumn);
+            // setSortType(sortType);
         }, 500);
         // eslint-disable-next-line
     }, [update])
@@ -86,39 +86,49 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
                             align: key[1]["align"],
                             fixed: key[1]["fixed"],
                             click: key[1]["click"],
-                            icon: key[1]["icon"]
+                            icon: key[1]["icon"],
+                            needAuth: key[1]["needAuth"] || false
                         }
 
-                        return coluna.dataKey === "botao" ? (
-                            <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
-                                <HeaderCell>{coluna.titulo}</HeaderCell>
-                                <Cell style={{ padding: '6px' }}>
-                                    {rowData => {
-                                        return <IconButton icon={<Icon as={coluna.icon} />} onClick={() => coluna.click(rowData)} />
-                                    }}
-                                </Cell>
-                            </Column>
-                        ) :
-                            (
+                        if (coluna.needAuth) {
+                            coluna.auth = key[1]["auth"]
+                        }
+
+                        return coluna.needAuth ? (
+                            coluna.auth ? (
                                 <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
                                     <HeaderCell>{coluna.titulo}</HeaderCell>
-                                    {
-                                        typeof (coluna.dataKey) == typeof ('') ?
-                                            <Cell dataKey={coluna.dataKey} />
-                                            :
-                                            <Cell style={{ padding: '6px' }}>
-                                                {coluna.dataKey}
-                                            </Cell>
-                                    }
+                                    <Cell style={{ padding: '6px' }}>
+                                        {rowData => {
+                                            return <IconButton icon={<Icon as={coluna.icon} />} onClick={() => coluna.click(rowData)} />
+                                        }}
+                                    </Cell>
                                 </Column>
-                            )
+                            ) : <></>
+                        ) : (
+                            coluna.dataKey === "botao" ? (
+                                <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
+                                    <HeaderCell>{coluna.titulo}</HeaderCell>
+                                    <Cell style={{ padding: '6px' }}>
+                                        {rowData => {
+                                            return <IconButton icon={<Icon as={coluna.icon} />} onClick={() => coluna.click(rowData)} />
+                                        }}
+                                    </Cell>
+                                </Column>
+                            ) :
+                                (
+                                    <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
+                                        <HeaderCell>{coluna.titulo}</HeaderCell>
+                                        <Cell dataKey={coluna.dataKey} />
+                                    </Column>
+                                )
+                        )
 
                     })
                 }
             </Table >
             {children}
-            < div style={{ padding: 20 }
-            }>
+            <div style={{ padding: 20 }} >
                 <Pagination
                     prev
                     next
@@ -136,7 +146,7 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
                     onChangePage={setPage}
                     onChangeLimit={handleChangeLimit}
                 />
-            </ div >
+            </div >
         </>
     );
 };
