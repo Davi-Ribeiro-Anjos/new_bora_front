@@ -7,24 +7,17 @@ export const UsuarioContext = createContext({});
 export const UsuarioProvider = ({ children }) => {
     const [usuarios, setUsuarios] = useState([])
     const [choiceUser, setChoiceUser] = useState([])
-    const [auth, setAuth] = useState(false)
+    const [auth, setAuth] = useState(true)
 
     useEffect(() => {
         getUsuarios()
-        getChoiceUser()
     }, []);
 
     const getUsuarios = async () => {
         await api.get('usuarios/').then((response) => {
-            let usuarios = response.data
-
-            setUsuarios(usuarios)
-        }).catch((error) => console.log(error))
-    }
-
-    const getChoiceUser = async () => {
-        await api.get('usuarios/').then((response) => {
             let res = response.data
+
+            setUsuarios(res)
 
             setChoiceUser(res.map((item) => ({
                 label: item.username,
@@ -34,7 +27,7 @@ export const UsuarioProvider = ({ children }) => {
     }
 
     return (
-        <UsuarioContext.Provider value={{ usuarios, choiceUser, auth }}>
+        <UsuarioContext.Provider value={{ usuarios, choiceUser, auth, setAuth }}>
             {children}
         </UsuarioContext.Provider>
     );

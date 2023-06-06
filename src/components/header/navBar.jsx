@@ -1,20 +1,30 @@
 import { Navbar, Nav, Dropdown, Toggle, Stack } from 'rsuite';
 import CogIcon from '@rsuite/icons/legacy/Cog';
-import 'rsuite/dist/rsuite.min.css';
 
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import image from "../static/images/logo.png"
-import { ThemeContext } from '../providers/themeProviders';
+import image from "../../static/images/logo.png"
+import { ThemeContext } from '../../providers/themeProviders';
+import { UsuarioContext } from '../../providers/usuarioProviders';
 
 
-const CustomNavbar = ({ onSelect, activeKey, ...props }) => {
-    const navegate = useNavigate();
+const MainNavBar = () => {
     const { theme, changeTheme } = useContext(ThemeContext);
+    const { setAuth } = useContext(UsuarioContext)
+
+    const [activeKey, setActiveKey] = useState(null);
+
+    const navegate = useNavigate();
+
+    const logout = () => {
+        navegate('/login')
+        setAuth(false)
+    }
+
     return (
-        <Navbar {...props} >
-            <Nav style={{ width: "100%" }}>
+        <Navbar appearance='inverse' >
+            <Nav style={{ width: "100%" }} activeKey={activeKey} onSelect={setActiveKey} >
                 <Navbar.Brand onClick={() => navegate('/')} style={{ padding: 5 }}>
                     <img src={image} alt='Logo Bora' style={{ width: 140, height: 45 }} />
                 </Navbar.Brand>
@@ -35,39 +45,25 @@ const CustomNavbar = ({ onSelect, activeKey, ...props }) => {
                     <Nav.Item onClick={() => navegate('/justificativa')} eventKey="51">Justificativa</Nav.Item>
                 </Nav.Menu>
                 <Nav pullRight>
-                    <Dropdown.Menu noCaret icon={<CogIcon />} placement="bottomEnd">
-                        {theme === 'dark' ? (
-                            <Dropdown.Item panel style={{ padding: 10, width: 160, color: 'white' }}>
-                                <p>Logado como</p>
-                                <strong>davi.bezerra</strong>
-                            </Dropdown.Item>
-                        ) : (
-                            <Dropdown.Item panel style={{ padding: 10, width: 160, color: 'black' }}>
-                                <p>Logado como</p>
-                                <strong>davi.bezerra</strong>
-                            </Dropdown.Item>
-                        )}
+                    <Nav.Menu noCaret icon={<CogIcon />} placement="bottomEnd">
+                        <Nav.Item panel style={theme === 'dark' ? { padding: 10, width: 160, color: 'white' } : { padding: 10, width: 160, color: 'black' }}>
+                            <p>Logado como</p>
+                            <strong>davi.bezerra</strong>
+                        </Nav.Item>
                         <Dropdown.Separator />
-                        <Dropdown.Item >
+                        <Nav.Item >
                             <Stack spacing={50}>
                                 Tema
                                 <Toggle defaultChecked={theme === 'dark' ? true : false} checkedChildren="Escuro" unCheckedChildren="Claro" onClick={() => changeTheme(theme)} />
                             </Stack>
-                        </Dropdown.Item>
-                        <Dropdown.Item>Ajuda</Dropdown.Item>
-                        <Dropdown.Item onClick={() => navegate('/configuracoes')}>Configurações</Dropdown.Item>
-                        <Dropdown.Item>Sair</Dropdown.Item>
-                    </Dropdown.Menu>
+                        </Nav.Item>
+                        <Nav.Item>Ajuda</Nav.Item>
+                        <Nav.Item onClick={() => navegate('/configuracoes')}>Configurações</Nav.Item>
+                        <Nav.Item onClick={() => logout()}>Sair</Nav.Item>
+                    </Nav.Menu>
                 </Nav>
             </Nav>
         </Navbar >
     );
-};
-
-const MainHeader = () => {
-    const [activeKey, setActiveKey] = React.useState(null);
-
-    return <CustomNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey} />
 }
-
-export default MainHeader;
+export default MainNavBar;

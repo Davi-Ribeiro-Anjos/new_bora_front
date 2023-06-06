@@ -9,7 +9,6 @@ import NotFound from "../pages/notFound";
 import Compras from "../pages/compras/compras";
 import SolicitarTransferencia from "../pages/paletes/solicitarTranferencia";
 import TransferenciaAndamento from "../pages/paletes/transferenciaAndamento";
-import { ChoicesProvider } from "../providers/choicesProviders";
 import { UsuarioProvider } from "../providers/usuarioProviders";
 
 const RoutesMain = () => {
@@ -21,11 +20,7 @@ const RoutesMain = () => {
                 <Route path="/home" element={<Home />} />
                 <Route path="/solicitar-transferencia" element={<SolicitarTransferencia />} exact />
                 <Route path="/transferencia-andamento" element={<TransferenciaAndamento />} exact />
-                <Route path="/compras" element={
-                    <ChoicesProvider>
-                        <Compras />
-                    </ChoicesProvider>
-                } exact />
+                <Route path="/compras" element={<Compras />} exact />
                 <Route path="/justificativa" element={<Justificativa />} />
                 <Route path="/configuracoes" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />

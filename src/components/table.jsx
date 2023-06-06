@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 const { Column, HeaderCell, Cell } = Table;
 
 const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) => {
-
     const [sortColumn, setSortColumn] = useState();
     const [sortType, setSortType] = useState();
 
@@ -17,11 +16,11 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
 
     useEffect(() => {
         setLoading(true)
-        setDado(loadData(setDado))
+        setDado(loadData())
         setTimeout(() => {
             setLoading(false);
-            setSortColumn(sortColumn);
-            setSortType(sortType);
+            // setSortColumn(sortColumn);
+            // setSortType(sortType);
         }, 500);
         // eslint-disable-next-line
     }, [update])
@@ -129,8 +128,7 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
                 }
             </Table >
             {children}
-            < div style={{ padding: 20 }
-            }>
+            <div style={{ padding: 20 }} >
                 <Pagination
                     prev
                     next
@@ -148,7 +146,7 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
                     onChangePage={setPage}
                     onChangeLimit={handleChangeLimit}
                 />
-            </ div >
+            </div >
         </>
     );
 };

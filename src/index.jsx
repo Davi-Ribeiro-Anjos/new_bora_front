@@ -4,16 +4,16 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
-import { ThemeProvider } from './providers/themeProviders';
+import { IndexProvider } from './providers/indexProviders';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ThemeProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode >
+  // <React.StrictMode>
+  <IndexProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </IndexProvider>
+  // </React.StrictMode>
 );

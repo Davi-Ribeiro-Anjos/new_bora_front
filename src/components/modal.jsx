@@ -1,6 +1,6 @@
 import { Modal, Button } from 'rsuite';
 
-const MainModalForm = ({ send, open, setOpen, title, nomeBotao, view = false, close = false, size = 'sm', children }) => {
+const MainModal = ({ send, open, setOpen, title, nomeBotao, overflow = false, view = false, close = false, size = 'sm', children }) => {
     const handleClose = () => {
         setOpen(false)
         if (close) {
@@ -9,7 +9,7 @@ const MainModalForm = ({ send, open, setOpen, title, nomeBotao, view = false, cl
     };
 
     return (
-        <Modal overflow={false} size={size} open={open} onClose={() => handleClose()}>
+        <Modal overflow={overflow} size={size} open={open} onClose={() => handleClose()}>
             <Modal.Header>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
@@ -37,4 +37,4 @@ const MainModalForm = ({ send, open, setOpen, title, nomeBotao, view = false, cl
     )
 }
 
-export default MainModalForm
+export default MainModal
