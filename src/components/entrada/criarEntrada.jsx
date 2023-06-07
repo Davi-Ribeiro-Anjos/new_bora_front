@@ -14,7 +14,7 @@ const style = {
     }
 }
 
-const CriarEntrada = ({ solicitante }) => {
+const CriarEntrada = ({ form }) => {
     const { auth } = useContext(UsuarioContext)
     const toaster = useToaster();
 
@@ -26,11 +26,11 @@ const CriarEntrada = ({ solicitante }) => {
     )
 
     const criarEntrada = async () => {
-        let dado_post = { ...entrada, autor: 1, solicitacao: solicitante.id }
+        let dado_post = { ...entrada, autor: 1, solicitacao: form.id }
 
         if (Boolean(dado_post.anexo.length)) {
             for (let index in dado_post.anexo) {
-                dado_post[`arquivo_${index + 1}`] = dado_post.anexo[index].blobFile
+                dado_post[`arquivo_${parseInt(index + 1)}`] = dado_post.anexo[index].blobFile
             }
         }
         delete dado_post.anexo

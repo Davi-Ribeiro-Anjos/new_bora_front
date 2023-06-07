@@ -163,7 +163,7 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => 
                         </Form>
                     </Panel>
                 </Row>
-                <CriarEntrada solicitante={form.solicitante} />
+                <CriarEntrada form={form} />
             </Grid >
         </MainModal >
     );
