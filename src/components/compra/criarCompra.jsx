@@ -32,7 +32,8 @@ const CriarCompra = ({ update, setUpdate }) => {
     const modal = () => setAbrir(true);
 
     const enviar = async () => {
-        if (form.anexo) form.anexo = form.anexo[0].blobFile
+        console.log(form)
+        if (form.anexo.length > 0) form.anexo = form.anexo[0].blobFile
 
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);

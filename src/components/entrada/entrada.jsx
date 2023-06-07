@@ -1,4 +1,4 @@
-import { FlexboxGrid, List } from "rsuite"
+import { FlexboxGrid, Panel, PanelGroup } from "rsuite"
 import MainModal from "../modal";
 
 const styleCenter = {
@@ -18,22 +18,34 @@ const Entrada = ({ entradas, abrirEntradas, setAbrirEntradas }) => {
         <MainModal title="Entradas" view={true} open={abrirEntradas} setOpen={setAbrirEntradas}
             size='md'>
             {entradas.length > 0 ?
-                <List bordered>
-                    {entradas.map((dado) => {
+                <PanelGroup accordion bordered>
+                    {entradas.map((dado, index) => {
                         return (
-                            <List.Item key={dado.id}>
+                            <Panel header={`ID ENTREGA - ${dado.id}`} eventKey={index} id={dado.id}>
                                 <FlexboxGrid style={style}>
-                                    <FlexboxGrid.Item colspan={4} style={styleCenter}>
-                                        ID ENTREGA - {dado.id}
-                                    </FlexboxGrid.Item>
                                     <FlexboxGrid.Item style={styleCenter}>
                                         OBSERVAÇÃO - {dado.observacao}
                                     </FlexboxGrid.Item>
+                                    {dado.arquivo_1 ? (
+                                        <FlexboxGrid.Item style={styleCenter}>
+                                            ANEXO 1 - {dado.arquivo_1}
+                                        </FlexboxGrid.Item>
+                                    ) : <></>}
+                                    {dado.arquivo_2 ? (
+                                        <FlexboxGrid.Item style={styleCenter}>
+                                            ANEXO 2 - {dado.arquivo_2}
+                                        </FlexboxGrid.Item>
+                                    ) : <></>}
+                                    {dado.arquivo_3 ? (
+                                        <FlexboxGrid.Item style={styleCenter}>
+                                            ANEXO 3 - {dado.arquivo_3}
+                                        </FlexboxGrid.Item>
+                                    ) : <></>}
                                 </FlexboxGrid>
-                            </List.Item>
+                            </Panel>
                         )
                     })}
-                </List>
+                </PanelGroup>
                 :
                 <label>Nenhuma entrada cadastrada.</label>
             }

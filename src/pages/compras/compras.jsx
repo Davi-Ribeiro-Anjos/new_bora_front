@@ -68,8 +68,6 @@ const Compras = () => {
         if (rowData.data_vencimento_boleto) rowData.data_vencimento_boleto = stringParaData(rowData.data_vencimento_boleto, true)
         if (rowData.data_solicitacao_bo) rowData['data_solicitacao'] = stringParaData(rowData.data_solicitacao_bo)
 
-        console.log(rowData)
-
         setFormEdit(rowData)
 
         modalEdit()
