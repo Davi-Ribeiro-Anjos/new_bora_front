@@ -26,21 +26,21 @@ const Entrada = ({ entradas, abrirEntradas, setAbrirEntradas }) => {
                                     <FlexboxGrid.Item style={styleCenter}>
                                         OBSERVAÇÃO - {dado.observacao}
                                     </FlexboxGrid.Item>
-                                    {dado.arquivo_1 ? (
+                                    {dado.arquivo_1 && (
                                         <FlexboxGrid.Item style={styleCenter}>
                                             ANEXO 1 - {dado.arquivo_1}
                                         </FlexboxGrid.Item>
-                                    ) : <></>}
-                                    {dado.arquivo_2 ? (
+                                    )}
+                                    {dado.arquivo_2 && (
                                         <FlexboxGrid.Item style={styleCenter}>
                                             ANEXO 2 - {dado.arquivo_2}
                                         </FlexboxGrid.Item>
-                                    ) : <></>}
-                                    {dado.arquivo_3 ? (
+                                    )}
+                                    {dado.arquivo_3 && (
                                         <FlexboxGrid.Item style={styleCenter}>
                                             ANEXO 3 - {dado.arquivo_3}
                                         </FlexboxGrid.Item>
-                                    ) : <></>}
+                                    )}
                                 </FlexboxGrid>
                             </Panel>
                         )

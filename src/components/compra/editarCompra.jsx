@@ -125,13 +125,12 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => 
                                         </Form.Group>
                                     </Col>
                                     <Col xs={12}>
-                                        {form.forma_pagamento === 'NÃO INFORMADO' ? <></>
-                                            :
+                                        {form.forma_pagamento !== 'NÃO INFORMADO' && (
                                             <Form.Group controlId="data_vencimento_boleto">
                                                 <Form.ControlLabel>Vencimento:</Form.ControlLabel>
                                                 <Form.Control name="data_vencimento_boleto" accepter={DatePicker} />
                                             </Form.Group>
-                                        }
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row style={style.row}>
@@ -141,15 +140,14 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => 
                                             <Form.Control name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
                                         </Form.Group>
                                     </Col>
-                                    {form.status === "CONCLUIDO" ? (
+                                    {form.status === "CONCLUIDO" && (
                                         <Col xs={12}>
                                             <Form.Group controlId="pago">
                                                 <Form.ControlLabel>Pagamento:</Form.ControlLabel>
                                                 <Form.Control name="pago" checked={form.pago} onChange={(value) => setForm({ ...form, pago: !value })} accepter={Checkbox} >Pago</Form.Control>
                                             </Form.Group>
                                         </Col>
-                                    ) : <></>
-                                    }
+                                    )}
                                 </Row>
                                 <Row style={style.row}>
                                     <Col xs={24}>
