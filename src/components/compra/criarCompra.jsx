@@ -1,38 +1,28 @@
-import { Form, Uploader, SelectPicker, Grid, Row, Col, Whisper, IconButton, Tooltip, useToaster } from 'rsuite';
-import PlusIcon from '@rsuite/icons/Plus';
+import { Form, Uploader, SelectPicker, Grid, Row, Col, useToaster } from 'rsuite';
 
 import { useContext, useState } from 'react';
 
 import { api } from '../../services/api';
+import { criarMensagemErro, criarMensagemOk } from '../../services/mensagem';
 import { ChoicesContext } from '../../providers/choicesProviders';
 
 import MainModal from '../modal';
-import { criarMensagemErro, criarMensagemOk } from '../../services/mensagem';
 
-const styles = {
-    iconBu: {
-        width: "3vw",
-        height: "7vh",
-        padding: 0,
-        margin: 0
-    }
-}
 
-const CriarCompra = ({ update, setUpdate }) => {
+
+const CriarCompra = ({ abrir, setAbrir, update, setUpdate }) => {
     const { filiais } = useContext(ChoicesContext)
     const toaster = useToaster();
 
-    const [abrir, setAbrir] = useState(false);
+
     const [form, setForm] = useState({
         filial: '',
         numero_solicitacao: '',
         anexo: [],
     });
 
-    const modal = () => setAbrir(true);
 
     const enviar = async () => {
-        console.log(form)
         if (form.anexo.length > 0) form.anexo = form.anexo[0].blobFile
 
         const timeElapsed = Date.now();
@@ -65,14 +55,6 @@ const CriarCompra = ({ update, setUpdate }) => {
 
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>Painel Compras</h2>
-                <div>
-                    <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip> Solicitação</Tooltip>}>
-                        <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconBu} onClick={() => modal()} />
-                    </Whisper>
-                </div>
-            </div>
             <MainModal title="Adicionar Solicitação" nomeBotao="Criar" open={abrir} setOpen={setAbrir}
                 form={form} send={enviar}>
                 <Grid fluid>

@@ -153,7 +153,7 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => 
                                     <Col xs={24}>
                                         <Form.Group controlId="observacao">
                                             <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                            <Form.Control rows={5} name="observacao" accepter={Textarea} />
+                                            <Form.Control rows={5} name="observacao" value={form.observacao} accepter={Textarea} />
                                         </Form.Group>
                                     </Col>
                                 </Row>

@@ -68,7 +68,7 @@ const CriarEntrada = ({ form }) => {
                                     <Col xs={24}>
                                         <Form.Group controlId="observacao">
                                             <Form.ControlLabel>Descrição da Entrada:</Form.ControlLabel>
-                                            <Form.Control rows={8} name="observacao" accepter={Textarea} />
+                                            <Form.Control rows={8} name="observacao" value={entrada.observacao} accepter={Textarea} />
                                         </Form.Group>
                                     </Col>
                                 </Row>

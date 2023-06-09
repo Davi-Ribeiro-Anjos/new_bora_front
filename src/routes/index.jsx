@@ -7,25 +7,23 @@ import Justificativa from "../pages/justificativa/justificativa";
 import Settings from "../pages/settings";
 import NotFound from "../pages/notFound";
 import Compras from "../pages/compras/compras";
-import SolicitarTransferencia from "../pages/paletes/solicitarTranferencia";
-import TransferenciaAndamento from "../pages/paletes/transferenciaAndamento";
-import { UsuarioProvider } from "../providers/usuarioProviders";
+import Paletes from "../pages/paletes/paletes";
+// import TransferenciaAndamento from "../pages/paletes/transferenciaAndamento";
+
 
 const RoutesMain = () => {
     return (
-        <UsuarioProvider>
-            <Routes>
-                <Route path="/" element={<Home />} exact />
-                <Route path="/login" element={<Login />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/solicitar-transferencia" element={<SolicitarTransferencia />} exact />
-                <Route path="/transferencia-andamento" element={<TransferenciaAndamento />} exact />
-                <Route path="/compras" element={<Compras />} exact />
-                <Route path="/justificativa" element={<Justificativa />} />
-                <Route path="/configuracoes" element={<Settings />} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
-        </UsuarioProvider>
+        <Routes>
+            <Route path="/" element={<Home />} exact />
+            <Route path="/login" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/paletes" element={<Paletes />} exact />
+            {/* <Route path="/transferencia-andamento" element={<TransferenciaAndamento />} exact /> */}
+            <Route path="/compras" element={<Compras />} exact />
+            <Route path="/justificativa" element={<Justificativa />} />
+            <Route path="/configuracoes" element={<Settings />} />
+            <Route path="*" element={<NotFound />} />
+        </Routes>
     )
 }
 

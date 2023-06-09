@@ -11,10 +11,10 @@ import { UsuarioContext } from '../../providers/usuarioProviders';
 import { MainPanel } from "../../components/panel";
 import MainTable from '../../components/table';
 import EditarCompra from '../../components/compra/editarCompra';
-import CriarCompra from '../../components/compra/criarCompra';
 import EntradaCompra from '../../components/entrada/entrada';
 import FiltroCompra from '../../components/compra/filtroCompra';
 import { criarMensagemInfo } from '../../services/mensagem';
+import PainelCompra from '../../components/compra/painelCompra';
 
 const Compras = () => {
     const { auth } = useContext(UsuarioContext)
@@ -101,20 +101,18 @@ const Compras = () => {
     };
 
     return (
-        <>
-            <MainPanel>
-                <CriarCompra update={update} setUpdate={setUpdate} />
+        <MainPanel>
+            <PainelCompra update={update} setUpdate={setUpdate} />
 
-                <FiltroCompra filtro={filtro} setFiltro={setFiltro} setDado={setDado} />
+            <FiltroCompra filtro={filtro} setFiltro={setFiltro} setDado={setDado} />
 
-                <MainTable update={update} dado={dado} setDado={setDado} loadData={loadData} tableColumns={tableColumns} />
+            <MainTable update={update} dado={dado} setDado={setDado} loadData={loadData} tableColumns={tableColumns} />
 
-                <EntradaCompra entradas={entradas} abrirEntradas={abrirEntradas} setAbrirEntradas={setAbrirEntradas} />
+            <EntradaCompra entradas={entradas} abrirEntradas={abrirEntradas} setAbrirEntradas={setAbrirEntradas} />
 
-                <EditarCompra form={formEdit} setForm={setFormEdit} abrir={abrirEdit} setAbrir={setAbrirEdit} update={update} setUpdate={setUpdate} />
+            <EditarCompra form={formEdit} setForm={setFormEdit} abrir={abrirEdit} setAbrir={setAbrirEdit} update={update} setUpdate={setUpdate} />
 
-            </MainPanel >
-        </>
+        </MainPanel >
     )
 }
 

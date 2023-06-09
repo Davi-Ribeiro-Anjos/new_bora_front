@@ -21,7 +21,7 @@ const Entrada = ({ entradas, abrirEntradas, setAbrirEntradas }) => {
                 <PanelGroup accordion bordered>
                     {entradas.map((dado, index) => {
                         return (
-                            <Panel header={`ID ENTREGA - ${dado.id}`} eventKey={index} id={dado.id}>
+                            <Panel header={`ID ENTREGA - ${dado.id}`} eventKey={index} key={index} id={index}>
                                 <FlexboxGrid style={style}>
                                     <FlexboxGrid.Item style={styleCenter}>
                                         OBSERVAÇÃO - {dado.observacao}
