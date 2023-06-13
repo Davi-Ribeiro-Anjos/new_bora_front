@@ -1,4 +1,4 @@
-import { Button, Col, DateRangePicker, Form, Grid, InputNumber, InputPicker, Row, SelectPicker, useToaster } from "rsuite";
+import { Button, Col, Form, Grid, Input, Row, SelectPicker, useToaster } from "rsuite";
 
 import { useContext } from "react";
 
@@ -11,31 +11,28 @@ import { MainPanelCollapsible } from "../panel";
 import { criarMensagemErro } from "../../services/mensagem";
 
 
-const style = {
+const styles = {
+    input: {
+        width: 250
+    },
     row: {
         marginBottom: 10,
     },
-    form: {
-        width: "17vw"
-    }
 }
 
-const { afterToday } = DateRangePicker;
 
 const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
-    const { status, filiais } = useContext(ChoicesContext);
-    const { choiceUser } = useContext(UsuarioContext);
-    const { auth } = useContext(UsuarioContext)
+    const { filiais } = useContext(ChoicesContext);
+    const { choiceUser } = useContext(UsuarioContext)
     const toaster = useToaster();
 
 
     const limparFiltro = () => {
         setFiltro({
-            numero_solicitacao: null,
-            data_solicitacao_bo: null,
-            status: null,
-            filial: null,
-            solicitante: null,
+            origem: null,
+            destino: null,
+            placa_veiculo: null,
+            autor: null,
         })
     }
 
@@ -87,39 +84,31 @@ const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
         <MainPanelCollapsible title="Filtros">
             <Grid style={{ width: "100%" }}>
                 <Form fluid onChange={setFiltro} formValue={filtro}>
-                    <Row xs={24} style={style.row}>
+                    <Row xs={24} style={styles.row}>
                         <Col xs={12}>
-                            <Form.Group controlId="numero_solicitacao" style={style.form}>
-                                <Form.ControlLabel>Número Solicitação: </Form.ControlLabel>
-                                <Form.Control name="numero_solicitacao" accepter={InputNumber} min={0} />
+                            <Form.Group controlId="origem" style={styles.form}>
+                                <Form.ControlLabel>Origem:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="origem" data={filiais} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
-                            <Form.Group controlId="solicitante" style={style.form}>
-                                <Form.ControlLabel>Solicitante: </Form.ControlLabel>
-                                <Form.Control name="solicitante" data={choiceUser} accepter={SelectPicker} />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row xs={24} style={style.row}>
-                        <Col xs={12}>
-                            <Form.Group controlId="data_solicitacao_bo" style={style.form}>
-                                <Form.ControlLabel>Data Solicitação: </Form.ControlLabel>
-                                <Form.Control name="data_solicitacao_bo" placeholder="Selecione a data Inicial e Final" shouldDisableDate={afterToday()} accepter={DateRangePicker} />
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12}>
-                            <Form.Group controlId="status" style={style.form}>
-                                <Form.ControlLabel>Status: </Form.ControlLabel>
-                                <Form.Control name="status" data={status} accepter={InputPicker} disabledItemValues={auth ? [] : ['CONCLUIDO', 'CANCELADO']} />
+                            <Form.Group controlId="destino" style={styles.form}>
+                                <Form.ControlLabel>Destino:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="destino" data={filiais} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Row xs={24} style={style.row}>
+                    <Row xs={24} style={styles.row}>
                         <Col xs={12}>
-                            <Form.Group controlId="filial" style={style.form}>
-                                <Form.ControlLabel>Filial: </Form.ControlLabel>
-                                <Form.Control name="filial" data={filiais} accepter={SelectPicker} />
+                            <Form.Group controlId="placa_veiculo" style={styles.form}>
+                                <Form.ControlLabel>Placa do Veículo:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="placa_veiculo" accepter={Input} />
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12}>
+                            <Form.Group controlId="autor" style={styles.form}>
+                                <Form.ControlLabel>Autor:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="autor" data={choiceUser} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                     </Row>

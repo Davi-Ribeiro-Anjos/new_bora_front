@@ -10,7 +10,7 @@ import MainModal from '../modal';
 
 
 
-const CriarCompra = ({ abrir, setAbrir, update, setUpdate }) => {
+const CriarCompra = ({ abrir, setAbrir, inverteUpdate }) => {
     const { filiais } = useContext(ChoicesContext)
     const toaster = useToaster();
 
@@ -41,7 +41,7 @@ const CriarCompra = ({ abrir, setAbrir, update, setUpdate }) => {
                 anexo: [],
             })
             setAbrir(false);
-            setUpdate(!update)
+            inverteUpdate()
         }).catch((error) => {
             let listMensagem = {
                 numero_solicitacao: "Número Solicitação",
@@ -53,40 +53,42 @@ const CriarCompra = ({ abrir, setAbrir, update, setUpdate }) => {
         })
     }
 
+    const fechar = () => {
+        setAbrir(false)
+    };
+
     return (
-        <>
-            <MainModal title="Adicionar Solicitação" nomeBotao="Criar" open={abrir} setOpen={setAbrir}
-                form={form} send={enviar}>
-                <Grid fluid>
-                    <Form onChange={(valor) => setForm({ ...form, ...valor })} form={form} layout='inline'>
-                        <Row>
-                            <Col xs={24}>
-                                <Form.Group controlId="name-5">
-                                    <Form.ControlLabel>Código Solicitação:</Form.ControlLabel>
-                                    <Form.Control name="numero_solicitacao" />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={9}>
-                                <Form.Group controlId="inputPicker">
-                                    <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                    <Form.Control name="filial" data={filiais} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                            <Col xs={14}>
-                                <Form.Group controlId="anexo">
-                                    <Form.ControlLabel>Anexo:</Form.ControlLabel>
-                                    <Form.Control name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Grid >
-            </MainModal>
-        </>
+        <MainModal titulo="Adicionar Solicitação" nomeBotao="Criar" open={abrir} setOpen={setAbrir}
+            enviar={enviar} fechar={fechar}>
+            <Grid fluid>
+                <Form onChange={setForm} formValue={form} layout='inline'>
+                    <Row>
+                        <Col xs={24}>
+                            <Form.Group controlId="numero_solicitacao">
+                                <Form.ControlLabel>Código Solicitação:</Form.ControlLabel>
+                                <Form.Control name="numero_solicitacao" />
+                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={9}>
+                            <Form.Group controlId="filial">
+                                <Form.ControlLabel>Filial:</Form.ControlLabel>
+                                <Form.Control name="filial" data={filiais} accepter={SelectPicker} />
+                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                            </Form.Group>
+                        </Col>
+                        <Col xs={14}>
+                            <Form.Group controlId="anexo">
+                                <Form.ControlLabel>Anexo:</Form.ControlLabel>
+                                <Form.Control name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                </Form>
+            </Grid >
+        </MainModal>
     );
 };
 

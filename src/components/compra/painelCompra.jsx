@@ -13,9 +13,9 @@ const styles = {
     }
 }
 
-const PainelCompra = ({ update, setUpdate }) => {
+const PainelCompra = ({ inverteUpdate }) => {
     const [abrir, setAbrir] = useState(false);
-    const modal = () => setAbrir(true);
+    const modalCriar = () => setAbrir(true);
 
     return (
         <>
@@ -23,11 +23,11 @@ const PainelCompra = ({ update, setUpdate }) => {
                 <h2>Painel Compras</h2>
                 <div>
                     <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Nova Solicitação</Tooltip>}>
-                        <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconBu} onClick={() => modal()} />
+                        <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconBu} onClick={() => modalCriar()} />
                     </Whisper>
                 </div>
             </div>
-            <CriarCompra abrir={abrir} setAbrir={setAbrir} update={update} setUpdate={setUpdate} />
+            <CriarCompra abrir={abrir} setAbrir={setAbrir} inverteUpdate={inverteUpdate} />
         </>
     )
 }

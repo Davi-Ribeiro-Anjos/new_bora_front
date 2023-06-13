@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 const { Column, HeaderCell, Cell } = Table;
 
-const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) => {
+const MainTable = ({ update, dado, setDado, buscaDados, colunas, children }) => {
     const [sortColumn, setSortColumn] = useState();
     const [sortType, setSortType] = useState();
 
@@ -16,7 +16,7 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
 
     useEffect(() => {
         setLoading(true)
-        setDado(loadData())
+        setDado(buscaDados())
         setTimeout(() => {
             setLoading(false);
             // setSortColumn(sortColumn);
@@ -78,7 +78,7 @@ const MainTable = ({ update, dado, setDado, loadData, tableColumns, children }) 
                 loading={loading}
             >
                 {
-                    Object.entries(tableColumns).map((key, index) => {
+                    Object.entries(colunas).map((key, index) => {
                         const coluna = {
                             titulo: key[0],
                             dataKey: key[1]['dataKey'],

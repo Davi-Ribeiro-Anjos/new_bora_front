@@ -20,12 +20,15 @@ const Compras = () => {
     const { auth } = useContext(UsuarioContext)
     const toaster = useToaster();
 
-    const [update, setUpdate] = useState(false)
     const [filtro, setFiltro] = useState({})
+    const [update, setUpdate] = useState(false)
+    const inverteUpdate = () => {
+        setUpdate(!update)
+    }
 
     //Data
     const [dado, setDado] = useState([]);
-    const loadData = async () => {
+    const buscaDados = async () => {
         await api.get('solicitacoes-compras/', { params: { ...filtro } }).then((response) => {
             setDado(response.data)
         }).catch((error) => {
@@ -88,7 +91,7 @@ const Compras = () => {
     }
 
     //Table
-    const tableColumns = {
+    const colunas = {
         'Nº Solicitação': { dataKey: 'numero_solicitacao', width: 150 },
         'Dt Solicitação': { dataKey: 'data_solicitacao_bo', width: 170 },
         'Status': { dataKey: 'status', width: 140 },
@@ -102,15 +105,15 @@ const Compras = () => {
 
     return (
         <MainPanel>
-            <PainelCompra update={update} setUpdate={setUpdate} />
+            <PainelCompra inverteUpdate={inverteUpdate} setUpdate={setUpdate} />
 
             <FiltroCompra filtro={filtro} setFiltro={setFiltro} setDado={setDado} />
 
-            <MainTable update={update} dado={dado} setDado={setDado} loadData={loadData} tableColumns={tableColumns} />
+            <MainTable update={update} dado={dado} setDado={setDado} buscaDados={buscaDados} colunas={colunas} />
 
             <EntradaCompra entradas={entradas} abrirEntradas={abrirEntradas} setAbrirEntradas={setAbrirEntradas} />
 
-            <EditarCompra form={formEdit} setForm={setFormEdit} abrir={abrirEdit} setAbrir={setAbrirEdit} update={update} setUpdate={setUpdate} />
+            <EditarCompra form={formEdit} setForm={setFormEdit} abrir={abrirEdit} setAbrir={setAbrirEdit} inverteUpdate={inverteUpdate} setUpdate={setUpdate} />
 
         </MainPanel >
     )

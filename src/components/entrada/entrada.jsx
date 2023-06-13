@@ -14,11 +14,15 @@ const style = {
 }
 
 const Entrada = ({ entradas, abrirEntradas, setAbrirEntradas }) => {
+    const fechar = () => {
+        setAbrirEntradas(false)
+    };
+
     return (
-        <MainModal title="Entradas" view={true} open={abrirEntradas} setOpen={setAbrirEntradas}
-            size='md'>
+        <MainModal titulo="Entradas" view={true} open={abrirEntradas} setOpen={setAbrirEntradas}
+            size='md' fechar={fechar}>
             {entradas.length > 0 ?
-                <PanelGroup accordion bordered>
+                <PanelGroup accordion bordered defaultActiveKey={0}>
                     {entradas.map((dado, index) => {
                         return (
                             <Panel header={`ID ENTREGA - ${dado.id}`} eventKey={index} key={index} id={index}>

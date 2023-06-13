@@ -14,12 +14,13 @@ const App = () => {
 
   return (
     <CustomProvider theme={theme} locale={ptBr}>
-      {auth ? (
+      {/* {auth ? (
         <BasePage />
       ) : (
         <Login />
       )
-      }
+      } */}
+      <BasePage />
     </CustomProvider >
   )
 };

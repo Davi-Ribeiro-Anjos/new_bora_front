@@ -24,10 +24,10 @@ export const criarMensagemErro = (error, listMensagem, toaster) => {
             toaster.push(mensagem, { placement: 'topEnd', duration: 6000 })
         }
     } else {
-        console.log(error)
+        const erro = error.response.data.mensagem
         let mensagem = (
             < Message showIcon type="error" closable >
-                Erro - Ocorreu um erro.
+                {erro || "Erro - Ocorreu um erro."}
             </ Message>
         )
         toaster.push(mensagem, { placement: 'topEnd', duration: 6000 })
