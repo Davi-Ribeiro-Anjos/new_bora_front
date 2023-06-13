@@ -1,11 +1,11 @@
 import { useState } from "react"
-import MainNavBar from "./navBar"
+import MainNavBar from "./header/navBar"
 import { Container, Content, Footer, Header } from "rsuite"
-import RoutesMain from "../../routes"
-import MainSideBar from "./sideBar"
+import RoutesMain from "../routes"
+import MainSideBar from "./header/sideBar"
 
 
-const MainHeader = () => {
+const BasePage = () => {
     const [mobile, setMobile] = useState(false)
     return (
         <>
@@ -38,4 +38,4 @@ const MainHeader = () => {
     )
 }
 
-export default MainHeader
+export default BasePage

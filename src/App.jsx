@@ -1,14 +1,11 @@
-import { Container, Content, CustomProvider, Footer, Header, Sidebar } from 'rsuite';
+import { CustomProvider } from 'rsuite';
 import ptBr from 'rsuite/locales/pt_BR';
 
-import MainNavBar from "./components/header/navBar";
-import RoutesMain from "./routes";
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from './providers/themeProviders';
-import MainSideBar from './components/header/sideBar';
 import { UsuarioContext } from './providers/usuarioProviders';
 import Login from './components/login/login';
-import MainHeader from './components/header/header';
+import BasePage from './components/basePage';
 
 
 const App = () => {
@@ -17,12 +14,13 @@ const App = () => {
 
   return (
     <CustomProvider theme={theme} locale={ptBr}>
-      {auth ? (
-        <MainHeader />
+      {/* {auth ? (
+        <BasePage />
       ) : (
         <Login />
       )
-      }
+      } */}
+      <BasePage />
     </CustomProvider >
   )
 };

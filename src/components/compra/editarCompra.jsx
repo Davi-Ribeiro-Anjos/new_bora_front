@@ -1,4 +1,4 @@
-import { Form, Uploader, DatePicker, Grid, Row, Col, InputPicker, Input, Panel, Checkbox, useToaster } from 'rsuite';
+import { Form, Uploader, DatePicker, Grid, Row, Col, InputPicker, Input, Panel, Checkbox, useToaster, SelectPicker } from 'rsuite';
 
 import { useContext, forwardRef } from 'react';
 
@@ -14,12 +14,15 @@ import { criarMensagemErro, criarMensagemOk } from '../../services/mensagem';
 const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const style = {
+    input: {
+        width: 250
+    },
     row: {
         marginBottom: 10,
     }
 }
 
-const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => {
+const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
     const { status, categorias, departamentos, formasPgt, choicesFiliais } = useContext(ChoicesContext)
     const { usuarios, choiceUser, auth } = useContext(UsuarioContext)
     const toaster = useToaster();
@@ -60,16 +63,17 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => 
         setForm({})
         setAbrir(false);
 
-        setUpdate(!update)
+        inverteUpdate()
     }
 
-    const close = () => {
-        setUpdate(!update)
-    }
+    const fechar = () => {
+        setAbrir(false)
+        inverteUpdate()
+    };
 
     return (
-        <MainModal title={form.numero_solicitacao ? `Editar a Solicitação ${form.numero_solicitacao}` : 'Editar a Solicitação'} nomeBotao="Editar" size='md' open={abrir} setOpen={setAbrir}
-            send={enviar} close={close} >
+        <MainModal titulo={form.numero_solicitacao ? `Editar a Solicitação ${form.numero_solicitacao}` : 'Editar a Solicitação'} nomeBotao="Editar" size='md' open={abrir}
+            enviar={enviar} fechar={fechar} >
             <Grid fluid>
                 <Row xs={24}>
                     <Panel header="Informações da Solicitação">
@@ -99,7 +103,7 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => 
                                     <Col xs={12}>
                                         <Form.Group controlId="responsavel">
                                             <Form.ControlLabel>Responsavel:</Form.ControlLabel>
-                                            <Form.Control name="responsavel" data={choiceUser} accepter={InputPicker} />
+                                            <Form.Control name="responsavel" data={choiceUser} accepter={SelectPicker} />
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -125,13 +129,12 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => 
                                         </Form.Group>
                                     </Col>
                                     <Col xs={12}>
-                                        {form.forma_pagamento === 'NÃO INFORMADO' ? <></>
-                                            :
+                                        {form.forma_pagamento !== 'NÃO INFORMADO' && (
                                             <Form.Group controlId="data_vencimento_boleto">
                                                 <Form.ControlLabel>Vencimento:</Form.ControlLabel>
                                                 <Form.Control name="data_vencimento_boleto" accepter={DatePicker} />
                                             </Form.Group>
-                                        }
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row style={style.row}>
@@ -141,21 +144,20 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, update, setUpdate }) => 
                                             <Form.Control name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
                                         </Form.Group>
                                     </Col>
-                                    {form.status === "CONCLUIDO" ? (
+                                    {form.status === "CONCLUIDO" && (
                                         <Col xs={12}>
                                             <Form.Group controlId="pago">
                                                 <Form.ControlLabel>Pagamento:</Form.ControlLabel>
                                                 <Form.Control name="pago" checked={form.pago} onChange={(value) => setForm({ ...form, pago: !value })} accepter={Checkbox} >Pago</Form.Control>
                                             </Form.Group>
                                         </Col>
-                                    ) : <></>
-                                    }
+                                    )}
                                 </Row>
                                 <Row style={style.row}>
                                     <Col xs={24}>
                                         <Form.Group controlId="observacao">
                                             <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                            <Form.Control rows={5} name="observacao" accepter={Textarea} />
+                                            <Form.Control rows={5} name="observacao" value={form.observacao} accepter={Textarea} />
                                         </Form.Group>
                                     </Col>
                                 </Row>

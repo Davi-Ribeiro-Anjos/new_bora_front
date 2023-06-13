@@ -14,33 +14,37 @@ const style = {
 }
 
 const Entrada = ({ entradas, abrirEntradas, setAbrirEntradas }) => {
+    const fechar = () => {
+        setAbrirEntradas(false)
+    };
+
     return (
-        <MainModal title="Entradas" view={true} open={abrirEntradas} setOpen={setAbrirEntradas}
-            size='md'>
+        <MainModal titulo="Entradas" view={true} open={abrirEntradas} setOpen={setAbrirEntradas}
+            size='md' fechar={fechar}>
             {entradas.length > 0 ?
-                <PanelGroup accordion bordered>
+                <PanelGroup accordion bordered defaultActiveKey={0}>
                     {entradas.map((dado, index) => {
                         return (
-                            <Panel header={`ID ENTREGA - ${dado.id}`} eventKey={index} id={dado.id}>
+                            <Panel header={`ID ENTREGA - ${dado.id}`} eventKey={index} key={index} id={index}>
                                 <FlexboxGrid style={style}>
                                     <FlexboxGrid.Item style={styleCenter}>
                                         OBSERVAÇÃO - {dado.observacao}
                                     </FlexboxGrid.Item>
-                                    {dado.arquivo_1 ? (
+                                    {dado.arquivo_1 && (
                                         <FlexboxGrid.Item style={styleCenter}>
                                             ANEXO 1 - {dado.arquivo_1}
                                         </FlexboxGrid.Item>
-                                    ) : <></>}
-                                    {dado.arquivo_2 ? (
+                                    )}
+                                    {dado.arquivo_2 && (
                                         <FlexboxGrid.Item style={styleCenter}>
                                             ANEXO 2 - {dado.arquivo_2}
                                         </FlexboxGrid.Item>
-                                    ) : <></>}
-                                    {dado.arquivo_3 ? (
+                                    )}
+                                    {dado.arquivo_3 && (
                                         <FlexboxGrid.Item style={styleCenter}>
                                             ANEXO 3 - {dado.arquivo_3}
                                         </FlexboxGrid.Item>
-                                    ) : <></>}
+                                    )}
                                 </FlexboxGrid>
                             </Panel>
                         )

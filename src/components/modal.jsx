@@ -1,17 +1,10 @@
 import { Modal, Button } from 'rsuite';
 
-const MainModal = ({ send, open, setOpen, title, nomeBotao, overflow = false, view = false, close = false, size = 'sm', children }) => {
-    const handleClose = () => {
-        setOpen(false)
-        if (close) {
-            close()
-        }
-    };
-
+const MainModal = ({ enviar, open, titulo, nomeBotao, overflow = false, view = false, fechar, size = 'sm', children }) => {
     return (
-        <Modal overflow={overflow} size={size} open={open} onClose={() => handleClose()}>
+        <Modal overflow={overflow} size={size} open={open} onClose={() => fechar()}>
             <Modal.Header>
-                <Modal.Title>{title}</Modal.Title>
+                <Modal.Title>{titulo}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {children}
@@ -19,15 +12,15 @@ const MainModal = ({ send, open, setOpen, title, nomeBotao, overflow = false, vi
             <Modal.Footer>
                 {view === false ?
                     <>
-                        <Button onClick={() => send()} appearance="primary">
+                        <Button onClick={() => enviar()} appearance="primary">
                             {nomeBotao}
                         </Button>
-                        <Button onClick={() => handleClose()} appearance="subtle">
+                        <Button onClick={() => fechar()} appearance="subtle">
                             Cancelar
                         </Button>
                     </>
                     :
-                    <Button onClick={() => handleClose()} appearance="subtle">
+                    <Button onClick={() => fechar()} appearance="subtle">
                         Fechar
                     </Button>
                 }
