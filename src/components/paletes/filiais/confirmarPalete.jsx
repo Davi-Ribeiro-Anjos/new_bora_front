@@ -1,6 +1,6 @@
 import { Col, Grid, Input, Row } from 'rsuite';
 
-import MainModal from '../modal';
+import MainModal from '../../modal';
 
 const styles = {
     input: {

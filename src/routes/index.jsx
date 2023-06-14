@@ -17,7 +17,7 @@ const RoutesMain = () => {
             <Route path="/" element={<Home />} exact />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/paletes" element={<Paletes />} exact />
+            <Route path="/paletes-filiais" element={<Paletes />} exact />
             {/* <Route path="/transferencia-andamento" element={<TransferenciaAndamento />} exact /> */}
             <Route path="/compras" element={<Compras />} exact />
             <Route path="/justificativa" element={<Justificativa />} />

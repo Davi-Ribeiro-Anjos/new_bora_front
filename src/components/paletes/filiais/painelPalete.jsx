@@ -4,7 +4,7 @@ import InfoOutlineIcon from '@rsuite/icons/InfoOutline';
 
 import { useState } from "react";
 
-import CriarPalete from "./criarPalete";
+import CriarTransferencia from "./criarTransferencia";
 import InfoPalete from "./infoPalete";
 
 
@@ -37,7 +37,7 @@ const PainelPalete = ({ inverteUpdate }) => {
                     </Whisper>
                 </div>
             </div>
-            <CriarPalete abrirCriar={abrirCriar} setAbrirCriar={setAbrirCriar} inverteUpdate={inverteUpdate} />
+            <CriarTransferencia abrirCriar={abrirCriar} setAbrirCriar={setAbrirCriar} inverteUpdate={inverteUpdate} />
             <InfoPalete abrirInfo={abrirInfo} setAbrirInfo={setAbrirInfo} />
         </>
     )

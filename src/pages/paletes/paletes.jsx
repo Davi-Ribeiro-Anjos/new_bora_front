@@ -7,10 +7,10 @@ import { api } from "../../services/api";
 import { UsuarioContext } from "../../providers/usuarioProviders";
 
 import { MainPanel } from "../../components/panel";
-import PainelPalete from "../../components/paletes/painelPalete";
-import FiltroPalete from "../../components/paletes/filtroPalete";
+import PainelPalete from "../../components/paletes/filiais/painelPalete";
+import FiltroPalete from "../../components/paletes/filiais/filtroPalete";
+import ConfirmarPalete from "../../components/paletes/filiais/confirmarPalete";
 import MainTable from "../../components/table";
-import ConfirmarPalete from "../../components/paletes/confirmarPalete";
 
 
 const Paletes = () => {

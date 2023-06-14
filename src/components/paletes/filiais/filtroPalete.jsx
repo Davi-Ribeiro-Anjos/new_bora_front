@@ -2,13 +2,13 @@ import { Button, Col, Form, Grid, Input, Row, SelectPicker, useToaster } from "r
 
 import { useContext } from "react";
 
-import { api } from "../../services/api";
-import { dataParaString } from "../../services/data";
-import { ChoicesContext } from "../../providers/choicesProviders";
-import { UsuarioContext } from "../../providers/usuarioProviders";
+import { api } from "../../../services/api";
+import { dataParaString } from "../../../services/data";
+import { criarMensagemErro } from "../../../services/mensagem";
+import { ChoicesContext } from "../../../providers/choicesProviders";
+import { UsuarioContext } from "../../../providers/usuarioProviders";
 
-import { MainPanelCollapsible } from "../panel";
-import { criarMensagemErro } from "../../services/mensagem";
+import { MainPanelCollapsible } from "../../panel";
 
 
 const styles = {
