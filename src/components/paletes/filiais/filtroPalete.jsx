@@ -1,9 +1,8 @@
-import { Button, Col, Form, Grid, Input, Row, SelectPicker, useToaster } from "rsuite";
+import { Button, Checkbox, Col, Form, Grid, Input, Row, SelectPicker, useToaster } from "rsuite";
 
 import { useContext } from "react";
 
 import { api } from "../../../services/api";
-import { dataParaString } from "../../../services/data";
 import { criarMensagemErro } from "../../../services/mensagem";
 import { ChoicesContext } from "../../../providers/choicesProviders";
 import { UsuarioContext } from "../../../providers/usuarioProviders";
@@ -31,52 +30,48 @@ const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
         setFiltro({
             origem: null,
             destino: null,
-            placa_veiculo: null,
+            placa_veiculo: '',
             autor: null,
+            recebido: false,
         })
     }
 
     const filtrarDados = async () => {
         let novoFiltro = filtro;
 
-        const data_solicitacao_bo = filtro.data_solicitacao_bo
-        const solicitante = filtro.solicitante
+        if (novoFiltro.placa_veiculo) {
+            novoFiltro['placa_veiculo__contains'] = novoFiltro.placa_veiculo
 
-        if (novoFiltro.data_solicitacao_bo) {
-            let dataInicio = novoFiltro.data_solicitacao_bo[0];
-            let dataFim = novoFiltro.data_solicitacao_bo[1];
-            novoFiltro['data_solicitacao_bo__gte'] = dataParaString(dataInicio) + "T00:00:00";
-            novoFiltro['data_solicitacao_bo__lte'] = dataParaString(dataFim) + "T23:59:59";
-
-            delete novoFiltro.data_solicitacao_bo
+            delete novoFiltro.placa_veiculo
+        } else {
+            delete novoFiltro.placa_veiculo
         }
 
-        if (novoFiltro.solicitante) {
-            novoFiltro['solicitante__username'] = novoFiltro.solicitante
+        if (novoFiltro.autor) {
+            novoFiltro['autor__username'] = novoFiltro.autor
 
-            delete novoFiltro.solicitante
+            delete novoFiltro.autor
         }
 
-        await api.get('solicitacoes-compras/', { params: { ...novoFiltro } }).then((response) => {
+        await api.get('paletes-movimentos/', { params: { ...novoFiltro } }).then((response) => {
             setDado(response.data)
         }).catch((error) => {
             let listMensagem = {
-                numero_solicitacao: "Número Solicitação",
-                status: "Status",
-                filial: "Filial",
-                solicitante: "Solicitante",
-                data_solicitacao_bo: "Data Solicitação"
+                origem: "Origem",
+                destino: "Destino",
+                placa_veiculo: "Placa do Veiculo",
+                autor: "Autor",
+                recebido: "Recebido"
             }
             criarMensagemErro(error, listMensagem, toaster)
         })
 
-
         setFiltro({
-            numero_solicitacao: filtro.numero_solicitacao || null,
-            data_solicitacao_bo: data_solicitacao_bo || null,
-            status: filtro.status || null,
-            filial: filtro.filial || null,
-            solicitante: solicitante || null,
+            origem: filtro.origem || null,
+            destino: filtro.destino || null,
+            placa_veiculo: filtro.placa_veiculo || '',
+            recebido: filtro.recebido || false,
+            autor: filtro.autor || null,
         })
     }
 
@@ -86,13 +81,13 @@ const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
                 <Form fluid onChange={setFiltro} formValue={filtro}>
                     <Row xs={24} style={styles.row}>
                         <Col xs={12}>
-                            <Form.Group controlId="origem" style={styles.form}>
+                            <Form.Group style={styles.form}>
                                 <Form.ControlLabel>Origem:</Form.ControlLabel>
                                 <Form.Control style={styles.input} name="origem" data={filiais} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
-                            <Form.Group controlId="destino" style={styles.form}>
+                            <Form.Group style={styles.form}>
                                 <Form.ControlLabel>Destino:</Form.ControlLabel>
                                 <Form.Control style={styles.input} name="destino" data={filiais} accepter={SelectPicker} />
                             </Form.Group>
@@ -100,15 +95,23 @@ const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
                     </Row>
                     <Row xs={24} style={styles.row}>
                         <Col xs={12}>
-                            <Form.Group controlId="placa_veiculo" style={styles.form}>
+                            <Form.Group style={styles.form}>
                                 <Form.ControlLabel>Placa do Veículo:</Form.ControlLabel>
                                 <Form.Control style={styles.input} name="placa_veiculo" accepter={Input} />
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
-                            <Form.Group controlId="autor" style={styles.form}>
+                            <Form.Group style={styles.form}>
                                 <Form.ControlLabel>Autor:</Form.ControlLabel>
                                 <Form.Control style={styles.input} name="autor" data={choiceUser} accepter={SelectPicker} />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row xs={24} style={styles.row}>
+                        <Col xs={12}>
+                            <Form.Group style={styles.form}>
+                                <Form.ControlLabel>Transferências Recebidas:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="recebido" checked={filtro.recebido} onChange={(value) => setFiltro({ ...filtro, recebido: !value })} accepter={Checkbox} />
                             </Form.Group>
                         </Col>
                     </Row>

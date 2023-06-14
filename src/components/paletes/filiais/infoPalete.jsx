@@ -68,21 +68,33 @@ const InfoPalete = ({ abrirInfo, setAbrirInfo }) => {
     return (
         <>
             <MainModal open={abrirInfo} setOpen={setAbrirInfo} titulo="Quantidade de Paletes por Garagem" nomeBotao="Adicionar Paletes" size='full' enviar={abrir} fechar={fechar} >
+                {paletes.length > 0 && (
+                    <Row>
+                        <Col xs={23}></Col>
+                        <Col xs={1}>
+                            <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Baixar CSV</Tooltip>}>
+                                <IconButton icon={<PageIcon />} appearance="primary" color="cyan" style={styles.iconBu} onClick={() => null} />
+                            </Whisper></Col>
+                    </Row>
+                )}
                 <Row>
-                    <Col xs={23}></Col>
-                    <Col xs={1}>
-                        <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Baixar CSV</Tooltip>}>
-                            <IconButton icon={<PageIcon />} appearance="primary" color="green" style={styles.iconBu} onClick={() => null} />
-                        </Whisper></Col>
+                    {paletes.length > 0 ? (
+                        paletes.map((valor, index) => {
+                            return (
+                                <Card key={index} titulo={valor.localizacao_atual} quantidade={valor} />
+                            )
+                        })
+
+                    ) : (
+                        <p>
+                            Não tem paletes cadastrados.
+                        </p>
+
+                    )
+                    }
+
                 </Row>
-                <Row>
-                    {paletes.map((valor, index) => {
-                        return (
-                            <Card key={index} titulo={valor.localizacao_atual} quantidade={valor} />
-                        )
-                    })}
-                </Row>
-            </MainModal>
+            </MainModal >
             <CriarPaletes abrirCriar={abrirCriar} setAbrirCriar={setAbrirCriar} setAbrirInfo={setAbrirInfo} inverteUpdate={inverteUpdate} />
         </>
     )

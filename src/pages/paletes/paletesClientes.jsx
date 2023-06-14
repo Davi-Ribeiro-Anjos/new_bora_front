@@ -13,7 +13,7 @@ import ConfirmarPalete from "../../components/paletes/filiais/confirmarPalete";
 import MainTable from "../../components/table";
 
 
-const Paletes = () => {
+const PaletesFiliais = () => {
     const { auth } = useContext(UsuarioContext)
     const toaster = useToaster();
 
@@ -71,4 +71,4 @@ const Paletes = () => {
     )
 }
 
-export default Paletes;
+export default PaletesFiliais;

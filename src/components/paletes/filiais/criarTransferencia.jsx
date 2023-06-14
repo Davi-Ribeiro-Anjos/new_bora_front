@@ -72,6 +72,7 @@ const CriarTransferencia = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
                 api.post('paletes-movimentos/', elemento).then(response => {
                     criarMensagemOk("Sucesso - Transferência realizada.", toaster)
                     inverteUpdate()
+                    fechar()
                 }).catch(error => {
                     let listMensagem = {
                         conferente: "Conferente",
@@ -86,7 +87,6 @@ const CriarTransferencia = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
             }
         }
 
-        fechar()
     }
 
     //Destino
