@@ -46,12 +46,24 @@ export const stringParaData = (data, soma = false) => {
     return new Date(dataFinal)
 }
 
-export const dataParaString = (data) => {
+export const dataParaString = (data, hora = false, pt = false) => {
     const ano = data.getFullYear();
     const mes = String(data.getMonth() + 1).padStart(2, '0');
     const dia = String(data.getDate()).padStart(2, '0');
 
-    const dataFormatada = `${ano}-${mes}-${dia}`;
+    let dataFormatada = `${ano}-${mes}-${dia}`;
+
+    if (pt) {
+        dataFormatada = `${dia}-${mes}-${ano}`;
+    }
+
+    if (hora) {
+        const hora = String(data.getHours()).padStart(2, '0');
+        const minuto = String(data.getMinutes()).padStart(2, '0');
+        const segundo = String(data.getSeconds()).padStart(2, '0');
+
+        dataFormatada += ` ${hora}:${minuto}:${segundo}`
+    }
 
     return dataFormatada
 }

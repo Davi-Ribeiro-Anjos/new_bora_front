@@ -4,8 +4,8 @@ import InfoOutlineIcon from '@rsuite/icons/InfoOutline';
 
 import { useState } from "react";
 
-import CriarPalete from "./criarPalete";
-import InfoPalete from "./infoPalete";
+import CriarTransferenciaFilial from "./criarTransferenciaFilial";
+import InfoPaleteFilial from "./infoPaleteFilial";
 
 
 const styles = {
@@ -17,7 +17,7 @@ const styles = {
     },
 }
 
-const PainelPalete = ({ inverteUpdate }) => {
+const PainelPaleteFilial = ({ update, inverteUpdate }) => {
     const [abrirCriar, setAbrirCriar] = useState(false);
     const modalCriar = () => setAbrirCriar(true);
 
@@ -27,7 +27,7 @@ const PainelPalete = ({ inverteUpdate }) => {
     return (
         <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>Painel Paletes</h2>
+                <h2>Painel Paletes Filiais</h2>
                 <div>
                     <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Solicitar Transferência</Tooltip>}>
                         <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconBu} onClick={() => modalCriar()} />
@@ -37,10 +37,10 @@ const PainelPalete = ({ inverteUpdate }) => {
                     </Whisper>
                 </div>
             </div>
-            <CriarPalete abrirCriar={abrirCriar} setAbrirCriar={setAbrirCriar} inverteUpdate={inverteUpdate} />
-            <InfoPalete abrirInfo={abrirInfo} setAbrirInfo={setAbrirInfo} />
+            <CriarTransferenciaFilial abrirCriar={abrirCriar} setAbrirCriar={setAbrirCriar} inverteUpdate={inverteUpdate} />
+            <InfoPaleteFilial abrirInfo={abrirInfo} setAbrirInfo={setAbrirInfo} update={update} inverteUpdate={inverteUpdate} />
         </>
     )
 }
 
-export default PainelPalete;
+export default PainelPaleteFilial;

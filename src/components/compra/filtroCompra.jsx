@@ -11,12 +11,12 @@ import { MainPanelCollapsible } from "../panel";
 import { criarMensagemErro } from "../../services/mensagem";
 
 
-const style = {
+const styles = {
     row: {
         marginBottom: 10,
     },
-    form: {
-        width: "17vw"
+    input: {
+        width: 250
     }
 }
 
@@ -87,56 +87,56 @@ const FiltroCompra = ({ filtro, setFiltro, setDado }) => {
         <MainPanelCollapsible title="Filtros">
             <Grid style={{ width: "100%" }}>
                 <Form fluid onChange={setFiltro} formValue={filtro}>
-                    <Row xs={24} style={style.row}>
+                    <Row xs={24} style={styles.row}>
                         <Col xs={12}>
-                            <Form.Group controlId="numero_solicitacao" style={style.form}>
+                            <Form.Group >
                                 <Form.ControlLabel>Número Solicitação: </Form.ControlLabel>
-                                <Form.Control name="numero_solicitacao" accepter={InputNumber} min={0} />
+                                <Form.Control style={styles.input} name="numero_solicitacao" accepter={InputNumber} min={0} />
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
-                            <Form.Group controlId="solicitante" style={style.form}>
+                            <Form.Group >
                                 <Form.ControlLabel>Solicitante: </Form.ControlLabel>
-                                <Form.Control name="solicitante" data={choiceUser} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="solicitante" data={choiceUser} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Row xs={24} style={style.row}>
+                    <Row xs={24} style={styles.row}>
                         <Col xs={12}>
-                            <Form.Group controlId="data_solicitacao_bo" style={style.form}>
+                            <Form.Group >
                                 <Form.ControlLabel>Data Solicitação: </Form.ControlLabel>
-                                <Form.Control name="data_solicitacao_bo" placeholder="Selecione a data Inicial e Final" shouldDisableDate={afterToday()} accepter={DateRangePicker} />
+                                <Form.Control style={styles.input} name="data_solicitacao_bo" placeholder="Selecione a data Inicial e Final" shouldDisableDate={afterToday()} accepter={DateRangePicker} />
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
-                            <Form.Group controlId="status" style={style.form}>
+                            <Form.Group >
                                 <Form.ControlLabel>Status: </Form.ControlLabel>
-                                <Form.Control name="status" data={status} accepter={InputPicker} disabledItemValues={auth ? [] : ['CONCLUIDO', 'CANCELADO']} />
+                                <Form.Control style={styles.input} name="status" data={status} accepter={InputPicker} disabledItemValues={auth ? [] : ['CONCLUIDO', 'CANCELADO']} />
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Row xs={24} style={style.row}>
+                    <Row xs={24} style={styles.row}>
                         <Col xs={12}>
-                            <Form.Group controlId="filial" style={style.form}>
+                            <Form.Group >
                                 <Form.ControlLabel>Filial: </Form.ControlLabel>
-                                <Form.Control name="filial" data={filiais} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="filial" data={filiais} accepter={SelectPicker} />
                             </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={20}></Col>
-                        <Col xs={2}>
-                            <Button onClick={() => filtrarDados()} appearance="primary">
-                                Filtrar
-                            </Button>
-                        </Col>
-                        <Col xs={2}>
-                            <Button onClick={() => limparFiltro()}>
-                                Limpar
-                            </Button>
                         </Col>
                     </Row>
                 </Form>
+                <Row>
+                    <Col xs={20}></Col>
+                    <Col xs={2}>
+                        <Button onClick={() => filtrarDados()} appearance="primary">
+                            Filtrar
+                        </Button>
+                    </Col>
+                    <Col xs={2}>
+                        <Button onClick={() => limparFiltro()}>
+                            Limpar
+                        </Button>
+                    </Col>
+                </Row>
             </Grid>
         </MainPanelCollapsible>
     )

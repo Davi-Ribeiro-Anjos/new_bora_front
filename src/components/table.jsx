@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 const { Column, HeaderCell, Cell } = Table;
 
+
 const MainTable = ({ update, dado, setDado, buscaDados, colunas, children }) => {
     const [sortColumn, setSortColumn] = useState();
     const [sortType, setSortType] = useState();
@@ -95,7 +96,7 @@ const MainTable = ({ update, dado, setDado, buscaDados, colunas, children }) => 
                         }
 
                         return coluna.needAuth ? (
-                            coluna.auth ? (
+                            coluna.auth && (
                                 <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
                                     <HeaderCell>{coluna.titulo}</HeaderCell>
                                     <Cell style={{ padding: '6px' }}>
@@ -104,7 +105,7 @@ const MainTable = ({ update, dado, setDado, buscaDados, colunas, children }) => 
                                         }}
                                     </Cell>
                                 </Column>
-                            ) : <></>
+                            )
                         ) : (
                             coluna.dataKey === "botao" ? (
                                 <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
@@ -115,13 +116,12 @@ const MainTable = ({ update, dado, setDado, buscaDados, colunas, children }) => 
                                         }}
                                     </Cell>
                                 </Column>
-                            ) :
-                                (
-                                    <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
-                                        <HeaderCell>{coluna.titulo}</HeaderCell>
-                                        <Cell dataKey={coluna.dataKey} />
-                                    </Column>
-                                )
+                            ) : (
+                                <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
+                                    <HeaderCell>{coluna.titulo}</HeaderCell>
+                                    <Cell dataKey={coluna.dataKey} />
+                                </Column>
+                            )
                         )
 
                     })

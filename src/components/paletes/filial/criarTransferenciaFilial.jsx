@@ -2,11 +2,11 @@ import { Button, ButtonGroup, ButtonToolbar, Col, Form, Grid, Input, InputNumber
 
 import { useContext, useState } from 'react';
 
-import { ChoicesContext } from '../../providers/choicesProviders';
+import { api } from '../../../services/api';
+import { criarMensagemErro, criarMensagemOk } from '../../../services/mensagem';
+import { ChoicesContext } from '../../../providers/choicesProviders';
 
-import MainModal from '../modal';
-import { api } from '../../services/api';
-import { criarMensagemErro, criarMensagemOk } from '../../services/mensagem';
+import MainModal from '../../modal';
 
 const styles = {
     input: {
@@ -21,8 +21,8 @@ const GrupoBotao = ({ mostrarSimples, mostrarComposto }) => {
     return (
         <ButtonToolbar>
             <ButtonGroup>
-                <Button appearance="default" onClick={() => mostrarSimples()}>Único</Button>
-                <Button appearance="default" onClick={() => mostrarComposto()}>Vários</Button>
+                <Button appearance="primary" color='cyan' onClick={() => mostrarSimples()}>Único</Button>
+                <Button appearance="primary" color='cyan' onClick={() => mostrarComposto()}>Vários</Button>
             </ButtonGroup>
         </ButtonToolbar>
     )
@@ -30,7 +30,7 @@ const GrupoBotao = ({ mostrarSimples, mostrarComposto }) => {
 
 const tipo_palete = ["PBR", "CHEP"].map(item => ({ label: item, value: item }));
 
-const CriarPalete = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
+const CriarTransferenciaFilial = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
     const { filiais } = useContext(ChoicesContext)
     const toaster = useToaster();
 
@@ -44,7 +44,6 @@ const CriarPalete = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
     })
 
     const enviar = () => {
-        // delete form.destinos
         const lista_forms = []
         for (const index in form.destinos) {
             if (Object.hasOwnProperty.call(form.destinos, index)) {
@@ -70,17 +69,18 @@ const CriarPalete = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
             if (Object.hasOwnProperty.call(lista_forms, movimento)) {
                 const elemento = lista_forms[movimento];
 
-
                 api.post('paletes-movimentos/', elemento).then(response => {
                     criarMensagemOk("Sucesso - Transferência realizada.", toaster)
                     inverteUpdate()
+                    fechar()
                 }).catch(error => {
                     let listMensagem = {
                         conferente: "Conferente",
                         destino: "Destino",
                         motorista: "Motorista",
                         origem: "Origem",
-                        placa_veiculo: "Placa Veiculo"
+                        placa_veiculo: "Placa Veiculo",
+                        quantidade_paletes: "Quantidade Paletes"
                     }
 
                     criarMensagemErro(error, listMensagem, toaster)
@@ -88,8 +88,6 @@ const CriarPalete = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
             }
         }
 
-
-        fechar()
     }
 
     //Destino
@@ -168,7 +166,7 @@ const CriarPalete = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
                             </Col>
                             <Col xs={12}>
                                 <Form.Group>
-                                    <Form.ControlLabel>Quantidade:</Form.ControlLabel>
+                                    <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="quantidade_paletes-0" accepter={InputNumber} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
@@ -238,4 +236,4 @@ const CriarPalete = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
     )
 }
 
-export default CriarPalete;
+export default CriarTransferenciaFilial;

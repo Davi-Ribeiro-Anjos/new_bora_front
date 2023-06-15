@@ -35,8 +35,8 @@ const MainNavBar = () => {
                     Login
                 </Nav.Item>
                 <Nav.Menu title="Paletes">
-                    <Nav.Item onClick={() => navegate('/paletes')} eventKey="31">Paletes</Nav.Item>
-                    <Nav.Item onClick={() => navegate('/transferencia-andamento')} eventKey="32">Transferências</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/paletes-filiais')} eventKey="31">Paletes Filiais</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/paletes-clientes')} eventKey="32">Paletes Clientes</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu title="Ferramentas">
                     <Nav.Item onClick={() => navegate('/compras')} eventKey="41">Compras</Nav.Item>
