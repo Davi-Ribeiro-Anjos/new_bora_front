@@ -2,13 +2,13 @@ import { Button, Col, DateRangePicker, Form, Grid, InputNumber, InputPicker, Row
 
 import { useContext } from "react";
 
-import { api } from "../../services/api";
 import { dataParaString } from "../../services/data";
+import { criarMensagemErro } from "../../services/mensagem";
 import { ChoicesContext } from "../../providers/choicesProviders";
 import { UsuarioContext } from "../../providers/usuarioProviders";
+import { ApiContext } from '../../providers/apiProviders';
 
 import { MainPanelCollapsible } from "../panel";
-import { criarMensagemErro } from "../../services/mensagem";
 
 
 const styles = {
@@ -24,8 +24,8 @@ const { afterToday } = DateRangePicker;
 
 const FiltroCompra = ({ filtro, setFiltro, setDado }) => {
     const { status, filiais } = useContext(ChoicesContext);
-    const { choiceUser } = useContext(UsuarioContext);
-    const { auth } = useContext(UsuarioContext)
+    const { auth, choiceUser } = useContext(UsuarioContext);
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
 

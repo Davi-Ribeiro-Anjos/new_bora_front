@@ -1,10 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import { api } from "../services/api";
+import { ApiContext } from './apiProviders';
 
 export const ChoicesContext = createContext({});
 
 export const ChoicesProvider = ({ children }) => {
+    const { api } = useContext(ApiContext)
+
     const [status, setStatus] = useState([])
     const [categorias, setCategorias] = useState([])
     const [departamentos, setDepartamentos] = useState([])
@@ -15,6 +17,7 @@ export const ChoicesProvider = ({ children }) => {
     useEffect(() => {
         getChoices()
         selectFilial()
+        // eslint-disable-next-line
     }, []);
 
     const getChoices = async () => {

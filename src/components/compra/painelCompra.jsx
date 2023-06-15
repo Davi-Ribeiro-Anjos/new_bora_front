@@ -1,7 +1,9 @@
 import { IconButton, Tooltip, Whisper } from "rsuite"
 import PlusIcon from '@rsuite/icons/Plus';
-import CriarCompra from "./criarCompra";
+
 import { useState } from "react";
+
+import CriarCompra from "./criarCompra";
 
 
 const styles = {

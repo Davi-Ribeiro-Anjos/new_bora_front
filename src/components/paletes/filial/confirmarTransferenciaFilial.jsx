@@ -1,8 +1,10 @@
 import { Col, Grid, Input, InputNumber, Row, useToaster } from 'rsuite';
 
-import { api } from '../../../services/api';
+import { useContext } from 'react';
+
 import { dataParaString, stringParaData } from '../../../services/data';
 import { criarMensagemErro, criarMensagemOk } from '../../../services/mensagem';
+import { ApiContext } from '../../../providers/apiProviders';
 
 import MainModal from '../../modal';
 
@@ -16,6 +18,7 @@ const styles = {
 }
 
 const ConfirmarTransferenciaFilial = ({ form, setForm, abrirConfirmar, setAbrirConfirmar, inverteUpdate }) => {
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
     const confirmar = () => {

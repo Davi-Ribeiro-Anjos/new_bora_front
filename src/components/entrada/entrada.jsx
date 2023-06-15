@@ -1,19 +1,23 @@
-import { FlexboxGrid, Panel, PanelGroup } from "rsuite"
+import { Button, Col, Grid, Panel, PanelGroup, Row } from "rsuite"
+
+import { useContext } from "react";
+
+import { ApiContext } from '../../providers/apiProviders';
+
 import MainModal from "../modal";
 
-const styleCenter = {
-    justifyContent: 'center',
-    alignItems: 'center',
-    // height: '30px',
-    margin: '10px 0'
-};
-
-const style = {
-    display: 'flex',
-    flexDirection: 'column'
+const styles = {
+    row: {
+        marginBottom: 10,
+    },
+    col: {
+        marginRigth: 10
+    }
 }
 
 const Entrada = ({ entradas, abrirEntradas, setAbrirEntradas }) => {
+    const { urlBase } = useContext(ApiContext)
+
     const fechar = () => {
         setAbrirEntradas(false)
     };
@@ -26,26 +30,34 @@ const Entrada = ({ entradas, abrirEntradas, setAbrirEntradas }) => {
                     {entradas.map((dado, index) => {
                         return (
                             <Panel header={`ID ENTREGA - ${dado.id}`} eventKey={index} key={index} id={index}>
-                                <FlexboxGrid style={style}>
-                                    <FlexboxGrid.Item style={styleCenter}>
+                                <Grid>
+                                    <Row style={styles.row}>
                                         OBSERVAÇÃO - {dado.observacao}
-                                    </FlexboxGrid.Item>
-                                    {dado.arquivo_1 && (
-                                        <FlexboxGrid.Item style={styleCenter}>
-                                            ANEXO 1 - {dado.arquivo_1}
-                                        </FlexboxGrid.Item>
-                                    )}
-                                    {dado.arquivo_2 && (
-                                        <FlexboxGrid.Item style={styleCenter}>
-                                            ANEXO 2 - {dado.arquivo_2}
-                                        </FlexboxGrid.Item>
-                                    )}
-                                    {dado.arquivo_3 && (
-                                        <FlexboxGrid.Item style={styleCenter}>
-                                            ANEXO 3 - {dado.arquivo_3}
-                                        </FlexboxGrid.Item>
-                                    )}
-                                </FlexboxGrid>
+                                    </Row>
+                                    <Row style={styles.row}>
+                                        {dado.arquivo_1 && (
+                                            <Col>
+                                                <a href={`${urlBase}${dado.arquivo_1}`} rel="noreferrer" target="_blank" >
+                                                    <Button >ANEXO 1</Button>
+                                                </a>
+                                            </Col>
+                                        )}
+                                        {dado.arquivo_2 && (
+                                            <Col>
+                                                <a href={`${urlBase}${dado.arquivo_2}`} rel="noreferrer" target="_blank" >
+                                                    <Button>ANEXO 2</Button>
+                                                </a>
+                                            </Col>
+                                        )}
+                                        {dado.arquivo_3 && (
+                                            <Col>
+                                                <a href={`${urlBase}${dado.arquivo_3}`} rel="noreferrer" target="_blank" >
+                                                    <Button>ANEXO 3</Button>
+                                                </a>
+                                            </Col>
+                                        )}
+                                    </Row>
+                                </Grid>
                             </Panel>
                         )
                     })}

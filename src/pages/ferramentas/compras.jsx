@@ -4,9 +4,9 @@ import EditIcon from '@rsuite/icons/Edit';
 
 import { useContext, useState } from 'react';
 
-import { api } from '../../services/api';
 import { stringParaData } from '../../services/data';
 import { UsuarioContext } from '../../providers/usuarioProviders';
+import { ApiContext } from '../../providers/apiProviders';
 
 import { MainPanel } from "../../components/panel";
 import MainTable from '../../components/table';
@@ -18,6 +18,7 @@ import PainelCompra from '../../components/compra/painelCompra';
 
 const Compras = () => {
     const { auth } = useContext(UsuarioContext)
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
     const [filtro, setFiltro] = useState({
@@ -78,6 +79,8 @@ const Compras = () => {
         if (rowData.data_solicitacao_bo) rowData['data_solicitacao'] = stringParaData(rowData.data_solicitacao_bo)
 
         setFormEdit(rowData)
+
+        console.log(formEdit)
 
         modalEdit()
 

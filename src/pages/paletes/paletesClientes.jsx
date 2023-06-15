@@ -3,9 +3,9 @@ import CheckIcon from '@rsuite/icons/Check';
 
 import { useContext, useState } from "react";
 
-import { api } from "../../services/api";
 import { dataParaString } from "../../services/data";
 import { UsuarioContext } from "../../providers/usuarioProviders";
+import { ApiContext } from '../../providers/apiProviders';
 
 import { MainPanel } from "../../components/panel";
 import PainelPaleteCliente from "../../components/paletes/cliente/painelPaleteCliente";
@@ -15,6 +15,7 @@ import MainTable from "../../components/table";
 
 const PaletesClientes = () => {
     const { auth } = useContext(UsuarioContext)
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
     const [mostrarRecebimento, setMostrarRecebimento] = useState(false)

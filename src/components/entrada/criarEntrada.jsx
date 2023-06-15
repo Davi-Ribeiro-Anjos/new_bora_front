@@ -2,9 +2,9 @@ import { Button, Col, Divider, Form, Input, Panel, Row, Uploader, useToaster } f
 
 import { forwardRef, useContext, useState } from "react"
 
-import { api } from "../../services/api"
-import { UsuarioContext } from "../../providers/usuarioProviders"
 import { criarMensagemErro, criarMensagemOk } from "../../services/mensagem";
+import { UsuarioContext } from "../../providers/usuarioProviders";
+import { ApiContext } from "../../providers/apiProviders";
 
 const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
@@ -16,6 +16,7 @@ const style = {
 
 const CriarEntrada = ({ form }) => {
     const { auth } = useContext(UsuarioContext)
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
     const [entrada, setEntrada] = useState(
@@ -26,18 +27,18 @@ const CriarEntrada = ({ form }) => {
     )
 
     const criarEntrada = async () => {
-        let dado_post = { ...entrada, autor: 1, solicitacao: form.id }
+        let dado = { ...entrada, autor: 1, solicitacao: form.id }
 
-        if (Boolean(dado_post.anexo.length)) {
-            for (let index in dado_post.anexo) {
-                dado_post[`arquivo_${parseInt(index + 1)}`] = dado_post.anexo[index].blobFile
+        if (Boolean(dado.anexo.length)) {
+            for (let index in dado.anexo) {
+                dado[`arquivo_${parseInt(parseInt(index) + 1)}`] = dado.anexo[index].blobFile
             }
         }
-        delete dado_post.anexo
+        delete dado.anexo
 
         await api.post(
             'solicitacoes-entradas/',
-            { ...dado_post }
+            { ...dado }
         ).then((response) => {
             criarMensagemOk("Sucesso - Entrada criada.", toaster)
 

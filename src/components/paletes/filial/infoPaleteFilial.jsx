@@ -1,10 +1,10 @@
 import { Col, IconButton, Panel, Row, Tooltip, Whisper, useToaster } from 'rsuite';
 import PageIcon from '@rsuite/icons/Page';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { api } from '../../../services/api';
 import { criarMensagemErro } from '../../../services/mensagem';
+import { ApiContext } from '../../../providers/apiProviders';
 
 import MainModal from '../../modal';
 import CriarPaletesFilial from './criarPaleteFilial';
@@ -26,6 +26,7 @@ const Card = ({ titulo, quantidade }) => (
 );
 
 const InfoPaleteFilial = ({ abrirInfo, setAbrirInfo, update, inverteUpdate }) => {
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
     const [abrirCriar, setAbrirCriar] = useState(false)
