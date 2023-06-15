@@ -20,7 +20,7 @@ const styles = {
 }
 
 
-const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
+const FiltroPaleteCliente = ({ filtro, setFiltro, setDado, setMostrarRecebimento }) => {
     const { filiais } = useContext(ChoicesContext);
     const { choiceUser } = useContext(UsuarioContext)
     const toaster = useToaster();
@@ -39,6 +39,9 @@ const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
     const filtrarDados = async () => {
         let novoFiltro = filtro;
 
+        const placa_veiculo = novoFiltro.placa_veiculo
+        const autor = novoFiltro.autor
+
         if (novoFiltro.placa_veiculo) {
             novoFiltro['placa_veiculo__contains'] = novoFiltro.placa_veiculo
 
@@ -55,6 +58,8 @@ const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
 
         await api.get('paletes-movimentos/', { params: { ...novoFiltro } }).then((response) => {
             setDado(response.data)
+            if (novoFiltro.recebido) setMostrarRecebimento(true)
+            else setMostrarRecebimento(false)
         }).catch((error) => {
             let listMensagem = {
                 origem: "Origem",
@@ -69,9 +74,9 @@ const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
         setFiltro({
             origem: filtro.origem || null,
             destino: filtro.destino || null,
-            placa_veiculo: filtro.placa_veiculo || '',
+            placa_veiculo: placa_veiculo || '',
             recebido: filtro.recebido || false,
-            autor: filtro.autor || null,
+            autor: autor || null,
         })
     }
 
@@ -115,23 +120,23 @@ const FiltroPalete = ({ filtro, setFiltro, setDado }) => {
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col xs={20}></Col>
-                        <Col xs={2}>
-                            <Button onClick={() => filtrarDados()} appearance="primary">
-                                Filtrar
-                            </Button>
-                        </Col>
-                        <Col xs={2}>
-                            <Button onClick={() => limparFiltro()}>
-                                Limpar
-                            </Button>
-                        </Col>
-                    </Row>
                 </Form>
+                <Row>
+                    <Col xs={20}></Col>
+                    <Col xs={2}>
+                        <Button onClick={() => filtrarDados()} appearance="primary">
+                            Filtrar
+                        </Button>
+                    </Col>
+                    <Col xs={2}>
+                        <Button onClick={() => limparFiltro()}>
+                            Limpar
+                        </Button>
+                    </Col>
+                </Row>
             </Grid>
         </MainPanelCollapsible>
     )
 }
 
-export default FiltroPalete;
+export default FiltroPaleteCliente;

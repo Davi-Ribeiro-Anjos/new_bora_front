@@ -7,7 +7,7 @@ import { api } from '../../../services/api';
 import { criarMensagemErro } from '../../../services/mensagem';
 
 import MainModal from '../../modal';
-import CriarPaletes from './criarPalete';
+import CriarPaletesFilial from './criarPaleteFilial';
 
 const styles = {
     col: {
@@ -25,16 +25,11 @@ const Card = ({ titulo, quantidade }) => (
     </Col>
 );
 
-const InfoPalete = ({ abrirInfo, setAbrirInfo }) => {
+const InfoPaleteFilial = ({ abrirInfo, setAbrirInfo, update, inverteUpdate }) => {
     const toaster = useToaster();
 
     const [abrirCriar, setAbrirCriar] = useState(false)
     const [paletes, setPaletes] = useState([])
-
-    const [update, setUpdate] = useState(false)
-    const inverteUpdate = () => {
-        setUpdate(!update)
-    }
 
     useEffect(() => {
         pegaPaletes()
@@ -95,9 +90,9 @@ const InfoPalete = ({ abrirInfo, setAbrirInfo }) => {
 
                 </Row>
             </MainModal >
-            <CriarPaletes abrirCriar={abrirCriar} setAbrirCriar={setAbrirCriar} setAbrirInfo={setAbrirInfo} inverteUpdate={inverteUpdate} />
+            <CriarPaletesFilial abrirCriar={abrirCriar} setAbrirCriar={setAbrirCriar} setAbrirInfo={setAbrirInfo} inverteUpdate={inverteUpdate} />
         </>
     )
 }
 
-export default InfoPalete;
+export default InfoPaleteFilial;

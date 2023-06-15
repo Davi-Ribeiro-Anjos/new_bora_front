@@ -3,10 +3,10 @@ import { Route, Routes } from "react-router-dom";
 
 import Home from "../pages/home/home";
 import Login from "../pages/login/login";
-import Justificativa from "../pages/justificativa/justificativa";
+import Justificativa from "../pages/comercial/justificativa";
 import Settings from "../pages/settings";
 import NotFound from "../pages/notFound";
-import Compras from "../pages/compras/compras";
+import Compras from "../pages/ferramentas/compras";
 import PaletesFiliais from "../pages/paletes/paletesFiliais";
 import PaletesClientes from "../pages/paletes/paletesClientes";
 

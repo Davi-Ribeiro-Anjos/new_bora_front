@@ -4,12 +4,13 @@ import CheckIcon from '@rsuite/icons/Check';
 import { useContext, useState } from "react";
 
 import { api } from "../../services/api";
+import { dataParaString } from "../../services/data";
 import { UsuarioContext } from "../../providers/usuarioProviders";
 
 import { MainPanel } from "../../components/panel";
-import PainelPalete from "../../components/paletes/filiais/painelPalete";
-import FiltroPalete from "../../components/paletes/filiais/filtroPalete";
-import ConfirmarPalete from "../../components/paletes/filiais/confirmarPalete";
+import PainelPaleteFilial from "../../components/paletes/filial/painelPaleteFilial";
+import FiltroPaleteFilial from "../../components/paletes/filial/filtroPaleteFilial";
+import ConfirmarPaleteFilial from "../../components/paletes/filial/confirmarTransferenciaFilial";
 import MainTable from "../../components/table";
 
 
@@ -17,7 +18,9 @@ const PaletesFiliais = () => {
     const { auth } = useContext(UsuarioContext)
     const toaster = useToaster();
 
-    const [filtro, setFiltro] = useState({})
+    const [mostrarRecebimento, setMostrarRecebimento] = useState(false)
+
+    const [filtro, setFiltro] = useState({ recebido: false })
     const [update, setUpdate] = useState(false)
     const inverteUpdate = () => {
         setUpdate(!update)
@@ -40,33 +43,51 @@ const PaletesFiliais = () => {
 
     //Confirmar
     const [abrirConfirmar, setAbrirConfirmar] = useState(false);
+    const [formConfirmar, setFormConfirmar] = useState({});
     const modalConfirmar = () => setAbrirConfirmar(true);
     const dadoConfirmar = (linha) => {
+        const dataAtual = new Date()
+
+        linha['data_recebimento'] = dataParaString(dataAtual, true, true)
+        linha['quantidadeInicial'] = linha.quantidade_paletes
+
+        setFormConfirmar(linha)
         modalConfirmar()
     }
 
     //Table
     const colunas = {
-        'Nº Solicitação': { dataKey: 'solicitacao', width: 150 },
-        'Nº de Paletes': { dataKey: 'quantidade_paletes', width: 150 },
+        'Nº Solicitação': { dataKey: 'solicitacao', width: 160 },
+        'Nº de Paletes': { dataKey: 'quantidade_paletes', width: 110 },
         'Dt Solicitação': { dataKey: 'data_solicitacao', width: 170 },
-        'Origem': { dataKey: 'origem.sigla', width: 140 },
-        'Destino': { dataKey: 'destino.sigla', width: 120 },
-        'Placa Veiculo': { dataKey: 'placa_veiculo', width: 170 },
-        'Autor': { dataKey: 'autor.username', width: 170 },
+        'Origem': { dataKey: 'origem.sigla', width: 100 },
+        'Destino': { dataKey: 'destino.sigla', width: 100 },
+        'Placa Veiculo': { dataKey: 'placa_veiculo', width: 130 },
+        'Autor': { dataKey: 'autor.username', width: 140 },
         'Código de barras': { dataKey: 'codigo_barras', width: 170 },
-        'Confirmar Recebimento': { dataKey: "botao", width: 170, fixed: "right", click: dadoConfirmar, icon: CheckIcon, needAuth: true, auth: auth }
+        'Confirmar Recebimento': { dataKey: "botao", width: 160, fixed: "right", click: dadoConfirmar, icon: CheckIcon, needAuth: true, auth: auth }
+    };
+
+    const colunasConcluido = {
+        'Nº Solicitação': { dataKey: 'solicitacao', width: 160 },
+        'Nº de Paletes': { dataKey: 'quantidade_paletes', width: 110 },
+        'Dt Solicitação': { dataKey: 'data_solicitacao', width: 170 },
+        'Dt Recebimento': { dataKey: 'data_recebimento', width: 170 },
+        'Origem': { dataKey: 'origem.sigla', width: 100 },
+        'Destino': { dataKey: 'destino.sigla', width: 100 },
+        'Placa Veiculo': { dataKey: 'placa_veiculo', width: 130 },
+        'Autor': { dataKey: 'autor.username', width: 140 },
     };
 
     return (
         <MainPanel>
-            <PainelPalete inverteUpdate={inverteUpdate} />
+            <PainelPaleteFilial update={update} inverteUpdate={inverteUpdate} />
 
-            <FiltroPalete filtro={filtro} setFiltro={setFiltro} setDado={setDado} />
+            <FiltroPaleteFilial filtro={filtro} setFiltro={setFiltro} setDado={setDado} setMostrarRecebimento={setMostrarRecebimento} />
 
-            <MainTable dado={dado} setDado={setDado} colunas={colunas} buscaDados={buscaDados} />
+            <MainTable update={update} dado={dado} setDado={setDado} colunas={mostrarRecebimento ? colunasConcluido : colunas} buscaDados={buscaDados} />
 
-            <ConfirmarPalete abrirConfirmar={abrirConfirmar} setAbrirConfirmar={setAbrirConfirmar} />
+            <ConfirmarPaleteFilial form={formConfirmar} setForm={setFormConfirmar} abrirConfirmar={abrirConfirmar} setAbrirConfirmar={setAbrirConfirmar} inverteUpdate={inverteUpdate} />
         </MainPanel>
     )
 }

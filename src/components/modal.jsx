@@ -1,8 +1,14 @@
 import { Modal, Button } from 'rsuite';
 
+const style = {
+    modal: {
+        marginBottom: 30
+    }
+}
+
 const MainModal = ({ enviar, open, titulo, nomeBotao, overflow = false, view = false, fechar, size = 'sm', children }) => {
     return (
-        <Modal overflow={overflow} size={size} open={open} onClose={() => fechar()}>
+        <Modal style={style.modal} overflow={overflow} size={size} open={open} onClose={() => fechar()}>
             <Modal.Header>
                 <Modal.Title>{titulo}</Modal.Title>
             </Modal.Header>

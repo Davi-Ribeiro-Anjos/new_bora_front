@@ -30,7 +30,7 @@ const GrupoBotao = ({ mostrarSimples, mostrarComposto }) => {
 
 const tipo_palete = ["PBR", "CHEP"].map(item => ({ label: item, value: item }));
 
-const CriarTransferencia = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
+const CriarTransferenciaFilial = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
     const { filiais } = useContext(ChoicesContext)
     const toaster = useToaster();
 
@@ -79,7 +79,8 @@ const CriarTransferencia = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
                         destino: "Destino",
                         motorista: "Motorista",
                         origem: "Origem",
-                        placa_veiculo: "Placa Veiculo"
+                        placa_veiculo: "Placa Veiculo",
+                        quantidade_paletes: "Quantidade Paletes"
                     }
 
                     criarMensagemErro(error, listMensagem, toaster)
@@ -165,7 +166,7 @@ const CriarTransferencia = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
                             </Col>
                             <Col xs={12}>
                                 <Form.Group>
-                                    <Form.ControlLabel>Quantidade:</Form.ControlLabel>
+                                    <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>
                                     <Form.Control style={styles.input} name="quantidade_paletes-0" accepter={InputNumber} />
                                     <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                                 </Form.Group>
@@ -235,4 +236,4 @@ const CriarTransferencia = ({ abrirCriar, setAbrirCriar, inverteUpdate }) => {
     )
 }
 
-export default CriarTransferencia;
+export default CriarTransferenciaFilial;

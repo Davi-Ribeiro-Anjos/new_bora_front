@@ -20,7 +20,13 @@ const Compras = () => {
     const { auth } = useContext(UsuarioContext)
     const toaster = useToaster();
 
-    const [filtro, setFiltro] = useState({})
+    const [filtro, setFiltro] = useState({
+        numero_solicitacao: null,
+        data_solicitacao_bo: null,
+        status: null,
+        filial: null,
+        solicitante: null,
+    })
     const [update, setUpdate] = useState(false)
     const inverteUpdate = () => {
         setUpdate(!update)
