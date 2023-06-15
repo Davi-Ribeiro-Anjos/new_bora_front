@@ -2,10 +2,10 @@ import { Button, Checkbox, Col, Form, Grid, Input, Row, SelectPicker, useToaster
 
 import { useContext } from "react";
 
-import { api } from "../../../services/api";
 import { criarMensagemErro } from "../../../services/mensagem";
 import { ChoicesContext } from "../../../providers/choicesProviders";
 import { UsuarioContext } from "../../../providers/usuarioProviders";
+import { ApiContext } from '../../../providers/apiProviders';
 
 import { MainPanelCollapsible } from "../../panel";
 
@@ -23,6 +23,7 @@ const styles = {
 const FiltroPaleteFilial = ({ filtro, setFiltro, setDado, setMostrarRecebimento }) => {
     const { filiais } = useContext(ChoicesContext);
     const { choiceUser } = useContext(UsuarioContext)
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
 

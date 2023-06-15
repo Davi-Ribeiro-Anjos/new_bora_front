@@ -1,7 +1,9 @@
-import { useState } from "react"
-import MainNavBar from "./header/navBar"
 import { Container, Content, Footer, Header } from "rsuite"
+
+import { useState } from "react"
+
 import RoutesMain from "../routes"
+import MainNavBar from "./header/navBar"
 import MainSideBar from "./header/sideBar"
 
 

@@ -2,9 +2,9 @@ import { Form, Uploader, SelectPicker, Grid, Row, Col, useToaster } from 'rsuite
 
 import { useContext, useState } from 'react';
 
-import { api } from '../../services/api';
 import { criarMensagemErro, criarMensagemOk } from '../../services/mensagem';
 import { ChoicesContext } from '../../providers/choicesProviders';
+import { ApiContext } from '../../providers/apiProviders';
 
 import MainModal from '../modal';
 
@@ -12,6 +12,7 @@ import MainModal from '../modal';
 
 const CriarCompra = ({ abrir, setAbrir, inverteUpdate }) => {
     const { filiais } = useContext(ChoicesContext)
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
 

@@ -3,9 +3,9 @@ import { Col, Form, Grid, InputNumber, Row, SelectPicker, useToaster } from "rsu
 import { useContext } from "react";
 import { useState } from "react";
 
-import { api } from "../../../services/api";
 import { criarMensagemErro, criarMensagemOk } from "../../../services/mensagem";
 import { ChoicesContext } from "../../../providers/choicesProviders";
+import { ApiContext } from '../../../providers/apiProviders';
 
 import MainModal from "../../modal"
 
@@ -22,6 +22,7 @@ const tipo_palete = ["PBR", "CHEP"].map(item => ({ label: item, value: item }));
 
 const CriarPaletes = ({ abrirCriar, setAbrirCriar, setAbrirInfo, inverteUpdate }) => {
     const { filiais } = useContext(ChoicesContext)
+    const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
     const [form, setForm] = useState({
