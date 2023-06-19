@@ -10,7 +10,8 @@ import MainModal from '../../modal';
 
 const styles = {
     input: {
-        width: 250
+        width: 250,
+        textTransform: 'uppercase'
     },
     row: {
         marginBottom: 10,
@@ -56,9 +57,9 @@ const CriarTransferenciaFilial = ({ abrirCriar, setAbrirCriar, inverteUpdate }) 
                     tipo_palete: form.tipo_palete,
                     destino: destino,
                     quantidade_paletes: quantidade_paletes,
-                    placa_veiculo: form.placa_veiculo,
-                    motorista: form.motorista,
-                    conferente: form.conferente,
+                    placa_veiculo: form.placa_veiculo.toUpperCase(),
+                    motorista: form.motorista.toUpperCase(),
+                    conferente: form.conferente.toUpperCase(),
                     autor: 1
                 }
 
@@ -151,7 +152,7 @@ const CriarTransferenciaFilial = ({ abrirCriar, setAbrirCriar, inverteUpdate }) 
                             <Col xs={24}>
                                 <Form.Group>
                                     <Form.ControlLabel>Tipo de Destino:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} mostrarSimples={mostrarSimples} mostrarComposto={mostrarComposto} accepter={GrupoBotao} />
+                                    <Form.Control style={styles.input} name='' mostrarSimples={mostrarSimples} mostrarComposto={mostrarComposto} accepter={GrupoBotao} />
                                 </Form.Group>
                             </Col>
                         </Row>

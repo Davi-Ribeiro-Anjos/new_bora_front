@@ -8,9 +8,12 @@ import { ApiContext } from "../../providers/apiProviders";
 
 const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
-const style = {
+const styles = {
     row: {
         marginBottom: 10,
+    },
+    observacao: {
+        textTransform: 'uppercase'
     }
 }
 
@@ -29,6 +32,7 @@ const CriarEntrada = ({ form }) => {
     const criarEntrada = async () => {
         let dado = { ...entrada, autor: 1, solicitacao: form.id }
 
+        if (dado.observacao) dado.observacao = dado.observacao.toUpperCase()
         if (Boolean(dado.anexo.length)) {
             for (let index in dado.anexo) {
                 dado[`arquivo_${parseInt(parseInt(index) + 1)}`] = dado.anexo[index].blobFile
@@ -65,15 +69,15 @@ const CriarEntrada = ({ form }) => {
                     <Panel header="Cadastrar Entradas">
                         <Form fluid onChange={setEntrada} formValue={entrada} >
                             <Col xs={24}>
-                                <Row style={style.row}>
+                                <Row style={styles.row}>
                                     <Col xs={24}>
                                         <Form.Group controlId="observacao">
                                             <Form.ControlLabel>Descrição da Entrada:</Form.ControlLabel>
-                                            <Form.Control rows={8} name="observacao" value={entrada.observacao} accepter={Textarea} />
+                                            <Form.Control style={styles.observacao} rows={8} name="observacao" value={entrada.observacao} accepter={Textarea} />
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                                <Row style={style.row}>
+                                <Row style={styles.row}>
                                     <Col xs={24}>
                                         <Form.Group controlId="anexo">
                                             <Form.ControlLabel>Anexo: </Form.ControlLabel>
@@ -81,7 +85,7 @@ const CriarEntrada = ({ form }) => {
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                                <Row style={style.row}>
+                                <Row style={styles.row}>
                                     <Button onClick={() => criarEntrada()} appearance="primary" color='green'>
                                         Criar Entrada
                                     </Button>

@@ -1,4 +1,4 @@
-import { Form, Uploader, SelectPicker, Grid, Row, Col, useToaster } from 'rsuite';
+import { Form, Uploader, SelectPicker, Grid, Row, Col, useToaster, InputNumber } from 'rsuite';
 
 import { useContext, useState } from 'react';
 
@@ -65,23 +65,23 @@ const CriarCompra = ({ abrir, setAbrir, inverteUpdate }) => {
                 <Form onChange={setForm} formValue={form} layout='inline'>
                     <Row>
                         <Col xs={24}>
-                            <Form.Group controlId="numero_solicitacao">
+                            <Form.Group >
                                 <Form.ControlLabel>Código Solicitação:</Form.ControlLabel>
-                                <Form.Control name="numero_solicitacao" />
+                                <Form.Control name="numero_solicitacao" accepter={InputNumber} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
                     </Row>
                     <Row>
                         <Col xs={9}>
-                            <Form.Group controlId="filial">
+                            <Form.Group >
                                 <Form.ControlLabel>Filial:</Form.ControlLabel>
                                 <Form.Control name="filial" data={filiais} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
                         <Col xs={14}>
-                            <Form.Group controlId="anexo">
+                            <Form.Group >
                                 <Form.ControlLabel>Anexo:</Form.ControlLabel>
                                 <Form.Control name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
                             </Form.Group>

@@ -12,7 +12,8 @@ import { MainPanelCollapsible } from "../../panel";
 
 const styles = {
     input: {
-        width: 250
+        width: 250,
+        textTransform: 'uppercase'
     },
     row: {
         marginBottom: 10,

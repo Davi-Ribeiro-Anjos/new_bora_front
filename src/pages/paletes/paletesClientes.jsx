@@ -18,8 +18,6 @@ const PaletesClientes = () => {
     const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
-    const [mostrarRecebimento, setMostrarRecebimento] = useState(false)
-
     const [filtro, setFiltro] = useState({ recebido: false })
     const [update, setUpdate] = useState(false)
     const inverteUpdate = () => {
@@ -41,51 +39,22 @@ const PaletesClientes = () => {
         })
     }
 
-    //Confirmar
-    const [abrirConfirmar, setAbrirConfirmar] = useState(false);
-    const [formConfirmar, setFormConfirmar] = useState({});
-    const modalConfirmar = () => setAbrirConfirmar(true);
-    const dadoConfirmar = (linha) => {
-        const dataAtual = new Date()
-
-        linha['data_recebimento'] = dataParaString(dataAtual, true, true)
-        linha['quantidadeInicial'] = linha.quantidade_paletes
-
-        setFormConfirmar(linha)
-        modalConfirmar()
-    }
-
     //Table
     const colunas = {
-        'Nº Solicitação': { dataKey: 'solicitacao', width: 160 },
-        'Nº de Paletes': { dataKey: 'quantidade_paletes', width: 110 },
-        'Dt Solicitação': { dataKey: 'data_solicitacao', width: 170 },
-        'Origem': { dataKey: 'origem.sigla', width: 100 },
-        'Destino': { dataKey: 'destino.sigla', width: 100 },
-        'Placa Veiculo': { dataKey: 'placa_veiculo', width: 130 },
-        'Autor': { dataKey: 'autor.username', width: 140 },
-        'Código de barras': { dataKey: 'codigo_barras', width: 170 },
-        'Confirmar Recebimento': { dataKey: "botao", width: 160, fixed: "right", click: dadoConfirmar, icon: CheckIcon, needAuth: true, auth: auth }
-    };
-
-    const colunasConcluido = {
-        'Nº Solicitação': { dataKey: 'solicitacao', width: 160 },
-        'Nº de Paletes': { dataKey: 'quantidade_paletes', width: 110 },
-        'Dt Solicitação': { dataKey: 'data_solicitacao', width: 170 },
-        'Dt Recebimento': { dataKey: 'data_recebimento', width: 170 },
-        'Origem': { dataKey: 'origem.sigla', width: 100 },
-        'Destino': { dataKey: 'destino.sigla', width: 100 },
-        'Placa Veiculo': { dataKey: 'placa_veiculo', width: 130 },
-        'Autor': { dataKey: 'autor.username', width: 140 },
+        'Filial': { dataKey: 'filial.sigla', width: 170 },
+        'Saldo': { dataKey: 'saldo', width: 170 },
+        'Razão Social/ Motorista': { dataKey: 'razao_social_motorista', width: 300 },
+        'Status': { dataKey: 'status', width: 150 },
+        'Documento': { dataKey: '', width: 150 },
     };
 
     return (
         <MainPanel>
             <PainelPaleteCliente update={update} inverteUpdate={inverteUpdate} />
 
-            <FiltroPaleteCliente filtro={filtro} setFiltro={setFiltro} setDado={setDado} setMostrarRecebimento={setMostrarRecebimento} />
+            <FiltroPaleteCliente filtro={filtro} setFiltro={setFiltro} setDado={setDado} />
 
-            <MainTable update={update} dado={dado} setDado={setDado} colunas={mostrarRecebimento ? colunasConcluido : colunas} buscaDados={buscaDados} />
+            <MainTable update={update} dado={dado} setDado={setDado} colunas={colunas} buscaDados={buscaDados} />
 
         </MainPanel>
     )
