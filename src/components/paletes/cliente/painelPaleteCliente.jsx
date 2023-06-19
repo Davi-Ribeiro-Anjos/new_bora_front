@@ -5,6 +5,10 @@ import MemberIcon from '@rsuite/icons/Member';
 
 import { useState } from "react";
 
+import CadastrarEntradaCliente from "./cadastrarEntradaCliente";
+import CadastrarSaidaCliente from "./cadastrarSaidaCliente";
+import CadastrarCliente from "./cadastrarCliente";
+
 
 const styles = {
     iconBu: {
@@ -16,14 +20,14 @@ const styles = {
 }
 
 const PainelPaleteCliente = ({ update, inverteUpdate }) => {
-    const [abrirCadastrarEntrada, setAbrirCadastrarEntrada] = useState(false);
-    const modalCadastrarEntrada = () => setAbrirCadastrarEntrada(true);
+    const [abrirCadastrarEntradaCliente, setAbrirCadastrarEntradaCliente] = useState(false);
+    const modalCadastrarEntrada = () => setAbrirCadastrarEntradaCliente(true);
 
-    const [abrirCadastrarSaida, setAbrirCadastrarSaida] = useState(false);
-    const modalCadastrarSaida = () => setAbrirCadastrarSaida(true);
+    const [abrirCadastrarSaidaCliente, setAbrirCadastrarSaidaCliente] = useState(false);
+    const modalCadastrarSaida = () => setAbrirCadastrarSaidaCliente(true);
 
-    const [abrirCliente, setAbrirCliente] = useState(false);
-    const modalCliente = () => setAbrirCliente(true);
+    const [abrirCadastrarCliente, setAbrirCadastrarCliente] = useState(false);
+    const modalCliente = () => setAbrirCadastrarCliente(true);
 
     return (
         <>
@@ -41,6 +45,9 @@ const PainelPaleteCliente = ({ update, inverteUpdate }) => {
                     </Whisper>
                 </div>
             </div>
+            <CadastrarEntradaCliente abrirCadastrarEntradaCliente={abrirCadastrarEntradaCliente} setAbrirCadastrarEntradaCliente={setAbrirCadastrarEntradaCliente} inverteUpdate={inverteUpdate} />
+            <CadastrarSaidaCliente abrirCadastrarSaidaCliente={abrirCadastrarSaidaCliente} setAbrirCadastrarSaidaCliente={setAbrirCadastrarSaidaCliente} inverteUpdate={inverteUpdate} />
+            <CadastrarCliente abrirCadastrarCliente={abrirCadastrarCliente} setAbrirCadastrarCliente={setAbrirCadastrarCliente} inverteUpdate={inverteUpdate} />
         </>
     )
 }

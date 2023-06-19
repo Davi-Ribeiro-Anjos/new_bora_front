@@ -20,9 +20,8 @@ const styles = {
 }
 
 
-const FiltroPaleteCliente = ({ filtro, setFiltro, setDado, setMostrarRecebimento }) => {
+const FiltroPaleteCliente = ({ filtro, setFiltro, setDado }) => {
     const { filiais } = useContext(ChoicesContext);
-    const { choiceUser } = useContext(UsuarioContext)
     const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
@@ -59,8 +58,6 @@ const FiltroPaleteCliente = ({ filtro, setFiltro, setDado, setMostrarRecebimento
 
         await api.get('paletes-movimentos/', { params: { ...novoFiltro } }).then((response) => {
             setDado(response.data)
-            if (novoFiltro.recebido) setMostrarRecebimento(true)
-            else setMostrarRecebimento(false)
         }).catch((error) => {
             let listMensagem = {
                 origem: "Origem",
@@ -88,36 +85,14 @@ const FiltroPaleteCliente = ({ filtro, setFiltro, setDado, setMostrarRecebimento
                     <Row xs={24} style={styles.row}>
                         <Col xs={12}>
                             <Form.Group style={styles.form}>
-                                <Form.ControlLabel>Origem:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="origem" data={filiais} accepter={SelectPicker} />
+                                <Form.ControlLabel>Filial:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="filial" data={filiais} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                         <Col xs={12}>
                             <Form.Group style={styles.form}>
-                                <Form.ControlLabel>Destino:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="destino" data={filiais} accepter={SelectPicker} />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row xs={24} style={styles.row}>
-                        <Col xs={12}>
-                            <Form.Group style={styles.form}>
-                                <Form.ControlLabel>Placa do Veículo:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="placa_veiculo" accepter={Input} />
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12}>
-                            <Form.Group style={styles.form}>
-                                <Form.ControlLabel>Autor:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="autor" data={choiceUser} accepter={SelectPicker} />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row xs={24} style={styles.row}>
-                        <Col xs={12}>
-                            <Form.Group style={styles.form}>
-                                <Form.ControlLabel>Transferências Recebidas:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="recebido" checked={filtro.recebido} onChange={(value) => setFiltro({ ...filtro, recebido: !value })} accepter={Checkbox} />
+                                <Form.ControlLabel>Razão Social/ Motorista:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="razao_social_motorista" data={filiais} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                     </Row>

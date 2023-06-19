@@ -26,6 +26,9 @@ const styles = {
         height: "7vh",
         padding: 0,
         margin: 0
+    },
+    observacao: {
+        textTransform: 'uppercase'
     }
 }
 
@@ -52,6 +55,7 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
         }
         if (form.data_vencimento_boleto) form.data_vencimento_boleto = dataParaString(form.data_vencimento_boleto)
         if (form.anexo) form.anexo = form.anexo[0].blobFile
+        if (form.observacao) form.observacao = form.observacao.toUpperCase()
 
         let data_post = { ...form, ultima_atualizacao: 1, solicitante: form.solicitante.id }
         await api.patch(
@@ -174,7 +178,7 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
                                     <Col xs={24}>
                                         <Form.Group >
                                             <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                            <Form.Control rows={5} name="observacao" value={form.observacao} accepter={Textarea} />
+                                            <Form.Control style={styles.observacao} rows={5} name="observacao" value={form.observacao} accepter={Textarea} />
                                         </Form.Group>
                                     </Col>
                                 </Row>
