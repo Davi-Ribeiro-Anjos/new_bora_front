@@ -15,6 +15,9 @@ import MainModal from '../modal';
 const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const styles = {
+    titulo: {
+        marginBottom: 20,
+    },
     input: {
         width: 250
     },
@@ -87,105 +90,101 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
         <MainModal titulo={form.numero_solicitacao ? `Editar a Solicitação ${form.numero_solicitacao}` : 'Editar a Solicitação'} nomeBotao="Editar" size='md' open={abrir}
             enviar={enviar} fechar={fechar} >
             <Grid fluid>
-                <Row xs={24}>
-                    <Panel header="Informações da Solicitação">
-                        <Form fluid onChange={setForm} formValue={form}>
-                            <Col xs={24}>
-                                <Row style={styles.row}>
-                                    <Col xs={12}>
-                                        <Form.Group >
-                                            <Form.ControlLabel>Status:</Form.ControlLabel>
-                                            <Form.Control name="status" data={status} accepter={InputPicker} disabledItemValues={auth ? [] : ['CONCLUIDO', 'CANCELADO']} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col xs={12}>
-                                        <Form.Group  >
-                                            <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                            <Form.Control name="filial" data={choicesFiliais} accepter={InputPicker} disabled />
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row style={styles.row}>
-                                    <Col xs={12}>
-                                        <Form.Group >
-                                            <Form.ControlLabel>Departamento:</Form.ControlLabel>
-                                            <Form.Control name="departamento" data={departamentos} accepter={InputPicker} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col xs={12}>
-                                        <Form.Group >
-                                            <Form.ControlLabel>Responsavel:</Form.ControlLabel>
-                                            <Form.Control name="responsavel" data={choiceUser} accepter={SelectPicker} />
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row style={styles.row}>
-                                    <Col xs={12}>
-                                        <Form.Group >
-                                            <Form.ControlLabel>Categoria:</Form.ControlLabel>
-                                            <Form.Control name="categoria" data={categorias} accepter={InputPicker} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col xs={12}>
-                                        <Form.Group >
-                                            <Form.ControlLabel>Forma de Pagamento:</Form.ControlLabel>
-                                            <Form.Control name="forma_pagamento" data={formasPgt} accepter={InputPicker} />
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row style={styles.row}>
-                                    <Col xs={12}>
-                                        <Form.Group >
-                                            <Form.ControlLabel>Criado em:</Form.ControlLabel>
-                                            <Form.Control name="data_solicitacao" accepter={DatePicker} disabled />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col xs={12}>
-                                        {form.forma_pagamento !== 'NÃO INFORMADO' && (
-                                            <Form.Group >
-                                                <Form.ControlLabel>Vencimento:</Form.ControlLabel>
-                                                <Form.Control name="data_vencimento_boleto" accepter={DatePicker} />
-                                            </Form.Group>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row style={styles.row}>
-                                    <Col xs={12}>
-                                        {form.anexo ? (
-                                            <Form.Group >
-                                                <Form.ControlLabel>Anexo:</Form.ControlLabel>
-                                                <a href={`${urlBase}${form.anexo}`} rel="noreferrer" target="_blank">
-                                                    <IconButton icon={<FileDownloadIcon />} appearance="primary" color="blue" style={styles.iconBu} />
-                                                </a>
-                                            </Form.Group>
-                                        ) : (
-                                            <Form.Group >
-                                                <Form.ControlLabel>Anexo:</Form.ControlLabel>
-                                                <Form.Control name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
-                                            </Form.Group>
-                                        )}
-                                    </Col>
-                                    {form.status === "CONCLUIDO" && (
-                                        <Col xs={12}>
-                                            <Form.Group >
-                                                <Form.ControlLabel>Pagamento:</Form.ControlLabel>
-                                                <Form.Control name="pago" checked={form.pago} onChange={(value) => setForm({ ...form, pago: !value })} accepter={Checkbox} >Pago</Form.Control>
-                                            </Form.Group>
-                                        </Col>
-                                    )}
-                                </Row>
-                                <Row style={styles.row}>
-                                    <Col xs={24}>
-                                        <Form.Group >
-                                            <Form.ControlLabel>Observação:</Form.ControlLabel>
-                                            <Form.Control style={styles.observacao} rows={5} name="observacao" value={form.observacao} accepter={Textarea} />
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
+                <Panel header="Informações da Solicitação">
+                    <Form fluid onChange={setForm} formValue={form}>
+                        <Row style={styles.row}>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Status:</Form.ControlLabel>
+                                    <Form.Control name="status" data={status} accepter={InputPicker} disabledItemValues={auth ? [] : ['CONCLUIDO', 'CANCELADO']} />
+                                </Form.Group>
                             </Col>
-                        </Form>
-                    </Panel>
-                </Row>
+                            <Col xs={12}>
+                                <Form.Group  >
+                                    <Form.ControlLabel>Filial:</Form.ControlLabel>
+                                    <Form.Control name="filial" data={choicesFiliais} accepter={InputPicker} disabled />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row style={styles.row}>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Departamento:</Form.ControlLabel>
+                                    <Form.Control name="departamento" data={departamentos} accepter={InputPicker} />
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Responsavel:</Form.ControlLabel>
+                                    <Form.Control name="responsavel" data={choiceUser} accepter={SelectPicker} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row style={styles.row}>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Categoria:</Form.ControlLabel>
+                                    <Form.Control name="categoria" data={categorias} accepter={InputPicker} />
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Forma de Pagamento:</Form.ControlLabel>
+                                    <Form.Control name="forma_pagamento" data={formasPgt} accepter={InputPicker} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row style={styles.row}>
+                            <Col xs={12}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Criado em:</Form.ControlLabel>
+                                    <Form.Control name="data_solicitacao" accepter={DatePicker} disabled />
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12}>
+                                {form.forma_pagamento !== 'NÃO INFORMADO' && (
+                                    <Form.Group >
+                                        <Form.ControlLabel>Vencimento:</Form.ControlLabel>
+                                        <Form.Control name="data_vencimento_boleto" accepter={DatePicker} />
+                                    </Form.Group>
+                                )}
+                            </Col>
+                        </Row>
+                        <Row style={styles.row}>
+                            <Col xs={12}>
+                                {form.anexo ? (
+                                    <Form.Group >
+                                        <Form.ControlLabel>Anexo:</Form.ControlLabel>
+                                        <a href={`${urlBase}${form.anexo}`} rel="noreferrer" target="_blank">
+                                            <IconButton icon={<FileDownloadIcon />} appearance="primary" color="blue" style={styles.iconBu} />
+                                        </a>
+                                    </Form.Group>
+                                ) : (
+                                    <Form.Group >
+                                        <Form.ControlLabel>Anexo:</Form.ControlLabel>
+                                        <Form.Control name="anexo" multiple={false} accepter={Uploader} action='' autoUpload={false} />
+                                    </Form.Group>
+                                )}
+                            </Col>
+                            {form.status === "CONCLUIDO" && (
+                                <Col xs={12}>
+                                    <Form.Group >
+                                        <Form.ControlLabel>Pagamento:</Form.ControlLabel>
+                                        <Form.Control name="pago" checked={form.pago} onChange={(value) => setForm({ ...form, pago: !value })} accepter={Checkbox} >Pago</Form.Control>
+                                    </Form.Group>
+                                </Col>
+                            )}
+                        </Row>
+                        <Row style={styles.row}>
+                            <Col xs={24}>
+                                <Form.Group >
+                                    <Form.ControlLabel>Observação:</Form.ControlLabel>
+                                    <Form.Control style={styles.observacao} rows={5} name="observacao" value={form.observacao} accepter={Textarea} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Panel>
                 <CriarEntrada form={form} />
             </Grid >
         </MainModal >

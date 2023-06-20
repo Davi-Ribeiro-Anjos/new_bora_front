@@ -1,6 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
+import { ChoicesClientesProvider } from "../providers/choicesClientePrividers";
+
 import Home from "../pages/home/home";
 import Login from "../pages/login/login";
 import Justificativa from "../pages/comercial/justificativa";
@@ -18,7 +20,11 @@ const RoutesMain = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/paletes-filiais" element={<PaletesFiliais />} exact />
-            <Route path="/paletes-clientes" element={<PaletesClientes />} exact />
+            <Route path="/paletes-clientes" element={
+                <ChoicesClientesProvider>
+                    <PaletesClientes />
+                </ChoicesClientesProvider>
+            } exact />
             <Route path="/compras" element={<Compras />} exact />
             <Route path="/justificativa" element={<Justificativa />} />
             <Route path="/configuracoes" element={<Settings />} />

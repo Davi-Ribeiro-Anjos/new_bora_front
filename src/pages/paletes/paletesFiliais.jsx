@@ -1,5 +1,6 @@
 import { Message, useToaster } from "rsuite";
 import CheckIcon from '@rsuite/icons/Check';
+import PageIcon from '@rsuite/icons/Page';
 
 import { useContext, useState } from "react";
 
@@ -16,7 +17,7 @@ import MainTable from "../../components/table";
 
 const PaletesFiliais = () => {
     const { auth } = useContext(UsuarioContext)
-    const { api } = useContext(ApiContext)
+    const { api, urlBase } = useContext(ApiContext)
     const toaster = useToaster();
 
     const [mostrarRecebimento, setMostrarRecebimento] = useState(false)
@@ -31,8 +32,20 @@ const PaletesFiliais = () => {
     const [dado, setDado] = useState([])
     const buscaDados = async () => {
         await api.get('paletes-movimentos/', { params: { ...filtro } }).then((response) => {
-            setDado(response.data)
+            let data = response.data
+
+            for (const linha in data) {
+                if (Object.hasOwnProperty.call(data, linha)) {
+                    const elemento = data[linha];
+
+                    elemento.data_solicitacao = elemento.data_solicitacao.split(' ')[0]
+
+                }
+            }
+
+            setDado(data)
         }).catch((error) => {
+            console.log(error)
             let mensagem = (
                 < Message showIcon type="error" closable >
                     Erro - Ocorreu um erro ao buscar os dados.
@@ -58,15 +71,15 @@ const PaletesFiliais = () => {
 
     //Table
     const colunas = {
-        'Nº Solicitação': { dataKey: 'solicitacao', width: 160 },
+        'Nº Solicitação': { dataKey: 'solicitacao', width: 170 },
         'Nº de Paletes': { dataKey: 'quantidade_paletes', width: 110 },
-        'Dt Solicitação': { dataKey: 'data_solicitacao', width: 170 },
+        'Dt Solicitação': { dataKey: 'data_solicitacao', width: 150 },
         'Origem': { dataKey: 'origem.sigla', width: 100 },
         'Destino': { dataKey: 'destino.sigla', width: 100 },
         'Placa Veiculo': { dataKey: 'placa_veiculo', width: 130 },
         'Autor': { dataKey: 'autor.username', width: 140 },
-        'Código de barras': { dataKey: 'codigo_barras', width: 170 },
-        'Confirmar Recebimento': { dataKey: "botao", width: 160, fixed: "right", click: dadoConfirmar, icon: CheckIcon, needAuth: true, auth: auth }
+        'Código de barras': { dataKey: "link", url: `${urlBase}api/paletes-movimentos/documento/`, width: 130, icon: PageIcon },
+        'Confirmar Recebimento': { dataKey: "botao", width: 160, click: dadoConfirmar, icon: CheckIcon, needAuth: true, auth: auth }
     };
 
     const colunasConcluido = {
