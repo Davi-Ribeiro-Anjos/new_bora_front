@@ -1,10 +1,10 @@
-import { Button, ButtonGroup, ButtonToolbar, Col, Form, Grid, Input, Row, SelectPicker, useToaster } from 'rsuite';
+import { Button, ButtonGroup, ButtonToolbar, Col, Form, Grid, Input, Row, useToaster } from 'rsuite';
 
 import { useContext, useState } from 'react';
 
 import { criarMensagemErro, criarMensagemOk } from '../../../services/mensagem';
-import { ChoicesContext } from '../../../providers/choicesProviders';
 import { ApiContext } from '../../../providers/apiProviders';
+import { ChoicesClientesContext } from '../../../providers/choicesClientePrividers';
 
 import MainModal from '../../modal';
 import { forwardRef } from 'react';
@@ -55,7 +55,7 @@ const cpfMask = value => {
 const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const CadastrarCliente = ({ abrirCadastrarCliente, setAbrirCadastrarCliente, inverteUpdate }) => {
-    const { filiais } = useContext(ChoicesContext)
+    const { inverteUpdateClientes } = useContext(ChoicesClientesContext)
     const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
@@ -85,6 +85,7 @@ const CadastrarCliente = ({ abrirCadastrarCliente, setAbrirCadastrarCliente, inv
             form
         ).then((response) => {
             criarMensagemOk("Sucesso - Cliente cadastrado.", toaster)
+            inverteUpdateClientes()
             fechar()
         }).catch((error) => {
             if (error.response.data.tipo_cadastro) delete error.response.data.tipo_cadastro

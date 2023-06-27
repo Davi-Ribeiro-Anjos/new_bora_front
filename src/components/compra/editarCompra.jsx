@@ -138,14 +138,14 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Criado em:</Form.ControlLabel>
-                                    <Form.Control name="data_solicitacao" accepter={DatePicker} disabled />
+                                    <Form.Control name="data_solicitacao" placeholder="DD-MM-AAAA" format='dd-MM-yyyy' accepter={DatePicker} disabled />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 {form.forma_pagamento !== 'NÃO INFORMADO' && (
                                     <Form.Group >
                                         <Form.ControlLabel>Vencimento:</Form.ControlLabel>
-                                        <Form.Control name="data_vencimento_boleto" accepter={DatePicker} />
+                                        <Form.Control name="data_vencimento_boleto" placeholder="DD-MM-AAAA" format='dd-MM-yyyy' accepter={DatePicker} />
                                     </Form.Group>
                                 )}
                             </Col>

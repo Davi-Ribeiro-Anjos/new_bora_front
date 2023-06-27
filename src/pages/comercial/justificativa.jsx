@@ -1,6 +1,4 @@
-import { MainPanelCollapsible } from "../../components/panel";
-
-const Justification = () => {
+const Justificativa = () => {
     return (
         <>
             <h1>JUSTIFICATIVA</h1>
@@ -10,4 +8,4 @@ const Justification = () => {
 
 }
 
-export default Justification;
+export default Justificativa;

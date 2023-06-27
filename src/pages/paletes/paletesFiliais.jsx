@@ -39,7 +39,6 @@ const PaletesFiliais = () => {
                     const elemento = data[linha];
 
                     elemento.data_solicitacao = elemento.data_solicitacao.split(' ')[0]
-
                 }
             }
 

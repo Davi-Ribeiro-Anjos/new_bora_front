@@ -39,11 +39,6 @@ export const ChoicesProvider = ({ children }) => {
                 label: item.sigla,
                 value: item.id
             })))
-
-            setChoicesFiliais(res.map((item) => ({
-                label: item.sigla,
-                value: item.sigla
-            })))
         })
     }
 

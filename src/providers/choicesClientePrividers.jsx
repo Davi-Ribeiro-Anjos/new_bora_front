@@ -8,11 +8,16 @@ export const ChoicesClientesProvider = ({ children }) => {
     const { api } = useContext(ApiContext)
 
     const [choicesClientes, setChoicesClientes] = useState([])
+    const [updateClientes, setUpdateClientes] = useState([])
+
+    const inverteUpdateClientes = () => {
+        setUpdateClientes(!updateClientes)
+    }
 
     useEffect(() => {
         getChoicesClientes()
         // eslint-disable-next-line
-    }, []);
+    }, [updateClientes]);
 
     const getChoicesClientes = async () => {
         await api.get('clientes/choices/').then((response) => {
@@ -24,7 +29,7 @@ export const ChoicesClientesProvider = ({ children }) => {
     }
 
     return (
-        <ChoicesClientesContext.Provider value={{ choicesClientes }}>
+        <ChoicesClientesContext.Provider value={{ choicesClientes, inverteUpdateClientes }}>
             {children}
         </ChoicesClientesContext.Provider>
     );

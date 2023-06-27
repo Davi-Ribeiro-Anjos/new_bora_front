@@ -35,14 +35,18 @@ const MainNavBar = () => {
                     Login
                 </Nav.Item>
                 <Nav.Menu title="Paletes">
-                    <Nav.Item onClick={() => navegate('/paletes-filiais')} eventKey="31">Paletes Filiais</Nav.Item>
-                    <Nav.Item onClick={() => navegate('/paletes-clientes')} eventKey="32">Paletes Clientes</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/paletes/filiais')} eventKey="31">Paletes Filiais</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/paletes/clientes')} eventKey="32">Paletes Clientes</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu title="Ferramentas">
                     <Nav.Item onClick={() => navegate('/compras')} eventKey="41">Compras</Nav.Item>
                 </Nav.Menu>
+                <Nav.Menu title="Ferramentas RH">
+                    <Nav.Item onClick={() => navegate('/demissoes')} eventKey="51">Demissões</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/funcionarios')} eventKey="52">Funcionários</Nav.Item>
+                </Nav.Menu>
                 <Nav.Menu title="Comercial">
-                    <Nav.Item onClick={() => navegate('/justificativa')} eventKey="51">Justificativa</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/justificativa')} eventKey="61">Justificativa</Nav.Item>
                 </Nav.Menu>
                 <Nav pullRight>
                     <Nav.Menu noCaret icon={<CogIcon />} placement="bottomEnd">

@@ -19,7 +19,7 @@ const styles = {
     },
 }
 
-const PainelPaleteCliente = ({ update, inverteUpdate }) => {
+const PainelPaleteCliente = ({ inverteUpdate }) => {
     const [abrirCadastrarEntradaCliente, setAbrirCadastrarEntradaCliente] = useState(false);
     const modalCadastrarEntrada = () => setAbrirCadastrarEntradaCliente(true);
 
