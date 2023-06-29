@@ -37,7 +37,17 @@ const Compras = () => {
     const [dado, setDado] = useState([]);
     const buscaDados = async () => {
         await api.get('solicitacoes-compras/', { params: { ...filtro } }).then((response) => {
-            setDado(response.data)
+            let data = response.data
+
+            for (const linha in data) {
+                if (Object.hasOwnProperty.call(data, linha)) {
+                    const elemento = data[linha];
+
+                    elemento.data_solicitacao_bo = elemento.data_solicitacao_bo.split(' ')[0]
+                }
+            }
+
+            setDado(data)
         }).catch((error) => {
             let mensagem = (
                 < Message showIcon type="error" closable >
@@ -80,8 +90,6 @@ const Compras = () => {
 
         setFormEdit(rowData)
 
-        console.log(formEdit)
-
         modalEdit()
 
         if (rowData.data_vencimento_boleto && rowData.pago === false) {
@@ -101,15 +109,15 @@ const Compras = () => {
 
     //Table
     const colunas = {
-        'Nº Solicitação': { dataKey: 'numero_solicitacao', width: 150 },
-        'Dt Solicitação': { dataKey: 'data_solicitacao_bo', width: 170 },
-        'Status': { dataKey: 'status', width: 140 },
+        'Nº Solicitação': { dataKey: 'numero_solicitacao', width: 130 },
+        'Dt Solicitação': { dataKey: 'data_solicitacao_bo', width: 150 },
+        'Status': { dataKey: 'status', width: 120 },
         'Filial': { dataKey: 'filial.sigla', width: 120 },
         'Departamento': { dataKey: 'departamento', width: 170 },
-        'Solicitante': { dataKey: 'solicitante.username', width: 170 },
-        'Responsável': { dataKey: 'responsavel.username', width: 170 },
-        'Entradas': { dataKey: "botao", width: 130, fixed: "right", click: dadosEntradas, icon: ListIcon },
-        'Editar': { dataKey: "botao", width: 130, fixed: "right", click: dadosEditar, icon: EditIcon, needAuth: true, auth: auth }
+        'Solicitante': { dataKey: 'solicitante.username', width: 150 },
+        'Responsável': { dataKey: 'responsavel.username', width: 150 },
+        'Entradas': { dataKey: "botao", width: 130, click: dadosEntradas, icon: ListIcon },
+        'Editar': { dataKey: "botao", width: 130, click: dadosEditar, icon: EditIcon, needAuth: true, auth: auth }
     };
 
     return (

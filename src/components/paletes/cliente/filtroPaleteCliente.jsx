@@ -1,10 +1,10 @@
-import { Button, Checkbox, Col, Form, Grid, Input, Row, SelectPicker, useToaster } from "rsuite";
+import { Button, Col, Form, Grid, Row, SelectPicker, useToaster } from "rsuite";
 
 import { useContext } from "react";
 
 import { criarMensagemErro } from "../../../services/mensagem";
 import { ChoicesContext } from "../../../providers/choicesProviders";
-import { UsuarioContext } from "../../../providers/usuarioProviders";
+import { ChoicesClientesContext } from "../../../providers/choicesClientePrividers";
 import { ApiContext } from '../../../providers/apiProviders';
 
 import { MainPanelCollapsible } from "../../panel";
@@ -22,59 +22,61 @@ const styles = {
 
 const FiltroPaleteCliente = ({ filtro, setFiltro, setDado }) => {
     const { filiais } = useContext(ChoicesContext);
+    const { choicesClientes } = useContext(ChoicesClientesContext)
     const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
 
     const limparFiltro = () => {
         setFiltro({
-            origem: null,
-            destino: null,
-            placa_veiculo: '',
-            autor: null,
-            recebido: false,
+            filial: null,
+            razao_social_motorista: null,
         })
     }
 
     const filtrarDados = async () => {
         let novoFiltro = filtro;
 
-        const placa_veiculo = novoFiltro.placa_veiculo
-        const autor = novoFiltro.autor
+        const razao_social_motorista = novoFiltro.razao_social_motorista
 
-        if (novoFiltro.placa_veiculo) {
-            novoFiltro['placa_veiculo__contains'] = novoFiltro.placa_veiculo
+        if (novoFiltro.razao_social_motorista) {
+            novoFiltro['cliente__id'] = novoFiltro.razao_social_motorista
 
-            delete novoFiltro.placa_veiculo
+            delete novoFiltro.razao_social_motorista
         } else {
-            delete novoFiltro.placa_veiculo
+            delete novoFiltro.razao_social_motorista
         }
 
-        if (novoFiltro.autor) {
-            novoFiltro['autor__username'] = novoFiltro.autor
+        await api.get('clientes/', { params: { ...novoFiltro } }).then((response) => {
+            let data = response.data
 
-            delete novoFiltro.autor
-        }
+            for (const linha in data) {
+                if (Object.hasOwnProperty.call(data, linha)) {
+                    const elemento = data[linha];
 
-        await api.get('paletes-movimentos/', { params: { ...novoFiltro } }).then((response) => {
-            setDado(response.data)
+                    if (elemento.saldo) {
+                        if (elemento.saldo > 0) {
+                            elemento.status = "A BORA DEVE"
+                        } else {
+                            elemento.status = "O CLIENTE DEVE"
+                            elemento.saldo *= -1
+                        }
+                    }
+                }
+            }
+
+            setDado(data)
         }).catch((error) => {
             let listMensagem = {
-                origem: "Origem",
-                destino: "Destino",
-                placa_veiculo: "Placa do Veiculo",
-                autor: "Autor",
-                recebido: "Recebido"
+                filial: "Filial",
+                razao_social_motorista: 'Cliente',
             }
             criarMensagemErro(error, listMensagem, toaster)
         })
 
         setFiltro({
-            origem: filtro.origem || null,
-            destino: filtro.destino || null,
-            placa_veiculo: placa_veiculo || '',
-            recebido: filtro.recebido || false,
-            autor: autor || null,
+            filial: filtro.filial || null,
+            razao_social_motorista: razao_social_motorista || null,
         })
     }
 
@@ -92,7 +94,7 @@ const FiltroPaleteCliente = ({ filtro, setFiltro, setDado }) => {
                         <Col xs={12}>
                             <Form.Group style={styles.form}>
                                 <Form.ControlLabel>Razão Social/ Motorista:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="razao_social_motorista" data={filiais} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="razao_social_motorista" data={choicesClientes} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                     </Row>

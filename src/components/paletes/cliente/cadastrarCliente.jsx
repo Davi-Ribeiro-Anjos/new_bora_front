@@ -7,6 +7,7 @@ import { ChoicesContext } from '../../../providers/choicesProviders';
 import { ApiContext } from '../../../providers/apiProviders';
 
 import MainModal from '../../modal';
+import { forwardRef } from 'react';
 
 const styles = {
     input: {
@@ -15,6 +16,9 @@ const styles = {
     },
     row: {
         marginBottom: 10,
+    },
+    observacao: {
+        textTransform: 'uppercase'
     }
 }
 
@@ -31,25 +35,24 @@ const GrupoBotao = ({ mostrarCliente, mostrarMotorista }) => {
 
 const cnpjMask = (value) => {
     return value
-        .replace(/\D+/g, '') // não deixa ser digitado nenhuma letra
-        .replace(/(\d{2})(\d)/, '$1.$2') // captura 2 grupos de número o primeiro com 2 digitos e o segundo de com 3 digitos, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de número
+        .replace(/\D+/g, '')
+        .replace(/(\d{2})(\d)/, '$1.$2')
         .replace(/(\d{3})(\d)/, '$1.$2')
-        .replace(/(\d{3})(\d)/, '$1/$2') // captura 2 grupos de número o primeiro e o segundo com 3 digitos, separados por /
+        .replace(/(\d{3})(\d)/, '$1/$2')
         .replace(/(\d{4})(\d)/, '$1-$2')
-        .replace(/(-\d{2})\d+?$/, '$1') // captura os dois últimos 2 números, com um - antes dos dois números
+        .replace(/(-\d{2})\d+?$/, '$1')
 }
 
 const cpfMask = value => {
     return value
-        .replace(/\D/g, '') // substitui qualquer caracter que nao seja numero por nada
-        .replace(/(\d{3})(\d)/, '$1.$2') // captura 2 grupos de numero o primeiro de 3 e o segundo de 1, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de numero
+        .replace(/\D/g, '')
+        .replace(/(\d{3})(\d)/, '$1.$2')
         .replace(/(\d{3})(\d)/, '$1.$2')
         .replace(/(\d{3})(\d{1,2})/, '$1-$2')
-        .replace(/(-\d{2})\d+?$/, '$1') // captura 2 numeros seguidos de um traço e não deixa ser digitado mais nada
+        .replace(/(-\d{2})\d+?$/, '$1')
 }
 
-
-const tipo_palete = ["PBR", "CHEP"].map(item => ({ label: item, value: item }));
+const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const CadastrarCliente = ({ abrirCadastrarCliente, setAbrirCadastrarCliente, inverteUpdate }) => {
     const { filiais } = useContext(ChoicesContext)
@@ -57,40 +60,62 @@ const CadastrarCliente = ({ abrirCadastrarCliente, setAbrirCadastrarCliente, inv
     const toaster = useToaster();
 
     const [form, setForm] = useState({
-        filial: null,
-        tipo_palete: null,
+        tipo_cadastro: null,
         razao_social_motorista: null,
-        cnpj_cpf: ''
+        cnpj_cpf: '',
+        observacao: ''
     })
 
     const enviar = () => {
-
         if (form.razao_social_motorista) form.razao_social_motorista = form.razao_social_motorista.toUpperCase()
-        if (form.cnpj_cpf) form.cnpj_cpf = form.cnpj_cpf.replaceAll('.', '').replace('-', '')
-        console.log(form)
+        if (form.observacao) form.observacao = form.observacao.toUpperCase()
+        if (form.cnpj_cpf) form.cnpj_cpf = form.cnpj_cpf.replaceAll('.', '').replace('-', '').replace('/', '').slice(0, -1)
+        if (selecionado) {
+            if (cliente) {
+                form.tipo_cadastro = 'CLIENTE'
+            } else {
+                form.tipo_cadastro = 'MOTORISTA'
+            }
+        }
+
+        form.autor = 1
+
+        api.post(
+            'clientes/',
+            form
+        ).then((response) => {
+            criarMensagemOk("Sucesso - Cliente cadastrado.", toaster)
+            fechar()
+        }).catch((error) => {
+            if (error.response.data.tipo_cadastro) delete error.response.data.tipo_cadastro
+            let listMensagem = {
+                razao_social_motorista: selecionado ? (cliente ? "Razão Social" : "Motorista") : "Tipo Cliente"
+            }
+            criarMensagemErro(error, listMensagem, toaster)
+        })
     }
 
     //CLiente
-    const [selecionado, setSelecionado] = useState(true)
+    const [selecionado, setSelecionado] = useState(false)
     const [cliente, setCliente] = useState(false)
     const mostrarCliente = () => {
-        setSelecionado(false)
+        setSelecionado(true)
         setCliente(true)
     }
     const mostrarMotorista = () => {
-        setSelecionado(false)
+        setSelecionado(true)
     }
 
     const fechar = () => {
         setAbrirCadastrarCliente(false)
         setCliente(false)
-        setSelecionado(true)
+        setSelecionado(false)
 
         setForm({
-            filial: null,
-            tipo_palete: null,
+            tipo_cadastro: null,
             razao_social_motorista: null,
-            cnpj_cpf: ''
+            cnpj_cpf: '',
+            observacao: ''
         })
     };
 
@@ -98,23 +123,7 @@ const CadastrarCliente = ({ abrirCadastrarCliente, setAbrirCadastrarCliente, inv
         <MainModal open={abrirCadastrarCliente} setOpen={setAbrirCadastrarCliente} enviar={enviar} titulo="Cadastro de Entrada Cliente" nomeBotao="Cadastrar" size='lg' fechar={fechar} >
             <Grid fluid>
                 <Form onChange={setForm} formValue={form}>
-                    <Row style={styles.row}>
-                        <Col xs={12}>
-                            <Form.Group>
-                                <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="filial" data={filiais} accepter={SelectPicker} />
-                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12}>
-                            <Form.Group>
-                                <Form.ControlLabel>Tipo Palete:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="tipo_palete" data={tipo_palete} accepter={SelectPicker} />
-                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    {selecionado ? (
+                    {!selecionado ? (
                         <Row style={styles.row}>
                             <Col xs={24}>
                                 <Form.Group>
@@ -141,6 +150,14 @@ const CadastrarCliente = ({ abrirCadastrarCliente, setAbrirCadastrarCliente, inv
                             </Col>
                         </Row>
                     )}
+                    <Row style={styles.row}>
+                        <Col xs={24}>
+                            <Form.Group >
+                                <Form.ControlLabel>Observação:</Form.ControlLabel>
+                                <Form.Control style={styles.observacao} rows={5} name="observacao" value={form.observacao} accepter={Textarea} />
+                            </Form.Group>
+                        </Col>
+                    </Row>
                 </Form>
             </Grid >
         </MainModal >

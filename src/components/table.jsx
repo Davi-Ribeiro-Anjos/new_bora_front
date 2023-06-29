@@ -88,6 +88,7 @@ const MainTable = ({ update, dado, setDado, buscaDados, colunas, children }) => 
                             fixed: key[1]["fixed"],
                             click: key[1]["click"],
                             icon: key[1]["icon"],
+                            url: key[1]['url'],
                             needAuth: key[1]["needAuth"] || false
                         }
 
@@ -116,6 +117,18 @@ const MainTable = ({ update, dado, setDado, buscaDados, colunas, children }) => 
                                         }}
                                     </Cell>
                                 </Column>
+                            ) : coluna.dataKey === 'link' ? (
+                                <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
+                                    <HeaderCell>{coluna.titulo}</HeaderCell>
+                                    <Cell style={{ padding: '6px' }}>
+                                        {rowData => {
+                                            return <a href={`${coluna.url}${rowData.id}/`} rel="noreferrer" target="_blank" >
+                                                <IconButton icon={<Icon as={coluna.icon} />} />
+                                            </a>
+                                        }}
+                                    </Cell>
+                                </Column>
+
                             ) : (
                                 <Column width={coluna.width || 150} align={coluna.align || "center"} fixed={coluna.fixed || false} key={index} >
                                     <HeaderCell>{coluna.titulo}</HeaderCell>

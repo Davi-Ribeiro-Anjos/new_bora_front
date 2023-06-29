@@ -4,7 +4,9 @@ import { useContext, useState } from 'react';
 
 import { criarMensagemErro, criarMensagemOk } from '../../../services/mensagem';
 import { ChoicesContext } from '../../../providers/choicesProviders';
+import { ChoicesClientesContext } from "../../../providers/choicesClientePrividers";
 import { ApiContext } from '../../../providers/apiProviders';
+
 
 import MainModal from '../../modal';
 
@@ -32,49 +34,45 @@ const tipo_palete = ["PBR", "CHEP"].map(item => ({ label: item, value: item }));
 
 const CadastrarSaidaCliente = ({ abrirCadastrarSaidaCliente, setAbrirCadastrarSaidaCliente, inverteUpdate }) => {
     const { filiais } = useContext(ChoicesContext)
+    const { choicesClientes } = useContext(ChoicesClientesContext)
     const { api } = useContext(ApiContext)
     const toaster = useToaster();
 
     const [form, setForm] = useState({
-        filial: null,
+        filial__id: null,
         tipo_palete: null,
         quantidade_paletes: null,
-        cliente: null,
-        motorista: null
+        cliente__id: null,
     })
 
     const enviar = () => {
-        console.log(form)
+        if (form.quantidade_paletes) form.quantidade_paletes = parseInt(form.quantidade_paletes) * -1
 
-    }
+        api.patch(
+            'clientes/',
+            form
+        ).then((response) => {
+            criarMensagemOk("Sucesso - Saída de paletes cadastrado.", toaster)
+            inverteUpdate()
+            fechar()
+        }).catch((error) => {
+            if (error.response.data.tipo_cadastro) delete error.response.data.tipo_cadastro
+            let listMensagem = {
 
-    //CLiente
-    const [selecionado, setSelecionado] = useState(true)
-    const [cliente, setCliente] = useState(false)
-    const mostrarCliente = () => {
-        setSelecionado(false)
-        setCliente(true)
-    }
+            }
+            criarMensagemErro(error, listMensagem, toaster)
+        })
 
-    // Motorista
-    const [motorista, setMotorista] = useState(false)
-    const mostrarMotorista = () => {
-        setSelecionado(false)
-        setMotorista(true)
     }
 
     const fechar = () => {
         setAbrirCadastrarSaidaCliente(false)
-        setCliente(false)
-        setMotorista(false)
-        setSelecionado(true)
 
         setForm({
-            filial: null,
+            filial__id: null,
             tipo_palete: null,
             quantidade_paletes: null,
-            cliente: null,
-            motorista: null
+            cliente__id: null,
         })
     };
 
@@ -86,7 +84,7 @@ const CadastrarSaidaCliente = ({ abrirCadastrarSaidaCliente, setAbrirCadastrarSa
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                <Form.Control style={styles.input} name="filial" data={filiais} accepter={SelectPicker} />
+                                <Form.Control style={styles.input} name="filial__id" data={filiais} accepter={SelectPicker} />
                                 <Form.HelpText tooltip>Obrigatório</Form.HelpText>
                             </Form.Group>
                         </Col>
@@ -99,32 +97,13 @@ const CadastrarSaidaCliente = ({ abrirCadastrarSaidaCliente, setAbrirCadastrarSa
                         </Col>
                     </Row>
                     <Row style={styles.row}>
-                        {selecionado && (
-                            <Col xs={12}>
-                                <Form.Group>
-                                    <Form.ControlLabel>Tipo Cliente:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name='' mostrarCliente={mostrarCliente} mostrarMotorista={mostrarMotorista} accepter={GrupoBotao} />
-                                </Form.Group>
-                            </Col>
-                        )}
-                        {cliente && !selecionado && (
-                            <Col xs={12}>
-                                <Form.Group>
-                                    <Form.ControlLabel>Razão Social:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="cliente" data={filiais} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        )}
-                        {motorista && !selecionado && (
-                            <Col xs={12}>
-                                <Form.Group>
-                                    <Form.ControlLabel>Motorista:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="motorista" data={filiais} accepter={SelectPicker} />
-                                    <Form.HelpText tooltip>Obrigatório</Form.HelpText>
-                                </Form.Group>
-                            </Col>
-                        )}
+                        <Col xs={12}>
+                            <Form.Group>
+                                <Form.ControlLabel>Razão Social/ Motorista:</Form.ControlLabel>
+                                <Form.Control style={styles.input} name="cliente__id" data={choicesClientes} accepter={SelectPicker} />
+                                <Form.HelpText tooltip>Obrigatório</Form.HelpText>
+                            </Form.Group>
+                        </Col>
                         <Col xs={12}>
                             <Form.Group>
                                 <Form.ControlLabel>Quantidade Paletes:</Form.ControlLabel>

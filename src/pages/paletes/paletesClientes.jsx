@@ -1,10 +1,9 @@
 import { Message, useToaster } from "rsuite";
-import CheckIcon from '@rsuite/icons/Check';
+import PageIcon from '@rsuite/icons/Page';
 
 import { useContext, useState } from "react";
 
-import { dataParaString } from "../../services/data";
-import { UsuarioContext } from "../../providers/usuarioProviders";
+// import { UsuarioContext } from "../../providers/usuarioProviders";
 import { ApiContext } from '../../providers/apiProviders';
 
 import { MainPanel } from "../../components/panel";
@@ -14,11 +13,11 @@ import MainTable from "../../components/table";
 
 
 const PaletesClientes = () => {
-    const { auth } = useContext(UsuarioContext)
-    const { api } = useContext(ApiContext)
+    // const { auth } = useContext(UsuarioContext)
+    const { api, urlBase } = useContext(ApiContext)
     const toaster = useToaster();
 
-    const [filtro, setFiltro] = useState({ recebido: false })
+    const [filtro, setFiltro] = useState({})
     const [update, setUpdate] = useState(false)
     const inverteUpdate = () => {
         setUpdate(!update)
@@ -27,8 +26,24 @@ const PaletesClientes = () => {
     //Data
     const [dado, setDado] = useState([])
     const buscaDados = async () => {
-        await api.get('paletes-movimentos/', { params: { ...filtro } }).then((response) => {
-            setDado(response.data)
+        await api.get('clientes/', { params: { ...filtro } }).then((response) => {
+            let data = response.data
+
+            for (const linha in data) {
+                if (Object.hasOwnProperty.call(data, linha)) {
+                    const elemento = data[linha];
+
+                    if (elemento.saldo) {
+                        if (elemento.saldo > 0) {
+                            elemento.status = "A BORA DEVE"
+                        } else {
+                            elemento.status = "O CLIENTE DEVE"
+                            elemento.saldo *= -1
+                        }
+                    }
+                }
+            }
+            setDado(data)
         }).catch((error) => {
             let mensagem = (
                 < Message showIcon type="error" closable >
@@ -41,11 +56,12 @@ const PaletesClientes = () => {
 
     //Table
     const colunas = {
-        'Filial': { dataKey: 'filial.sigla', width: 170 },
-        'Saldo': { dataKey: 'saldo', width: 170 },
-        'Razão Social/ Motorista': { dataKey: 'razao_social_motorista', width: 300 },
-        'Status': { dataKey: 'status', width: 150 },
-        'Documento': { dataKey: '', width: 150 },
+        'Filial': { dataKey: 'filial.sigla', width: 150 },
+        'Saldo': { dataKey: 'saldo', width: 110 },
+        'Tipo Palete': { dataKey: 'tipo_palete', width: 110 },
+        'Razão Social/ Motorista': { dataKey: 'cliente.razao_social_motorista', width: 250 },
+        'Status': { dataKey: 'status', width: 130 },
+        'Documento': { dataKey: "link", url: `${urlBase}api/clientes/documento/`, width: 130, icon: PageIcon }
     };
 
     return (
