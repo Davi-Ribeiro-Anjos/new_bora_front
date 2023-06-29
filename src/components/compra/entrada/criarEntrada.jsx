@@ -2,9 +2,9 @@ import { Button, Col, Divider, Form, Input, Panel, Row, Uploader, useToaster } f
 
 import { forwardRef, useContext, useState } from "react"
 
-import { criarMensagemErro, criarMensagemOk } from "../../services/mensagem";
-import { UsuarioContext } from "../../providers/usuarioProviders";
-import { ApiContext } from "../../providers/apiProviders";
+import { criarMensagemErro, criarMensagemOk } from "../../../services/mensagem";
+import { UsuarioContext } from "../../../providers/usuarioProviders";
+import { ApiContext } from "../../../providers/apiProviders";
 
 const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 

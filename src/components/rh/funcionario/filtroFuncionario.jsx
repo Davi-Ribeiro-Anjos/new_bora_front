@@ -1,4 +1,4 @@
-import { Button, Col, Form, Grid, Row, SelectPicker, useToaster } from "rsuite";
+import { Button, Checkbox, Col, Form, Grid, Row, SelectPicker, useToaster } from "rsuite";
 
 import { useContext } from "react";
 
@@ -20,6 +20,8 @@ const styles = {
     }
 }
 
+const tipo_contrato = ["PJ", "CLT"].map(item => ({ label: item, value: item }));
+
 const FiltroFuncionario = ({ filtro, setFiltro, setDado }) => {
     const { filiais } = useContext(ChoicesContext);
     const { choicesFuncionarios } = useContext(ChoicesFuncionariosContext);
@@ -32,6 +34,8 @@ const FiltroFuncionario = ({ filtro, setFiltro, setDado }) => {
         setFiltro({
             funcionario: null,
             filial: null,
+            tipo_contrato: null,
+            ativo: null,
         })
     }
 
@@ -60,6 +64,7 @@ const FiltroFuncionario = ({ filtro, setFiltro, setDado }) => {
         setFiltro({
             funcionario: funcionario || null,
             filial: filtro.filial || null,
+            tipo_contrato: filtro.tipo_contrato || null,
         })
     }
 
@@ -78,6 +83,14 @@ const FiltroFuncionario = ({ filtro, setFiltro, setDado }) => {
                             <Form.Group >
                                 <Form.ControlLabel>Filial: </Form.ControlLabel>
                                 <Form.Control style={styles.input} name="filial" data={filiais} accepter={SelectPicker} />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row xs={24} style={styles.row}>
+                        <Col xs={24}>
+                            <Form.Group >
+                                <Form.ControlLabel>Tipo Contrato: </Form.ControlLabel>
+                                <Form.Control style={styles.input} name="tipo_contrato" data={tipo_contrato} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                     </Row>

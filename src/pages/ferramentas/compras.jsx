@@ -5,15 +5,15 @@ import EditIcon from '@rsuite/icons/Edit';
 import { useContext, useState } from 'react';
 
 import { stringParaData } from '../../services/data';
+import { criarMensagemInfo } from '../../services/mensagem';
 import { UsuarioContext } from '../../providers/usuarioProviders';
 import { ApiContext } from '../../providers/apiProviders';
 
 import { MainPanel } from "../../components/panel";
 import MainTable from '../../components/table';
 import EditarCompra from '../../components/compra/editarCompra';
-import EntradaCompra from '../../components/entrada/entrada';
+import EntradaCompra from '../../components/compra/entrada/entrada';
 import FiltroCompra from '../../components/compra/filtroCompra';
-import { criarMensagemInfo } from '../../services/mensagem';
 import PainelCompra from '../../components/compra/painelCompra';
 
 const Compras = () => {

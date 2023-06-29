@@ -2,9 +2,9 @@ import { Button, Col, Grid, Panel, PanelGroup, Row } from "rsuite"
 
 import { useContext } from "react";
 
-import { ApiContext } from '../../providers/apiProviders';
+import { ApiContext } from '../../../providers/apiProviders';
 
-import MainModal from "../modal";
+import MainModal from "../../modal";
 
 const styles = {
     row: {

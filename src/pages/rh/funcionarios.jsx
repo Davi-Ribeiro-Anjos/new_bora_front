@@ -103,9 +103,8 @@ const Funcionarios = () => {
     const colunas = {
         "Nome": { dataKey: "nome", width: 250 },
         "Filial": { dataKey: "filial.sigla", width: 120 },
-        "Tipo Contrato": { dataKey: "tipo_contrato", width: 120 },
-        "CPF / CNPJ": { dataKey: dado.tipo_contato === "PJ" ? "cnpj" : "cpf", width: 120 },
-        "Dados Bancários": { dataKey: "dados_bancarios", width: 250 },
+        "CNPJ": { dataKey: "cnpj", width: 150 },
+        "Dados Bancários": { dataKey: "dados_bancarios", width: 300 },
         "Serviços": { dataKey: "botao", width: 130, click: dadosServicos, icon: ListIcon },
         "Editar": { dataKey: "botao", width: 130, click: dadosEditar, icon: EditIcon }
     };

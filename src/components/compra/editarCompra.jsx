@@ -9,7 +9,7 @@ import { ChoicesContext } from '../../providers/choicesProviders';
 import { UsuarioContext } from '../../providers/usuarioProviders';
 import { ApiContext } from '../../providers/apiProviders';
 
-import CriarEntrada from '../entrada/criarEntrada';
+import CriarEntrada from './entrada/criarEntrada';
 import MainModal from '../modal';
 
 const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
@@ -36,7 +36,7 @@ const styles = {
 }
 
 const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
-    const { status, categorias, departamentos, formasPgt, choicesFiliais } = useContext(ChoicesContext)
+    const { status, categorias, departamentos, formasPgt, filiais } = useContext(ChoicesContext)
     const { usuarios, choiceUser, auth } = useContext(UsuarioContext)
     const { api, urlBase } = useContext(ApiContext)
     const toaster = useToaster();
@@ -102,7 +102,7 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
                             <Col xs={12}>
                                 <Form.Group  >
                                     <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                    <Form.Control name="filial" data={choicesFiliais} accepter={InputPicker} disabled />
+                                    <Form.Control name="filial" data={filiais} accepter={InputPicker} disabled />
                                 </Form.Group>
                             </Col>
                         </Row>

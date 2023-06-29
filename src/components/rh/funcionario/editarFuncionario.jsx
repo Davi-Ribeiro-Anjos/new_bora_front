@@ -14,6 +14,7 @@ const styles = {
     },
     input: {
         width: 250,
+        textTransform: 'uppercase',
         span: {
             display: "none"
         }
@@ -35,10 +36,11 @@ const styles = {
 const cnpjMask = (value) => {
     if (value) {
         return value
-            .replace(/\D/g, '')
+            .replace(/\D+/g, '')
+            .replace(/(\d{2})(\d)/, '$1.$2')
             .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+            .replace(/(\d{3})(\d)/, '$1/$2')
+            .replace(/(\d{4})(\d)/, '$1-$2')
             .replace(/(-\d{2})\d+?$/, '$1')
     }
 }
@@ -98,7 +100,6 @@ const EditarFuncionario = ({ form, setForm, abrir, setAbrir, inverteUpdate }) =>
             criarMensagemOk("Sucesso - Funcionário atualizado.", toaster)
 
             // const data = stringParaData(form.complemento_funcionario.data_pagamento)
-
             // form.complemento_funcionario = form.complemento_funcionario.data_pagamento = data
             delete form.complemento_funcionario.data_pagamento
             delete form.complemento_funcionario.data_emissao
@@ -118,8 +119,6 @@ const EditarFuncionario = ({ form, setForm, abrir, setAbrir, inverteUpdate }) =>
             }
             criarMensagemErro(error, listMensagem, toaster)
         })
-
-        console.log(form)
     }
 
     const fechar = () => {
@@ -204,7 +203,7 @@ const EditarFuncionario = ({ form, setForm, abrir, setAbrir, inverteUpdate }) =>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Agência:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="agencia" accepter={Input} />
+                                    <Form.Control style={styles.input} name="agencia" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -212,7 +211,7 @@ const EditarFuncionario = ({ form, setForm, abrir, setAbrir, inverteUpdate }) =>
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Conta:</Form.ControlLabel>
-                                    <Form.Control style={styles.input} name="conta" accepter={Input} />
+                                    <Form.Control style={styles.input} name="conta" accepter={InputNumber} />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
