@@ -66,7 +66,7 @@ const PaletesClientes = () => {
 
     return (
         <MainPanel>
-            <PainelPaleteCliente update={update} inverteUpdate={inverteUpdate} />
+            <PainelPaleteCliente inverteUpdate={inverteUpdate} />
 
             <FiltroPaleteCliente filtro={filtro} setFiltro={setFiltro} setDado={setDado} />
 

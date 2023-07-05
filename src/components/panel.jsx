@@ -10,10 +10,10 @@ export const MainPanel = ({ title, children }) => {
     )
 }
 
-export const MainPanelCollapsible = ({ title, children }) => {
+export const MainPanelCollapsible = ({ title, collapsible = true, width = 100, children }) => {
     return (
         <>
-            <Panel header={title} style={{ margin: "20px auto", width: "100%", }} collapsible bordered>
+            <Panel header={title} style={{ margin: "20px auto", width: `${width}%`, }} collapsible={collapsible} bordered>
                 {children}
             </Panel>
         </>

@@ -9,7 +9,7 @@ import { ChoicesContext } from '../../providers/choicesProviders';
 import { UsuarioContext } from '../../providers/usuarioProviders';
 import { ApiContext } from '../../providers/apiProviders';
 
-import CriarEntrada from '../entrada/criarEntrada';
+import CriarEntrada from './entrada/criarEntrada';
 import MainModal from '../modal';
 
 const Textarea = forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
@@ -36,7 +36,7 @@ const styles = {
 }
 
 const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
-    const { status, categorias, departamentos, formasPgt, choicesFiliais } = useContext(ChoicesContext)
+    const { status, categorias, departamentos, formasPgt, filiais } = useContext(ChoicesContext)
     const { usuarios, choiceUser, auth } = useContext(UsuarioContext)
     const { api, urlBase } = useContext(ApiContext)
     const toaster = useToaster();
@@ -102,7 +102,7 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
                             <Col xs={12}>
                                 <Form.Group  >
                                     <Form.ControlLabel>Filial:</Form.ControlLabel>
-                                    <Form.Control name="filial" data={choicesFiliais} accepter={InputPicker} disabled />
+                                    <Form.Control name="filial" data={filiais} accepter={InputPicker} disabled />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -138,14 +138,14 @@ const EditarCompra = ({ form, setForm, abrir, setAbrir, inverteUpdate }) => {
                             <Col xs={12}>
                                 <Form.Group >
                                     <Form.ControlLabel>Criado em:</Form.ControlLabel>
-                                    <Form.Control name="data_solicitacao" accepter={DatePicker} disabled />
+                                    <Form.Control name="data_solicitacao" placeholder="DD-MM-AAAA" format='dd-MM-yyyy' accepter={DatePicker} disabled />
                                 </Form.Group>
                             </Col>
                             <Col xs={12}>
                                 {form.forma_pagamento !== 'NÃO INFORMADO' && (
                                     <Form.Group >
                                         <Form.ControlLabel>Vencimento:</Form.ControlLabel>
-                                        <Form.Control name="data_vencimento_boleto" accepter={DatePicker} />
+                                        <Form.Control name="data_vencimento_boleto" placeholder="DD-MM-AAAA" format='dd-MM-yyyy' accepter={DatePicker} />
                                     </Form.Group>
                                 )}
                             </Col>

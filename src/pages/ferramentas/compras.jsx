@@ -5,15 +5,15 @@ import EditIcon from '@rsuite/icons/Edit';
 import { useContext, useState } from 'react';
 
 import { stringParaData } from '../../services/data';
+import { criarMensagemInfo } from '../../services/mensagem';
 import { UsuarioContext } from '../../providers/usuarioProviders';
 import { ApiContext } from '../../providers/apiProviders';
 
 import { MainPanel } from "../../components/panel";
 import MainTable from '../../components/table';
 import EditarCompra from '../../components/compra/editarCompra';
-import EntradaCompra from '../../components/entrada/entrada';
+import EntradaCompra from '../../components/compra/entrada/entrada';
 import FiltroCompra from '../../components/compra/filtroCompra';
-import { criarMensagemInfo } from '../../services/mensagem';
 import PainelCompra from '../../components/compra/painelCompra';
 
 const Compras = () => {
@@ -81,20 +81,20 @@ const Compras = () => {
     const [abrirEdit, setAbrirEdit] = useState(false);
     const [formEdit, setFormEdit] = useState({});
     const modalEdit = () => setAbrirEdit(true);
-    const dadosEditar = (rowData) => {
+    const dadosEditar = (linha) => {
 
-        if (rowData.filial) rowData.filial = rowData.filial.sigla;
-        if (rowData.responsavel) rowData.responsavel = rowData.responsavel.username;
-        if (rowData.data_vencimento_boleto) rowData.data_vencimento_boleto = stringParaData(rowData.data_vencimento_boleto, true)
-        if (rowData.data_solicitacao_bo) rowData['data_solicitacao'] = stringParaData(rowData.data_solicitacao_bo)
+        if (linha.filial) linha.filial = linha.filial.sigla;
+        if (linha.responsavel) linha.responsavel = linha.responsavel.username;
+        if (linha.data_vencimento_boleto) linha.data_vencimento_boleto = stringParaData(linha.data_vencimento_boleto, true)
+        if (linha.data_solicitacao_bo) linha['data_solicitacao'] = stringParaData(linha.data_solicitacao_bo)
 
-        setFormEdit(rowData)
+        setFormEdit(linha)
 
         modalEdit()
 
-        if (rowData.data_vencimento_boleto && rowData.pago === false) {
+        if (linha.data_vencimento_boleto && linha.pago === false) {
             const hoje = new Date()
-            const diferencaTempo = rowData.data_vencimento_boleto.getTime() - hoje.getTime()
+            const diferencaTempo = linha.data_vencimento_boleto.getTime() - hoje.getTime()
             const diferencaDia = Math.ceil(diferencaTempo / (1000 * 60 * 60 * 24));
 
             if (diferencaDia > 1) {
@@ -130,7 +130,7 @@ const Compras = () => {
 
             <EntradaCompra entradas={entradas} abrirEntradas={abrirEntradas} setAbrirEntradas={setAbrirEntradas} />
 
-            <EditarCompra form={formEdit} setForm={setFormEdit} abrir={abrirEdit} setAbrir={setAbrirEdit} inverteUpdate={inverteUpdate} setUpdate={setUpdate} />
+            <EditarCompra form={formEdit} setForm={setFormEdit} abrir={abrirEdit} setAbrir={setAbrirEdit} inverteUpdate={inverteUpdate} />
 
         </MainPanel >
     )
