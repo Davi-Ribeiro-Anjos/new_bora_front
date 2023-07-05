@@ -43,7 +43,8 @@ const MainNavBar = () => {
                 </Nav.Menu>
                 <Nav.Menu title="Ferramentas RH">
                     <Nav.Item onClick={() => navegate('/demissoes')} eventKey="51">Demissões</Nav.Item>
-                    <Nav.Item onClick={() => navegate('/funcionarios')} eventKey="52">Funcionários</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/funcionarios-pj')} eventKey="52">Funcionários PJ</Nav.Item>
+                    <Nav.Item onClick={() => navegate('/fichas-cadastrais')} eventKey="53">Fixa Cadastral</Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu title="Comercial">
                     <Nav.Item onClick={() => navegate('/justificativa')} eventKey="61">Justificativa</Nav.Item>

@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import { ChoicesClientesProvider } from "../providers/choicesClientePrividers";
+import { ChoicesFuncionariosProvider } from "../providers/choicesFuncionarioProviders";
 
 import Home from "../pages/home/home";
 import Login from "../pages/login/login";
@@ -13,11 +14,11 @@ import PaletesClientes from "../pages/paletes/paletesClientes";
 
 import Demissoes from "../pages/rh/demissoes"
 import Funcionarios from "../pages/rh/funcionarios"
+import FichasCadastrais from "../pages/rh/fichasCadastralis";
 
 import Compras from "../pages/ferramentas/compras";
 
 import Justificativa from "../pages/comercial/justificativa";
-import { ChoicesFuncionariosProvider } from "../providers/choicesFuncionarioProviders";
 
 
 const RoutesMain = () => {
@@ -33,10 +34,14 @@ const RoutesMain = () => {
                 </ChoicesClientesProvider>
             } exact />
             <Route path="/demissoes" element={<Demissoes />} />
-            <Route path="/funcionarios" element={
+            <Route path="/funcionarios-pj" element={
                 <ChoicesFuncionariosProvider>
-
                     <Funcionarios />
+                </ChoicesFuncionariosProvider>
+            } />
+            <Route path="/fichas-cadastrais" element={
+                <ChoicesFuncionariosProvider>
+                    <FichasCadastrais />
                 </ChoicesFuncionariosProvider>
             } />
             <Route path="/compras" element={<Compras />} exact />

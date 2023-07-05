@@ -1,4 +1,4 @@
-import { Form, SelectPicker, Grid, Row, Col, useToaster, InputNumber, Panel, Input, InputPicker, DatePicker, Checkbox } from 'rsuite';
+import { Form, SelectPicker, Grid, Row, Col, useToaster, InputNumber, Panel, Input, InputPicker, DatePicker, Checkbox, Message } from 'rsuite';
 
 import { useContext, useState } from 'react';
 
@@ -7,7 +7,7 @@ import { ChoicesContext } from '../../../providers/choicesProviders';
 import { ApiContext } from '../../../providers/apiProviders';
 
 import MainModal from '../../modal';
-import { dataParaString, stringParaData } from '../../../services/data';
+import { dataParaString } from '../../../services/data';
 
 const styles = {
     titulo: {
@@ -80,11 +80,21 @@ const CriarFuncionarios = ({ abrir, setAbrir, inverteUpdate }) => {
 
     const enviar = async () => {
         form['complementos'] = {}
+        form["tipo_contrato"] = "PJ"
         form.nome = form.nome.toUpperCase()
         form.cargo = form.cargo.toUpperCase()
         form.banco = form.banco.toUpperCase()
-        form.cnpj = form.cnpj.replaceAll('.', '').replace('-', '').replace('/', '').slice(0, -1)
         if (form.data_admi) form.data_admissao = dataParaString(form.data_admi)
+
+        if (form.cnpj.length !== 18 && form.cnpj.length !== 19) {
+            let mensagem = (
+                <Message showIcon type="error" closable >
+                    Erro - Complete o campo CNPJ corretamente.
+                </ Message>
+            )
+            toaster.push(mensagem, { placement: "topEnd", duration: 4000 })
+            return null
+        }
 
         try {
             form.complementos["salario"] = parseFloat(form.salario) || null
@@ -100,26 +110,19 @@ const CriarFuncionarios = ({ abrir, setAbrir, inverteUpdate }) => {
                 form.complementos["data_pagamento"] = dataParaString(form.data_pagamento)
             form.complementos["autor"] = 1
 
-            // delete form.salario
-            // delete form.faculdade
-            // delete form.ajuda_custo
-            // delete form.auxilio_moradia
-            // delete form.credito_convenio
-            // delete form.outros_creditos
-            // delete form.adiantamento
-            // delete form.desconto_convenio
-            // delete form.outros_descontos
-            // delete form.data_pagamento
-
         } catch (error) {
             console.log(error)
         }
 
-        form["tipo_contrato"] = "PJ"
 
         api.post('pj-complementos/', form.complementos).then((response) => {
-
-            form['complemento_funcionario'] = response.data.id
+            form['pj_complementos'] = response.data.id
+            form["tipo_contrato"] = "PJ"
+            form.nome = form.nome.toUpperCase()
+            form.cargo = form.cargo.toUpperCase()
+            form.banco = form.banco.toUpperCase()
+            form.cnpj = form.cnpj.replaceAll('.', '').replace('-', '').replace('/', '').slice(0, -1)
+            if (form.data_admi) form.data_admissao = dataParaString(form.data_admi)
 
             api.post('funcionarios/', form).then((response) => {
                 criarMensagemOk("Sucesso - Funcionário cadastrado.", toaster)
@@ -192,7 +195,7 @@ const CriarFuncionarios = ({ abrir, setAbrir, inverteUpdate }) => {
             enviar={enviar} fechar={fechar} >
             <Grid fluid>
                 <Form onChange={setForm} formValue={form}>
-                    <Panel header="Informações Pessoais do Funcionário">
+                    <Panel header="Informações Pessoais do Funcionário PJ">
                         <Row style={styles.row}>
                             <Col xs={12}>
                                 <Form.Group >

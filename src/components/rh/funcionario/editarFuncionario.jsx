@@ -66,15 +66,15 @@ const EditarFuncionario = ({ form, setForm, abrir, setAbrir, inverteUpdate }) =>
 
     const enviar = async () => {
         try {
-            form.complemento_funcionario.salario = parseFloat(form.salario)
-            form.complemento_funcionario.faculdade = parseFloat(form.faculdade)
-            form.complemento_funcionario.ajuda_custo = parseFloat(form.ajuda_custo)
-            form.complemento_funcionario.auxilio_moradia = parseFloat(form.auxilio_moradia)
-            form.complemento_funcionario.credito_convenio = parseFloat(form.credito_convenio)
-            form.complemento_funcionario.outros_creditos = parseFloat(form.outros_creditos)
-            form.complemento_funcionario.adiantamento = parseFloat(form.adiantamento)
-            form.complemento_funcionario.desconto_convenio = parseFloat(form.desconto_convenio)
-            form.complemento_funcionario.outros_descontos = parseFloat(form.outros_descontos)
+            form.pj_complementos.salario = parseFloat(form.salario)
+            form.pj_complementos.faculdade = parseFloat(form.faculdade)
+            form.pj_complementos.ajuda_custo = parseFloat(form.ajuda_custo)
+            form.pj_complementos.auxilio_moradia = parseFloat(form.auxilio_moradia)
+            form.pj_complementos.credito_convenio = parseFloat(form.credito_convenio)
+            form.pj_complementos.outros_creditos = parseFloat(form.outros_creditos)
+            form.pj_complementos.adiantamento = parseFloat(form.adiantamento)
+            form.pj_complementos.desconto_convenio = parseFloat(form.desconto_convenio)
+            form.pj_complementos.outros_descontos = parseFloat(form.outros_descontos)
 
             delete form.salario
             delete form.faculdade
@@ -99,12 +99,12 @@ const EditarFuncionario = ({ form, setForm, abrir, setAbrir, inverteUpdate }) =>
         await api.patch(`funcionarios/${form.id}/`, form).then(async (response) => {
             criarMensagemOk("Sucesso - Funcionário atualizado.", toaster)
 
-            // const data = stringParaData(form.complemento_funcionario.data_pagamento)
-            // form.complemento_funcionario = form.complemento_funcionario.data_pagamento = data
-            delete form.complemento_funcionario.data_pagamento
-            delete form.complemento_funcionario.data_emissao
+            // const data = stringParaData(form.pj_complementos.data_pagamento)
+            // form.pj_complementos = form.pj_complementos.data_pagamento = data
+            delete form.pj_complementos.data_pagamento
+            delete form.pj_complementos.data_emissao
 
-            await api.patch(`pj-complementos/${form.id}/`, form.complemento_funcionario).then((response) => {
+            await api.patch(`pj-complementos/${form.pj_complementos.id}/`, form.pj_complementos).then((response) => {
                 fechar()
             }).catch((error) => {
                 let mensagem = (

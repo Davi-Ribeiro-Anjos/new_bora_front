@@ -29,7 +29,6 @@ const Funcionarios = () => {
     }
 
     const [abrirServicos, setAbrirServicos] = useState(false);
-    const [form, setForm] = useState({})
     const modalServicos = () => setAbrirServicos(true);
     const dadosServicos = async (rowData) => {
         // await api.get(`solicitacoes-entradas/${rowData.id}/`).then((response) => {
@@ -59,16 +58,16 @@ const Funcionarios = () => {
 
         if (linha.filial) linha.filial = linha.filial.id
 
-        if (linha.complemento_funcionario.salario) {
-            linha['salario'] = linha.complemento_funcionario.salario
-            linha['faculdade'] = linha.complemento_funcionario.faculdade
-            linha['ajuda_custo'] = linha.complemento_funcionario.ajuda_custo
-            linha['auxilio_moradia'] = linha.complemento_funcionario.auxilio_moradia
-            linha['credito_convenio'] = linha.complemento_funcionario.credito_convenio
-            linha['outros_creditos'] = linha.complemento_funcionario.outros_creditos
-            linha['adiantamento'] = linha.complemento_funcionario.adiantamento
-            linha['desconto_convenio'] = linha.complemento_funcionario.desconto_convenio
-            linha['outros_descontos'] = linha.complemento_funcionario.outros_descontos
+        if (linha.pj_complementos.salario) {
+            linha['salario'] = linha.pj_complementos.salario
+            linha['faculdade'] = linha.pj_complementos.faculdade
+            linha['ajuda_custo'] = linha.pj_complementos.ajuda_custo
+            linha['auxilio_moradia'] = linha.pj_complementos.auxilio_moradia
+            linha['credito_convenio'] = linha.pj_complementos.credito_convenio
+            linha['outros_creditos'] = linha.pj_complementos.outros_creditos
+            linha['adiantamento'] = linha.pj_complementos.adiantamento
+            linha['desconto_convenio'] = linha.pj_complementos.desconto_convenio
+            linha['outros_descontos'] = linha.pj_complementos.outros_descontos
         }
 
         setFormEditar(linha)

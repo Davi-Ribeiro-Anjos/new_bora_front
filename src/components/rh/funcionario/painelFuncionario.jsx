@@ -22,7 +22,7 @@ const PainelFuncionario = ({ inverteUpdate }) => {
     return (
         <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>Painel Funcionários</h2>
+                <h2>Painel Funcionários PJ</h2>
                 <div>
                     <Whisper placement="top" controlId="control-id-hover" trigger="hover" speaker={<Tooltip>Novo Funcionário</Tooltip>}>
                         <IconButton icon={<PlusIcon />} appearance="primary" color="green" style={styles.iconBu} onClick={() => modalCriar()} />

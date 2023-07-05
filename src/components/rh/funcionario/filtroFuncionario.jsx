@@ -1,10 +1,9 @@
-import { Button, Checkbox, Col, Form, Grid, Row, SelectPicker, useToaster } from "rsuite";
+import { Button, Col, Form, Grid, Row, SelectPicker, useToaster } from "rsuite";
 
 import { useContext } from "react";
 
 import { criarMensagemErro } from "../../../services/mensagem";
 import { ChoicesContext } from "../../../providers/choicesProviders";
-// import { UsuarioContext } from "../../../providers/usuarioProviders";
 import { ApiContext } from '../../../providers/apiProviders';
 import { ChoicesFuncionariosContext } from "../../../providers/choicesFuncionarioProviders";
 
@@ -20,8 +19,6 @@ const styles = {
     }
 }
 
-const tipo_contrato = ["PJ", "CLT"].map(item => ({ label: item, value: item }));
-
 const FiltroFuncionario = ({ filtro, setFiltro, setDado }) => {
     const { filiais } = useContext(ChoicesContext);
     const { choicesFuncionarios } = useContext(ChoicesFuncionariosContext);
@@ -34,8 +31,6 @@ const FiltroFuncionario = ({ filtro, setFiltro, setDado }) => {
         setFiltro({
             funcionario: null,
             filial: null,
-            tipo_contrato: null,
-            ativo: null,
         })
     }
 
@@ -43,12 +38,13 @@ const FiltroFuncionario = ({ filtro, setFiltro, setDado }) => {
         let novoFiltro = filtro;
 
         const funcionario = filtro.funcionario
-
+        console.log(novoFiltro.funcionario)
         if (novoFiltro.funcionario) {
-            novoFiltro['funcionario__nome'] = novoFiltro.funcionario
+            novoFiltro['id'] = novoFiltro.funcionario
 
             delete novoFiltro.funcionario
         }
+
 
         await api.get('funcionarios/', { params: { ...novoFiltro } }).then((response) => {
             setDado(response.data)
@@ -83,14 +79,6 @@ const FiltroFuncionario = ({ filtro, setFiltro, setDado }) => {
                             <Form.Group >
                                 <Form.ControlLabel>Filial: </Form.ControlLabel>
                                 <Form.Control style={styles.input} name="filial" data={filiais} accepter={SelectPicker} />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row xs={24} style={styles.row}>
-                        <Col xs={24}>
-                            <Form.Group >
-                                <Form.ControlLabel>Tipo Contrato: </Form.ControlLabel>
-                                <Form.Control style={styles.input} name="tipo_contrato" data={tipo_contrato} accepter={SelectPicker} />
                             </Form.Group>
                         </Col>
                     </Row>
