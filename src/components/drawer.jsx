@@ -6,7 +6,7 @@ const styles = {
     }
 }
 
-const MainDrawer = ({ open, fechar, titulo, backdrop = "static", size = "sm", children }) => {
+const MainDrawer = ({ open, fechar, titulo, backdrop = "true", size = "sm", children }) => {
     return (
         <Drawer backdrop={backdrop} size={size} open={open} onClose={() => fechar()}>
             <Drawer.Header>

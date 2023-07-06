@@ -71,7 +71,7 @@ const CriarEntrada = ({ form }) => {
                             <Col xs={24}>
                                 <Row style={styles.row}>
                                     <Col xs={24}>
-                                        <Form.Group controlId="observacao">
+                                        <Form.Group>
                                             <Form.ControlLabel>Descrição da Entrada:</Form.ControlLabel>
                                             <Form.Control style={styles.observacao} rows={8} name="observacao" value={entrada.observacao} accepter={Textarea} />
                                         </Form.Group>
@@ -79,8 +79,8 @@ const CriarEntrada = ({ form }) => {
                                 </Row>
                                 <Row style={styles.row}>
                                     <Col xs={24}>
-                                        <Form.Group controlId="anexo">
-                                            <Form.ControlLabel>Anexo: </Form.ControlLabel>
+                                        <Form.Group>
+                                            <Form.ControlLabel>Anexo:</Form.ControlLabel>
                                             <Form.Control name="anexo" multiple={true} accepter={Uploader} action='' autoUpload={false} />
                                         </Form.Group>
                                     </Col>

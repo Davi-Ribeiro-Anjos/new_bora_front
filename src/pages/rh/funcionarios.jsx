@@ -29,19 +29,10 @@ const Funcionarios = () => {
     }
 
     const [abrirServicos, setAbrirServicos] = useState(false);
+    const [formServicos, setFormServicos] = useState(false);
     const modalServicos = () => setAbrirServicos(true);
-    const dadosServicos = async (rowData) => {
-        // await api.get(`solicitacoes-entradas/${rowData.id}/`).then((response) => {
-        //     setServicos(response.data)
-        // }).catch((error) => {
-        //     let mensagem = (
-        //         < Message showIcon type="error" closable >
-        //             Erro - Ocorreu um erro ao buscar as Servicos.
-        //         </ Message>
-        //     )
-        //     toaster.push(mensagem, { placement: "topEnd", duration: 4000 })
-        // })
-
+    const dadosServicos = async (linha) => {
+        setFormServicos(linha)
         modalServicos()
     }
 
@@ -116,7 +107,7 @@ const Funcionarios = () => {
 
             <MainTable update={update} dado={dado} setDado={setDado} buscaDados={buscaDados} colunas={colunas} />
 
-            <ServicoFuncionario abrir={abrirServicos} setAbrir={setAbrirServicos} />
+            <ServicoFuncionario form={formServicos} setForm={setFormServicos} abrir={abrirServicos} setAbrir={setAbrirServicos} />
 
             <EditarFuncionario form={formEditar} setForm={setFormEditar} abrir={abrirEditar} setAbrir={setAbrirEditar} inverteUpdate={inverteUpdate} />
 
